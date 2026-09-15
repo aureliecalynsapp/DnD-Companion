@@ -1,18 +1,19 @@
 // src/App.tsx
 import { useState } from 'react';
-import { ShieldCheck, Zap, ScrollText, UserCog, HeartPulse } from 'lucide-react';
+import { ShieldCheck, Zap, ScrollText, UserCog, HeartPulse, Backpack } from 'lucide-react';
 import { useCharacterStore, getProficiencyBonus } from './store/useCharacterStore';
 import { CombatTab } from './components/CombatTab';
 import { SheetTab } from './components/SheetTab';
 import { SpellsTab } from './components/SpellsTab';
+import { BagTab } from './components/BagTab';
 import { SettingsTab } from './components/SettingsTab';
 import { InstallPrompt } from './components/InstallPrompt';
-import { useWakeLock } from './hooks/useWakeLock'; // <-- AJOUT
+import { useWakeLock } from './hooks/useWakeLock';
 
-type TabId = 'combat' | 'fiche' | 'sorts' | 'perso';
+type TabId = 'combat' | 'fiche' | 'sorts' | 'sac' | 'perso';
 
 export default function App() {
-  useWakeLock(); // <-- AJOUT : Empêche l'écran de s'éteindre
+  useWakeLock();
 
   const [activeTab, setActiveTab] = useState<TabId>('combat');
   const character = useCharacterStore((state) => state.character);
@@ -23,7 +24,8 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans select-none antialiased">
       <InstallPrompt />
-      {/* HEADER : Barre de statut permanente */}
+
+      {/* HEADER FIXE AVEC SAFE AREA IOS & PWA */}
       <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] shadow-lg">
         <div className="flex items-center justify-between mb-2">
           <div>
@@ -56,16 +58,18 @@ export default function App() {
         {activeTab === 'combat' && <CombatTab />}
         {activeTab === 'fiche' && <SheetTab />}
         {activeTab === 'sorts' && <SpellsTab />}
+        {activeTab === 'sac' && <BagTab />}
         {activeTab === 'perso' && <SettingsTab />}
       </main>
 
-      {/* BOTTOM NAVIGATION FIXED */}
+      {/* BOTTOM NAVIGATION FIXED (5 ONGLETS) */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 pb-safe">
-        <div className="flex justify-around items-center h-16 max-w-md mx-auto px-2">
+        <div className="flex justify-around items-center h-16 max-w-md mx-auto px-1">
           {[
             { id: 'combat', label: 'Combat', icon: Zap },
             { id: 'fiche', label: 'Fiche', icon: ShieldCheck },
             { id: 'sorts', label: 'Sorts', icon: ScrollText },
+            { id: 'sac', label: 'Sac', icon: Backpack },
             { id: 'perso', label: 'Perso', icon: UserCog },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -78,7 +82,7 @@ export default function App() {
                   isActive ? 'text-blue-400' : 'text-slate-500 hover:text-slate-400'
                 }`}
               >
-                <Icon className={`w-6 h-6 ${isActive ? 'stroke-[2.5]' : 'stroke-2'}`} />
+                <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-2'}`} />
                 <span className="text-[10px] mt-1 font-medium">{tab.label}</span>
               </button>
             );
