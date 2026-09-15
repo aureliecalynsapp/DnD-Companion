@@ -1,4 +1,3 @@
-// src/components/BagTab.tsx
 import React, { useState } from 'react';
 import { Coins, Backpack, Plus, Minus, Trash2, ArrowRightLeft } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
@@ -7,7 +6,13 @@ import { NumberInput } from './common/NumberInput';
 import type { Currency } from '../types/character';
 
 export const BagTab: React.FC = () => {
-  const { character, addItem, removeItem, updateItemQuantity, updateCurrency } = useCharacterStore();
+  // Récupération dynamique du personnage actif et des actions
+  const character = useCharacterStore((state) => state.getActiveCharacter());
+  const addItem = useCharacterStore((state) => state.addItem);
+  const removeItem = useCharacterStore((state) => state.removeItem);
+  const updateItemQuantity = useCharacterStore((state) => state.updateItemQuantity);
+  const updateCurrency = useCharacterStore((state) => state.updateCurrency);
+
   const inventory = character.inventory || [];
   const currency = character.currency || { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 };
 
@@ -55,7 +60,6 @@ export const BagTab: React.FC = () => {
           Bourse & Pièces
         </h3>
         
-        {/* Grille responsive : 2 colonnes sur mobile, 3 sur tablette, 3 sur desktop */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3">
           {currencyLabels.map(({ key, label, color }) => (
             <div key={key} className={`rounded-xl border p-2 ${color}`}>

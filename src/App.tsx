@@ -1,7 +1,8 @@
 // src/App.tsx
 import { useState } from 'react';
 import { ShieldCheck, Zap, ScrollText, UserCog, HeartPulse, Backpack } from 'lucide-react';
-import { useCharacterStore, getProficiencyBonus } from './store/useCharacterStore';
+import { useCharacterStore } from './store/useCharacterStore';
+import { getProficiencyBonus } from './utils/dnd';
 import { CombatTab } from './components/CombatTab';
 import { SheetTab } from './components/SheetTab';
 import { SpellsTab } from './components/SpellsTab';
@@ -16,10 +17,23 @@ export default function App() {
   useWakeLock();
 
   const [activeTab, setActiveTab] = useState<TabId>('combat');
-  const character = useCharacterStore((state) => state.character);
+  
+  // Récupération dynamique du personnage actif au lieu de state.character
+  const character = useCharacterStore((state) => state.getActiveCharacter());
 
-  const pb = getProficiencyBonus(character.level);
-  const hpPercentage = Math.min(100, Math.max(0, (character.hp.current / character.hp.max) * 100));
+  // Sécurité si aucun personnage n'est sélectionné
+  if (!character) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
+        <p className="text-slate-400 text-sm">Aucun personnage actif trouvé.</p>
+      </div>
+    );
+  }
+
+  const pb = getProficiencyBonus(character.level || 1);
+  const hpMax = character.hp?.max || 1;
+  const hpCurrent = character.hp?.current ?? 0;
+  const hpPercentage = Math.min(100, Math.max(0, (hpCurrent / hpMax) * 100));
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans select-none antialiased">
@@ -30,7 +44,9 @@ export default function App() {
         <div className="flex items-center justify-between mb-2">
           <div>
             <h1 className="text-lg font-bold tracking-tight text-white leading-none">{character.name}</h1>
-            <p className="text-xs text-slate-400 mt-1">{character.class} Niv. {character.level} — {character.race}</p>
+            <p className="text-xs text-slate-400 mt-1">
+              {character.class} Niv. {character.level} — {character.race}
+            </p>
           </div>
           <span className="text-xs font-mono font-bold text-amber-400 bg-amber-950/80 border border-amber-800 px-2.5 py-1 rounded-md">
             PB +{pb}
@@ -48,7 +64,7 @@ export default function App() {
               <HeartPulse className="w-4 h-4 text-red-300" />
               PV Actuels
             </span>
-            <span className="font-mono text-sm">{character.hp.current} / {character.hp.max}</span>
+            <span className="font-mono text-sm">{hpCurrent} / {hpMax}</span>
           </div>
         </div>
       </header>

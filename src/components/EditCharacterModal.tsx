@@ -11,11 +11,13 @@ interface EditCharacterModalProps {
 }
 
 export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, onClose }) => {
-  const character = useCharacterStore((state) => state.character);
-  const updateCharacter = useCharacterStore((state) => state.updateCharacter);
+  // Récupération dynamique du personnage actif et de la méthode de mise à jour dédiée
+  const character = useCharacterStore((state) => state.getActiveCharacter());
+  const updateCharacterData = useCharacterStore((state) => state.updateCharacterData);
 
   const [formData, setFormData] = useState<Character>(character);
 
+  // Synchronisation de l'état local à l'ouverture ou au changement du personnage actif
   useEffect(() => {
     if (isOpen) {
       setFormData(character);
@@ -26,11 +28,10 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateCharacter(formData);
+    updateCharacterData(formData);
     onClose();
   };
 
-  /* FONCTION D'ORIGINE CONSERVÉE INTÉGRALEMENT */
   const handleAbilityChange = (ability: Ability, field: 'value' | 'proficient', val: number | boolean) => {
     setFormData((prev) => ({
       ...prev,
@@ -53,7 +54,9 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
         
         {/* HEADER FIXE */}
         <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-slate-900 shrink-0">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200">Éditer le Personnage</h2>
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200">
+            Éditer le Personnage ({formData.name})
+          </h2>
           <button 
             onClick={onClose} 
             type="button" 
@@ -74,7 +77,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                 <label className="text-slate-400 block mb-1">Nom du personnage</label>
                 <input
                   type="text"
-                  value={formData.name}
+                  value={formData.name || ''}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500 text-sm font-semibold"
                   required
@@ -86,7 +89,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                   <label className="text-slate-400 block mb-1">Classe</label>
                   <input
                     type="text"
-                    value={formData.class}
+                    value={formData.class || ''}
                     onChange={(e) => setFormData({ ...formData, class: e.target.value })}
                     className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500 font-medium"
                     required
@@ -95,7 +98,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                 <div>
                   <NumberInput
                     label="Niveau"
-                    value={formData.level}
+                    value={formData.level || 1}
                     min={1}
                     max={20}
                     onChange={(val) => setFormData({ ...formData, level: val })}
@@ -107,7 +110,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                 <label className="text-slate-400 block mb-1">Race / Origine</label>
                 <input
                   type="text"
-                  value={formData.race}
+                  value={formData.race || ''}
                   onChange={(e) => setFormData({ ...formData, race: e.target.value })}
                   className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500 font-medium"
                 />
@@ -121,7 +124,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                 <NumberInput
                   label="PV Max"
                   icon={<Heart className="w-3.5 h-3.5 text-red-400" />}
-                  value={formData.hp.max}
+                  value={formData.hp?.max || 1}
                   min={1}
                   max={999}
                   onChange={(val) => setFormData({ ...formData, hp: { ...formData.hp, max: val } })}
@@ -130,7 +133,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                 <NumberInput
                   label="CA"
                   icon={<Shield className="w-3.5 h-3.5 text-blue-400" />}
-                  value={formData.armorClass}
+                  value={formData.armorClass || 10}
                   min={1}
                   max={40}
                   onChange={(val) => setFormData({ ...formData, armorClass: val })}
@@ -139,7 +142,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                 <NumberInput
                   label="Init"
                   icon={<Zap className="w-3.5 h-3.5 text-amber-400" />}
-                  value={formData.initiativeBonus}
+                  value={formData.initiativeBonus || 0}
                   min={-5}
                   max={20}
                   onChange={(val) => setFormData({ ...formData, initiativeBonus: val })}
@@ -159,8 +162,9 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {(Object.keys(formData.abilities) as Ability[]).map((ability) => {
+                {(Object.keys(formData.abilities || {}) as Ability[]).map((ability) => {
                   const info = ABILITIES_INFO[ability] || { fullLabel: ability, description: '' };
+                  const abilityData = formData.abilities[ability] || { value: 10, proficient: false };
 
                   return (
                     <div 
@@ -176,7 +180,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                         <label className="flex items-center gap-1.5 mt-1 cursor-pointer">
                           <input
                             type="checkbox"
-                            checked={formData.abilities[ability].proficient}
+                            checked={abilityData.proficient}
                             onChange={(e) => handleAbilityChange(ability, 'proficient', e.target.checked)}
                             className="rounded border-slate-700 bg-slate-900 text-amber-500 focus:ring-0 w-3.5 h-3.5"
                           />
@@ -186,7 +190,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
 
                       <div className="w-28">
                         <NumberInput
-                          value={formData.abilities[ability].value}
+                          value={abilityData.value}
                           min={1}
                           max={30}
                           onChange={(val) => handleAbilityChange(ability, 'value', val)}

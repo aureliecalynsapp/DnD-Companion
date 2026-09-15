@@ -1,4 +1,3 @@
-// src/components/TradeModal.tsx
 import React, { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
@@ -13,23 +12,28 @@ interface TradeModalProps {
 }
 
 export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
-  const { character, updateCurrency, updateItemQuantity, receiveTrade } = useCharacterStore();
+  // Récupération dynamique du personnage actif et des actions du store
+  const character = useCharacterStore((state) => state.getActiveCharacter());
+  const updateCurrency = useCharacterStore((state) => state.updateCurrency);
+  const updateItemQuantity = useCharacterStore((state) => state.updateItemQuantity);
+  const receiveTrade = useCharacterStore((state) => state.receiveTrade);
+
   const inventory = character.inventory || [];
   const currency = character.currency || { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 };
 
   const [mode, setMode] = useState<'send' | 'receive'>('send');
 
-  // Payload & Form State
+  // État local du formulaire d'échange
   const [selectedItemId, setSelectedItemId] = useState<string>('');
   const [sendQty, setSendQty] = useState<number>(1);
   const [sendGold, setSendGold] = useState<number>(0);
   const [tradePayload, setTradePayload] = useState<string | null>(null);
   const [scannedSuccess, setScannedSuccess] = useState<boolean>(false);
 
-  // Objet sélectionné dans l'inventaire
+  // Recherche de l'objet sélectionné dans l'inventaire actif
   const selectedItem = inventory.find((i) => i.id === selectedItemId);
 
-  // Ajuste la quantité par défaut lors du changement d'objet
+  // Ajustement automatique de la quantité par défaut
   useEffect(() => {
     if (selectedItem) {
       setSendQty(1);
@@ -38,7 +42,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
     }
   }, [selectedItemId]);
 
-  // Génération du QR Code + déduction immédiate
+  // Génération du QR Code et déduction de l'inventaire du personnage actif
   const handleGenerateQR = () => {
     let itemsToTrade: Omit<Item, 'id'>[] | undefined;
     let currencyToTrade: Partial<Currency> | undefined;
@@ -59,7 +63,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
     }
   };
 
-  // Initialisation du scanner HTML5 en mode réception
+  // Initialisation et nettoyage du scanner caméra
   useEffect(() => {
     let scanner: Html5QrcodeScanner | null = null;
 
@@ -78,11 +82,11 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
             setScannedSuccess(true);
             scanner?.clear();
           } else {
-            console.error('Code QR invalide ou incompréhensible');
+            console.error('Code QR d\'échange invalide');
           }
         },
         () => {
-          // Ignore les erreurs de lecture d'images vides
+          // Ignorer les erreurs d'analyse de frame continue
         }
       );
     }
@@ -101,7 +105,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
         <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
           <div className="flex items-center gap-2 text-amber-400 font-bold text-lg">
             <ArrowRightLeft className="w-5 h-5" />
-            <span>Échange P2P (Offline)</span>
+            <span>Échange P2P ({character.name})</span>
           </div>
           <button
             onClick={onClose}
@@ -111,7 +115,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
           </button>
         </div>
 
-        {/* MODE SWITCHER */}
+        {/* ONGLETS DONNER / RECEVOIR */}
         <div className="grid grid-cols-2 gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800/60 shrink-0">
           <button
             type="button"
@@ -145,7 +149,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
           </button>
         </div>
 
-        {/* BODY */}
+        {/* CORPS DE LA MODALE */}
         <div className="overflow-y-auto space-y-4 pr-1">
           {mode === 'send' ? (
             tradePayload ? (
@@ -154,7 +158,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
                   <QRCodeSVG value={tradePayload} size={200} level="M" />
                 </div>
                 <p className="text-xs text-slate-400 max-w-xs">
-                  Fais scanner ce QR Code par l'autre joueur pour effectuer le transfert.
+                  Fais scanner ce QR Code par un autre joueur pour finaliser l'envoi.
                 </p>
                 <button
                   type="button"
@@ -186,7 +190,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
                   </select>
                 </div>
 
-                {/* QUANTITÉ À DONNER (NUMBER INPUT) */}
+                {/* QUANTITÉ À DONNER */}
                 {selectedItemId && (
                   <NumberInput
                     label="Quantité à donner"
@@ -198,13 +202,13 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
                   />
                 )}
 
-                {/* PIÈCES D'OR (NUMBER INPUT) */}
+                {/* PIÈCES D'OR */}
                 <NumberInput
                   label="Pièces d'Or (PO)"
                   icon={<Coins className="w-3.5 h-3.5 text-amber-400" />}
                   value={sendGold}
                   min={0}
-                  max={currency.gp}
+                  max={currency.gp || 0}
                   onChange={(val) => setSendGold(val)}
                 />
 
@@ -225,7 +229,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
               </div>
               <h3 className="font-bold text-white text-base">Échange Réussi !</h3>
               <p className="text-xs text-slate-400">
-                Les objets et/ou pièces d'or ont été ajoutés à votre inventaire.
+                Les objets et/ou pièces d'or ont été ajoutés à l'inventaire de <strong>{character.name}</strong>.
               </p>
               <button
                 type="button"
@@ -239,7 +243,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
             <div className="space-y-3">
               <div id="qr-reader" className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-950"></div>
               <p className="text-[11px] text-slate-500 text-center">
-                Pointe la caméra vers le QR Code affiché sur le téléphone de l'autre joueur.
+                Pointe la caméra vers le QR Code affiché sur l'écran de ton camarade.
               </p>
             </div>
           )}

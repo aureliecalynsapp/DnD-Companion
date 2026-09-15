@@ -7,10 +7,11 @@ export interface AbilityScore {
 
 export interface SpellSlot {
   max: number;
-  used: number;
+  used: number; // Nombre d'emplacements dépensés
 }
 
 export interface Character {
+  id: string;
   name: string;
   class: string;
   level: number;
