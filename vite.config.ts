@@ -12,8 +12,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        name: 'D&D 5E Companion',
-        short_name: 'D&D 5E',
+        name: 'D&D Pocket',
+        short_name: 'D&D Pocket',
         description: 'Gestionnaire de fiche de personnage D&D 5E optimisé pour la table de jeu.',
         theme_color: '#020617', // slate-950
         background_color: '#020617',

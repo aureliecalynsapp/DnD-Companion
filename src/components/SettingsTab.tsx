@@ -81,7 +81,7 @@ export const SettingsTab: React.FC = () => {
         </button>
       </div>
 
-      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Gestion Fichier (Zero-Backend)</h2>
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Gestion Fichier de sauvegarde</h2>
       
       {/* Export / Import JSON */}
       <div className="grid grid-cols-2 gap-2">
