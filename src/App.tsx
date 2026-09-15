@@ -24,7 +24,7 @@ export default function App() {
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans select-none antialiased">
       <InstallPrompt />
       {/* HEADER : Barre de statut permanente */}
-      <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 shadow-lg">
+      <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] shadow-lg">
         <div className="flex items-center justify-between mb-2">
           <div>
             <h1 className="text-lg font-bold tracking-tight text-white leading-none">{character.name}</h1>
