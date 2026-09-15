@@ -1,8 +1,8 @@
-// src/components/CharacterManager.tsx
 import React, { useState } from 'react';
-import { Users, Plus, Trash2, QrCode } from 'lucide-react';
+import { Users, Plus, Trash2, QrCode, Edit3 } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import { ShareCharacterModal } from './ShareCharacterModal';
+import { EditCharacterModal } from './EditCharacterModal';
 
 export const CharacterManager: React.FC = () => {
   const characters = useCharacterStore((state) => state.characters);
@@ -12,62 +12,87 @@ export const CharacterManager: React.FC = () => {
   const deleteCharacter = useCharacterStore((state) => state.deleteCharacter);
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const activeChar = characters.find((c) => c.id === activeCharacterId) || characters[0];
+
+  const handleDelete = (id: string, name: string) => {
+    if (confirm(`Supprimer définitivement "${name}" ?`)) {
+      deleteCharacter(id);
+    }
+  };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+    <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-sm space-y-3">
+      {/* En-tête : Titre + Actions (QR Code et +) */}
       <div className="flex items-center justify-between">
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-          <Users className="w-4 h-4 text-blue-400" /> Mes Personnages
-        </span>
-        <button
-          onClick={() => createCharacter()}
-          className="flex items-center gap-1 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1.5 rounded-lg transition"
-        >
-          <Plus className="w-3.5 h-3.5" /> Nouveau
-        </button>
+        <div className="flex items-center gap-2 text-slate-400">
+          <Users className="w-4 h-4 text-blue-400" />
+          <h2 className="text-xs font-bold uppercase tracking-wider">Mes Personnages</h2>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {/* Bouton QR Code décalé en haut */}
+          <button
+            onClick={() => setIsShareModalOpen(true)}
+            className="p-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-blue-400 rounded-lg transition-all"
+            title="Partager par QR Code"
+            type="button"
+          >
+            <QrCode className="w-4 h-4" />
+          </button>
+
+          {/* Bouton + au lieu de "Nouveau" */}
+          <button
+            onClick={()  => createCharacter()}
+            className="p-2 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white rounded-lg transition-all shadow-md flex items-center justify-center"
+            title="Nouveau personnage"
+            type="button"
+          >
+            <Plus className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
+      {/* Sélecteur de personnage + Actions (Édition + Suppression) */}
       <div className="flex items-center gap-2">
-        {/* Sélecteur de personnage */}
         <select
           value={activeCharacterId}
           onChange={(e) => setActiveCharacter(e.target.value)}
-          className="flex-1 bg-slate-950 border border-slate-800 text-white text-sm font-semibold rounded-xl px-3 py-2.5 focus:outline-none focus:border-blue-500"
+          className="flex-grow bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-3 py-2.5 text-sm font-medium focus:outline-none focus:border-blue-500 transition-colors truncate"
         >
-          {characters.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name} ({c.class} Niv. {c.level})
+          {characters.map((char) => (
+            <option key={char.id} value={char.id}>
+              {char.name} ({char.class} Niv. {char.level})
             </option>
           ))}
         </select>
 
-        {/* Bouton Partage / Import QR */}
+        {/* Bouton Éditer (Crayon) */}
         <button
-          onClick={() => setIsShareModalOpen(true)}
-          className="p-2.5 bg-slate-800 hover:bg-slate-700 text-blue-400 border border-slate-700 rounded-xl transition"
-          title="Partager / Scanner un personnage"
+          onClick={() => setIsEditModalOpen(true)}
+          className="p-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 rounded-xl transition-all border border-slate-700/50 flex-shrink-0"
+          title="Éditer le personnage"
         >
-          <QrCode className="w-4 h-4" />
+          <Edit3 className="w-4 h-4" />
         </button>
 
-        {/* Bouton Suppression (désactivé s'il n'y a qu'un seul personnage) */}
-        {characters.length > 1 && (
-          <button
-            onClick={() => {
-              if (confirm('Supprimer définitivement ce personnage ?')) {
-                deleteCharacter(activeCharacterId);
-              }
-            }}
-            className="p-2.5 bg-red-950/40 border border-red-900/60 hover:bg-red-900/40 text-red-400 rounded-xl transition"
-            title="Supprimer le personnage actif"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-        )}
+        {/* Bouton Supprimer (Poubelle) */}
+        <button
+          onClick={() => handleDelete(activeChar.id, activeChar.name)}
+          className="p-2.5 bg-red-950/40 hover:bg-red-900/60 active:scale-95 text-red-400 rounded-xl transition-all border border-red-800/40 flex-shrink-0"
+          title="Supprimer le personnage"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
       </div>
 
+      {/* Modales associées */}
       {isShareModalOpen && (
         <ShareCharacterModal onClose={() => setIsShareModalOpen(false)} />
+      )}
+      {isEditModalOpen && (
+        <EditCharacterModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />
       )}
     </div>
   );

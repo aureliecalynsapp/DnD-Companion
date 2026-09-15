@@ -1,18 +1,17 @@
-import React, { useRef, useState } from 'react';
-import { Pencil, Sparkles, Download, Upload, RotateCcw } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Sparkles, Download, Upload } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import type { Character } from '../types/character';
-import { EditCharacterModal } from './EditCharacterModal';
 import { CharacterManager } from './CharacterManager';
 
 export const SettingsTab: React.FC = () => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  //const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   
   // Récupération dynamique du personnage actif et des actions
   const character = useCharacterStore((state) => state.getActiveCharacter());
   const longRest = useCharacterStore((state) => state.longRest);
   const importOrUpdateCharacter = useCharacterStore((state) => state.importOrUpdateCharacter);
-  const resetCharacter = useCharacterStore((state) => state.resetCharacter);
+  //const resetCharacter = useCharacterStore((state) => state.resetCharacter);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -54,23 +53,6 @@ export const SettingsTab: React.FC = () => {
     <div className="space-y-4 pb-6">
       {/* GESTIONNAIRE MULTI-PERSONNAGES (SWITCH / ADD / QR CODE) */}
       <CharacterManager />
-
-      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Édition Fiche</h2>
-      
-      {/* Bouton Ouverture Éditeur */}
-      <button 
-        onClick={() => setIsEditModalOpen(true)}
-        className="w-full bg-blue-950/60 border border-blue-800/80 hover:bg-blue-900/60 p-3.5 rounded-xl flex items-center justify-between text-blue-200 transition active:scale-[0.99]"
-      >
-        <span className="text-sm font-bold">Éditer le personnage</span>
-        <Pencil className="w-5 h-5 text-blue-400" />
-      </button>
-
-      {/* Modal d'édition */}
-      <EditCharacterModal 
-        isOpen={isEditModalOpen} 
-        onClose={() => setIsEditModalOpen(false)} 
-      />
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Actions de Session</h2>
       
@@ -117,7 +99,7 @@ export const SettingsTab: React.FC = () => {
       </div>
 
       {/* Réinitialisation */}
-      <div className="pt-2">
+      {/* <div className="pt-2">
         <button 
           onClick={() => {
             if (confirm(`Réinitialiser ${character.name} aux valeurs par défaut ?`)) {
@@ -129,7 +111,7 @@ export const SettingsTab: React.FC = () => {
           <RotateCcw className="w-4 h-4 text-red-400" />
           Réinitialiser aux valeurs par défaut
         </button>
-      </div>
+      </div>*/}
     </div>
   );
 };

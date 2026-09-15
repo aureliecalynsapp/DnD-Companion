@@ -43,10 +43,12 @@ dnd-companion-pwa/
 │   │   ├── common/
 │   │   │   └── NumberInput.tsx      # Stepper tactile réutilisable avec contrôles +/-
 │   │   ├── BagTab.tsx               # Vue Sac à dos (Pièces et objets)
+│   │   ├── CharacterManager.tsx     # Gestion des multi perso
 │   │   ├── CombatTab.tsx            # Vue principale de jeu (PV, sorts, actions)
 │   │   ├── EditCharacterModal.tsx   # Modale d'édition complète du personnage
 │   │   ├── InstallPrompt.tsx        # Installation sur smartphone à la première utilisation
 │   │   ├── SettingsTab.tsx          # Vue des paramétrages du perso
+│   │   ├── ShareCharacterModal.tsx  # Modale de partage de perso
 │   │   ├── SheetTab.tsx             # Vue de consultation (Caractéristiques, JdS, compétences)
 │   │   ├── SpellsTab.tsx            # Vue des sorts
 │   │   └── TradeModal.tsx           # Modale d'échange P2P
@@ -59,6 +61,7 @@ dnd-companion-pwa/
 │   ├── types/
 │   │   └── character.ts             # Interfaces TypeScript de la fiche de personnage
 │   ├── utils/
+│   │   ├── characterPayload.ts      # Fonctions de partage de perso
 │   │   ├── dnd.ts                   # Fonctions pures (calculs de modificateurs)
 │   │   └── tradePayload.ts          # Fonctions d'échande P2P
 │   ├── App.css                      # Styles globaux & directives Tailwind
