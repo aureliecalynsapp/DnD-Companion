@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+body {
+  /* Évite l'effet de rebond élastique sur mobile (très désagréable en PWA) */
+  overscroll-behavior-y: none;
+  /* Supprime le surlignage bleu natif sur les boutons tactiles */
+  -webkit-tap-highlight-color: transparent;
+}
