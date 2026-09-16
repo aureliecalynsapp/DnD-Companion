@@ -85,7 +85,7 @@
     "range": "30 feet",
     "components": "V, S",
     "duration": "Up to 24 hours",
-    "description": "Votre magie transforme les autres en bêtes. Choisissez n'importe quel nombre de créatures consensuelles que vous pouvez voir à portée. Vous transformez chaque cible sous la forme d'une bête de taille Grande (G) ou plus petite ayant un facteur de puissance de 4 ou moins. Lors des tours suivants, vous pouvez utiliser votre action pour transformer les créatures affectées en de nouvelles formes.\n\nLa transformation dure pendant la durée du sort pour chaque cible, ou jusqu'à ce que la cible tombe à 0 point de vie ou meure. Vous pouvez choisir une forme différente pour chaque cible. Les statistiques de jeu d'une cible sont remplacées par les statistiques de la bête choisie, bien que la cible conserve son alignement et ses scores d'Intelligence, de Sagesse et de Charisme. La cible prend les points de vie de sa nouvelle forme, et lorsqu'elle revient à sa forme normale, elle retrouve le nombre de points de vie qu'elle avait avant de se transformer. Si elle réintègre sa forme initiale après être tombée à 0 point de vie, les dégâts excessifs s'appliquent à sa forme normale. Tant que les dégâts excessifs ne réduisent pas la forme normale de la créature à 0 point de vie, elle n'est pas tombée inconsciente. La créature est limitée dans les actions qu'elle peut effectuer par la nature de sa nouvelle forme, et elle ne peut ni parler ni lancer de sorts.\n\nL'équipement de la cible se fond dans la nouvelle forme. La cible ne peut pas activer, manier ou bénéficier de son équipement."
+    "description": "Votre magie transforme les autres en bêtes. Choisissez n'importe quel nombre de créatures consentantes que vous pouvez voir à portée. Vous transformez chaque cible sous la forme d'une bête de taille Grande (G) ou plus petite ayant un facteur de puissance de 4 ou moins. Lors des tours suivants, vous pouvez utiliser votre action pour transformer les créatures affectées en de nouvelles formes.\n\nLa transformation dure pendant la durée du sort pour chaque cible, ou jusqu'à ce que la cible tombe à 0 point de vie ou meure. Vous pouvez choisir une forme différente pour chaque cible. Les statistiques de jeu d'une cible sont remplacées par les statistiques de la bête choisie, bien que la cible conserve son alignement et ses scores d'Intelligence, de Sagesse et de Charisme. La cible prend les points de vie de sa nouvelle forme, et lorsqu'elle revient à sa forme normale, elle retrouve le nombre de points de vie qu'elle avait avant de se transformer. Si elle réintègre sa forme initiale après être tombée à 0 point de vie, les dégâts excessifs s'appliquent à sa forme normale. Tant que les dégâts excessifs ne réduisent pas la forme normale de la créature à 0 point de vie, elle n'est pas tombée inconsciente. La créature est limitée dans les actions qu'elle peut effectuer par la nature de sa nouvelle forme, et elle ne peut ni parler ni lancer de sorts.\n\nL'équipement de la cible se fond dans la nouvelle forme. La cible ne peut pas activer, manier ou bénéficier de son équipement."
   },
   {
     "id": "animate-dead",
@@ -195,7 +195,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "24 hours",
-    "description": "Vous placez une illusion sur une créature ou un objet que vous touchez afin que les sorts de Divination révèlent de fausses informations à son sujet. La cible peut être une créature consensuelle ou un objet qui n'est ni porté ni transporté par une autre créature.\n\nLorsque vous lancez le sort, choisissez l'un des effets suivants ou les deux. L'effet dure pendant toute la durée du sort. Si vous lancez ce sort sur la même créature ou le même objet chaque jour pendant 30 jours, en appliquant le même effet à chaque fois, l'illusion persiste jusqu'à ce qu'elle soit dissipée.\n\n***Fausse aura.*** Vous modifiez la façon dont la cible apparaît aux sorts et effets magiques, comme *détection de la magie*, qui détectent les auras magiques. Vous pouvez faire apparaître un objet non magique comme magique, un objet magique comme non magique, ou modifier l'aura magique de l'objet pour qu'elle semble appartenir à une école de magie spécifique de votre choix. Lorsque vous utilisez cet effet sur un objet, vous pouvez rendre la fausse magie évidente pour toute créature qui manipule l'article.\n\n***Masque.*** Vous modifiez la façon dont la cible apparaît aux sorts et effets magiques qui détectent les types de créatures, comme le *Sens divin* d'un paladin ou le déclencheur d'un sort de *symbole*. Vous choisissez un type de créature et les autres sorts et effets magiques traitent la cible comme s'il s'agissait d'une créature de ce type ou de cet alignement."
+    "description": "Vous placez une illusion sur une créature ou un objet que vous touchez afin que les sorts de Divination révèlent de fausses informations à son sujet. La cible peut être une créature consentante ou un objet qui n'est ni porté ni transporté par une autre créature.\n\nLorsque vous lancez le sort, choisissez l'un des effets suivants ou les deux. L'effet dure pendant toute la durée du sort. Si vous lancez ce sort sur la même créature ou le même objet chaque jour pendant 30 jours, en appliquant le même effet à chaque fois, l'illusion persiste jusqu'à ce qu'elle soit dissipée.\n\n***Fausse aura.*** Vous modifiez la façon dont la cible apparaît aux sorts et effets magiques, comme *détection de la magie*, qui détectent les auras magiques. Vous pouvez faire apparaître un objet non magique comme magique, un objet magique comme non magique, ou modifier l'aura magique de l'objet pour qu'elle semble appartenir à une école de magie spécifique de votre choix. Lorsque vous utilisez cet effet sur un objet, vous pouvez rendre la fausse magie évidente pour toute créature qui manipule l'article.\n\n***Masque.*** Vous modifiez la façon dont la cible apparaît aux sorts et effets magiques qui détectent les types de créatures, comme le *Sens divin* d'un paladin ou le déclencheur d'un sort de *symbole*. Vous choisissez un type de créature et les autres sorts et effets magiques traitent la cible comme s'il s'agissait d'une créature de ce type ou de cet alignement."
   },
   {
     "id": "astral-projection",
@@ -206,7 +206,7 @@
     "range": "10 feet",
     "components": "V, S, M",
     "duration": "Special",
-    "description": "Vous et jusqu'à huit créatures consensuelles à portée projetez vos corps astraux dans le Plan Astral (le sort échoue et le lancement est gâché si vous êtes déjà sur ce plan). Le corps matériel que vous laissez derrière vous est inconscient et dans un état de vie suspendue ; il n'a besoin ni de nourriture ni d'air et ne vieillit pas.\n\nVotre corps astral ressemble à votre forme mortelle sous presque tous les aspects, répliquant vos statistiques de jeu et vos possessions. La différence principale est l'ajout d'un cordon d'argent qui s'étend d'entre vos omoplates et traîne derrière vous, devenant invisible au-delà de 30 cm (1 foot). Ce cordon est votre lien de raccordement avec votre corps matériel. Tant que ce lien reste intact, vous pouvez retrouver le chemin du retour. Si le cordon est coupé — ce qui ne peut arriver que si un effet stipule spécifiquement qu'il le fait —, votre âme et votre corps sont séparés, vous tuant instantanément.\n\nVotre forme astrale peut voyager librement à travers le Plan Astral et peut traverser les portails menant à n'importe quel autre plan. Si vous entrez dans un nouveau plan ou retournez sur le plan où vous étiez lors du lancement du sort, votre corps et vos possessions sont transportés le long du cordon d'argent, vous permettant de réintégrer votre corps lorsque vous entrez sur le nouveau plan. Votre forme astrale est une incarnation distincte. Tous les dégâts ou autres effets qui lui sont appliqués n'ont aucun effet sur votre corps physique et ne persistent pas lorsque vous y retournez.\n\nLe sort prend fin pour vous et vos compagnons lorsque vous utilisez votre action pour le dissiper. Lorsque le sort prend fin, la créature affectée retourne dans son corps physique et s'éveille.\n\nLe sort peut également prendre fin prématurément pour vous ou l'un de vos compagnons. Un sort de *dissipation de la magie* réussi utilisé contre un corps astral ou physique met fin au sort pour cette créature. Si le corps d'origine d'une créature ou sa forme astrale tombe à 0 point de vie, le sort prend fin pour cette créature. Si le sort prend fin et que le cordon d'argent est intact, le cordon ramène la forme astrale de la créature dans son corps, mettant fin à son état de vie suspendue.\n\nSi vous êtes ramené dans votre corps prématurément, vos compagnons restent sous leur forme astrale et doivent trouver leur propre moyen de revenir dans leur corps, généralement en tombant à 0 point de vie."
+    "description": "Vous et jusqu'à huit créatures consentantes à portée projetez vos corps astraux dans le Plan Astral (le sort échoue et le lancement est gâché si vous êtes déjà sur ce plan). Le corps matériel que vous laissez derrière vous est inconscient et dans un état de vie suspendue ; il n'a besoin ni de nourriture ni d'air et ne vieillit pas.\n\nVotre corps astral ressemble à votre forme mortelle sous presque tous les aspects, répliquant vos statistiques de jeu et vos possessions. La différence principale est l'ajout d'un cordon d'argent qui s'étend d'entre vos omoplates et traîne derrière vous, devenant invisible au-delà de 30 cm (1 foot). Ce cordon est votre lien de raccordement avec votre corps matériel. Tant que ce lien reste intact, vous pouvez retrouver le chemin du retour. Si le cordon est coupé — ce qui ne peut arriver que si un effet stipule spécifiquement qu'il le fait —, votre âme et votre corps sont séparés, vous tuant instantanément.\n\nVotre forme astrale peut voyager librement à travers le Plan Astral et peut traverser les portails menant à n'importe quel autre plan. Si vous entrez dans un nouveau plan ou retournez sur le plan où vous étiez lors du lancement du sort, votre corps et vos possessions sont transportés le long du cordon d'argent, vous permettant de réintégrer votre corps lorsque vous entrez sur le nouveau plan. Votre forme astrale est une incarnation distincte. Tous les dégâts ou autres effets qui lui sont appliqués n'ont aucun effet sur votre corps physique et ne persistent pas lorsque vous y retournez.\n\nLe sort prend fin pour vous et vos compagnons lorsque vous utilisez votre action pour le dissiper. Lorsque le sort prend fin, la créature affectée retourne dans son corps physique et s'éveille.\n\nLe sort peut également prendre fin prématurément pour vous ou l'un de vos compagnons. Un sort de *dissipation de la magie* réussi utilisé contre un corps astral ou physique met fin au sort pour cette créature. Si le corps d'origine d'une créature ou sa forme astrale tombe à 0 point de vie, le sort prend fin pour cette créature. Si le sort prend fin et que le cordon d'argent est intact, le cordon ramène la forme astrale de la créature dans son corps, mettant fin à son état de vie suspendue.\n\nSi vous êtes ramené dans votre corps prématurément, vos compagnons restent sous leur forme astrale et doivent trouver leur propre moyen de revenir dans leur corps, généralement en tombant à 0 point de vie."
   },
   {
     "id": "augury",
@@ -261,7 +261,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "Up to 1 hour",
-    "description": "Vous touchez une créature consensuelle. Jusqu'à la fin du sort, la peau de la cible prend un aspect rugueux semblable à de l'écorce, et la CA de la cible ne peut être inférieure à 16, quel que soit le type d'armure qu'elle porte."
+    "description": "Vous touchez une créature consentante. Jusqu'à la fin du sort, la peau de la cible prend un aspect rugueux semblable à de l'écorce, et la CA de la cible ne peut être inférieure à 16, quel que soit le type d'armure qu'elle porte."
   },
   {
     "id": "beacon-of-hope",
@@ -800,7 +800,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "8 hours",
-    "description": "Vous touchez une créature consensuelle pour lui accorder la capacité de voir dans le noir. Pour la durée du sort, cette créature possède la vision dans le noir jusqu'à une portée de 18 mètres (60 feet)."
+    "description": "Vous touchez une créature consentante pour lui accorder la capacité de voir dans le noir. Pour la durée du sort, cette créature possède la vision dans le noir jusqu'à une portée de 18 mètres (60 feet)."
   },
   {
     "id": "daylight",
@@ -899,7 +899,7 @@
     "range": "500 feet",
     "components": "V",
     "duration": "Instantaneous",
-    "description": "Vous vous téléportez depuis votre emplacement actuel vers n'importe quel autre endroit à portée. Vous arrivez exactement à l'endroit désiré. Il peut s'agir d'un endroit que vous pouvez voir, d'un endroit que vous pouvez visualiser ou d'un endroit que vous pouvez décrire en indiquant la distance et la direction, comme « 60 mètres (200 feet) droit vers le bas » ou « vers le haut vers le nord-ouest à un angle de 45 degrés, 90 mètres (300 feet) ».\n\nVous pouvez emmener des objets tant que leur poids ne dépasse pas ce que vous pouvez porter. Vous pouvez également emmener une créature consensuelle de votre taille ou plus petite qui transporte un équipement ne dépassant pas sa capacité de charge. La créature doit se trouver à moins de 1,50 mètre (5 feet) de vous lorsque vous lancez ce sort.\n\nSi vous deviez arriver dans un endroit déjà occupé par un objet ou une créature, vous et toute créature voyageant avec vous subissez chacun 4d6 dégâts de force, et le sort échoue à vous téléporter."
+    "description": "Vous vous téléportez depuis votre emplacement actuel vers n'importe quel autre endroit à portée. Vous arrivez exactement à l'endroit désiré. Il peut s'agir d'un endroit que vous pouvez voir, d'un endroit que vous pouvez visualiser ou d'un endroit que vous pouvez décrire en indiquant la distance et la direction, comme « 60 mètres (200 feet) droit vers le bas » ou « vers le haut vers le nord-ouest à un angle de 45 degrés, 90 mètres (300 feet) ».\n\nVous pouvez emmener des objets tant que leur poids ne dépasse pas ce que vous pouvez porter. Vous pouvez également emmener une créature consentante de votre taille ou plus petite qui transporte un équipement ne dépassant pas sa capacité de charge. La créature doit se trouver à moins de 1,50 mètre (5 feet) de vous lorsque vous lancez ce sort.\n\nSi vous deviez arriver dans un endroit déjà occupé par un objet ou une créature, vous et toute créature voyageant avec vous subissez chacun 4d6 dégâts de force, et le sort échoue à vous téléporter."
   },
   {
     "id": "disguise-self",
@@ -1020,7 +1020,7 @@
     "range": "Special",
     "components": "V, S, M",
     "duration": "8 hours",
-    "description": "Ce sort donne forme aux rêves d'une créature. Choisissez une créature que vous connaissez comme cible de ce sort. La cible doit se trouver sur le même plan d'existence que vous. Les créatures qui ne dorment pas, comme les elfes, ne peuvent pas être contactées par ce sort. Vous, ou une créature consensuelle que vous touchez, entrez dans un état de transe, servant de messager.\n\nTant qu'il est en transe, le messager est conscient de son environnement, mais ne peut ni entreprendre d'actions ni se déplacer.\n\nSi la cible dort, le messager apparaît dans les rêves de la cible et peut converser avec elle tant qu'elle reste endormie, pendant la durée du sort. Le messager peut également façonner l'environnement du rêve, en créant des paysages, des objets et d'autres images. Le messager peut sortir de transe à tout moment, mettant fin prématurément à l'effet du sort. La cible se souvient parfaitement du rêve à son réveil. Si la cible est éveillée lorsque vous lancez le sort, le messager le sait et peut soit mettre fin à la transe (et au sort), soit attendre que la cible s'endorme, moment auquel le messager apparaît dans ses rêves.\n\nVous pouvez faire apparaître le messager sous une forme monstrueuse et terrifiante pour la cible. Si vous le faites, le messager peut délivrer un message de dix mots au maximum, après quoi la cible doit faire un jet de sauvegarde de Sagesse. En cas d'échec, les échos de la monstruosité phantasmatique engendrent un cauchemar qui dure toute la durée du sommeil de la cible et l'empêche de tirer le moindre bénéfice de son repos. De plus, lorsque la cible se réveille, elle subit 3d6 dégâts psychiques.\n\nSi vous possédez une partie du corps, une mèche de cheveux, une rognure d'ongle ou une portion similaire du corps de la cible, celle-ci effectue son jet de sauvegarde avec un désavantage."
+    "description": "Ce sort donne forme aux rêves d'une créature. Choisissez une créature que vous connaissez comme cible de ce sort. La cible doit se trouver sur le même plan d'existence que vous. Les créatures qui ne dorment pas, comme les elfes, ne peuvent pas être contactées par ce sort. Vous, ou une créature consentante que vous touchez, entrez dans un état de transe, servant de messager.\n\nTant qu'il est en transe, le messager est conscient de son environnement, mais ne peut ni entreprendre d'actions ni se déplacer.\n\nSi la cible dort, le messager apparaît dans les rêves de la cible et peut converser avec elle tant qu'elle reste endormie, pendant la durée du sort. Le messager peut également façonner l'environnement du rêve, en créant des paysages, des objets et d'autres images. Le messager peut sortir de transe à tout moment, mettant fin prématurément à l'effet du sort. La cible se souvient parfaitement du rêve à son réveil. Si la cible est éveillée lorsque vous lancez le sort, le messager le sait et peut soit mettre fin à la transe (et au sort), soit attendre que la cible s'endorme, moment auquel le messager apparaît dans ses rêves.\n\nVous pouvez faire apparaître le messager sous une forme monstrueuse et terrifiante pour la cible. Si vous le faites, le messager peut délivrer un message de dix mots au maximum, après quoi la cible doit faire un jet de sauvegarde de Sagesse. En cas d'échec, les échos de la monstruosité phantasmatique engendrent un cauchemar qui dure toute la durée du sommeil de la cible et l'empêche de tirer le moindre bénéfice de son repos. De plus, lorsque la cible se réveille, elle subit 3d6 dégâts psychiques.\n\nSi vous possédez une partie du corps, une mèche de cheveux, une rognure d'ongle ou une portion similaire du corps de la cible, celle-ci effectue son jet de sauvegarde avec un désavantage."
   },
   {
     "id": "druidcraft",
@@ -1372,7 +1372,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "Up to 10 minutes",
-    "description": "Vous touchez une créature consensuelle. La cible obtient une vitesse de vol de 18 mètres pour la durée du sort. Lorsque le sort prend fin, la cible tombe si elle est toujours dans les airs, à moins qu'elle ne puisse interrompre sa chute."
+    "description": "Vous touchez une créature consentante. La cible obtient une vitesse de vol de 18 mètres pour la durée du sort. Lorsque le sort prend fin, la cible tombe si elle est toujours dans les airs, à moins qu'elle ne puisse interrompre sa chute."
   },
   {
     "id": "fog-cloud",
@@ -1416,7 +1416,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "8 hours",
-    "description": "Vous touchez une créature consensuelle et lui accordez une capacité limitée de lire l'avenir immédiat. Pour la durée du sort, la cible ne peut pas être surprise et bénéficie d'un avantage sur les jets d'attaque, les tests de caractéristique et les jets de sauvegarde. De plus, les autres créatures subissent un désavantage sur leurs jets d'attaque contre la cible pour la durée du sort.\n\nCe sort prend fin immédiatement si vous le lancez à nouveau avant la fin de sa durée."
+    "description": "Vous touchez une créature consentante et lui accordez une capacité limitée de lire l'avenir immédiat. Pour la durée du sort, la cible ne peut pas être surprise et bénéficie d'un avantage sur les jets d'attaque, les tests de caractéristique et les jets de sauvegarde. De plus, les autres créatures subissent un désavantage sur leurs jets d'attaque contre la cible pour la durée du sort.\n\nCe sort prend fin immédiatement si vous le lancez à nouveau avant la fin de sa durée."
   },
   {
     "id": "freedom-of-movement",
@@ -1427,7 +1427,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "1 hour",
-    "description": "Vous touchez une créature consensuelle. Pour la durée du sort, le déplacement de la cible n'est pas entravé par le terrain difficile, et les sorts ou autres effets magiques ne peuvent ni réduire sa vitesse ni la paralyser ou l'entraver.\n\nLa cible peut également dépenser 1,50 mètre de déplacement pour s'échapper automatiquement de liens non magiques, comme des menottes ou l'étreinte d'une créature qui l'agrippe. Enfin, se trouver sous l'eau n'impose aucun pénalité aux déplacements ou attaques de la cible."
+    "description": "Vous touchez une créature consentante. Pour la durée du sort, le déplacement de la cible n'est pas entravé par le terrain difficile, et les sorts ou autres effets magiques ne peuvent ni réduire sa vitesse ni la paralyser ou l'entraver.\n\nLa cible peut également dépenser 1,50 mètre de déplacement pour s'échapper automatiquement de liens non magiques, comme des menottes ou l'étreinte d'une créature qui l'agrippe. Enfin, se trouver sous l'eau n'impose aucun pénalité aux déplacements ou attaques de la cible."
   },
   {
     "id": "freezing-sphere",
@@ -1449,7 +1449,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "Up to 1 hour",
-    "description": "Vous transformez une créature consensuelle que vous touchez, ainsi que tout ce qu'elle porte et transporte, en un nuage brumeux pour la durée du sort. Le sort prend fin si la créature tombe à 0 point de vie. Une créature incorporelle n'est pas affectée.\n\nTant qu'elle est sous cette forme, le seul moyen de déplacement de la cible est une vitesse de vol de 3 mètres. La cible peut entrer dans l'espace d'une autre créature et l'occuper. Elle possède la résistance aux dégâts non magiques et bénéficie d'un avantage sur les jets de sauvegarde de Force, Dextérité et Constitution. La cible peut passer par de petits trous, d'étroites ouvertures et de simples fissures, mais elle traite les liquides comme des surfaces solides. La cible ne peut pas tomber et reste en lévitation dans les airs même lorsqu'elle est étourdie ou incapacitée.\n\nTant qu'elle a la forme d'un nuage brumeux, la cible ne peut ni parler ni manipuler d'objets, et aucun des objets qu'elle portait ou tenait ne peut être lâché, utilisé ou faire l'objet d'une interaction. La cible ne peut ni attaquer ni lancer de sorts."
+    "description": "Vous transformez une créature consentante que vous touchez, ainsi que tout ce qu'elle porte et transporte, en un nuage brumeux pour la durée du sort. Le sort prend fin si la créature tombe à 0 point de vie. Une créature incorporelle n'est pas affectée.\n\nTant qu'elle est sous cette forme, le seul moyen de déplacement de la cible est une vitesse de vol de 3 mètres. La cible peut entrer dans l'espace d'une autre créature et l'occuper. Elle possède la résistance aux dégâts non magiques et bénéficie d'un avantage sur les jets de sauvegarde de Force, Dextérité et Constitution. La cible peut passer par de petits trous, d'étroites ouvertures et de simples fissures, mais elle traite les liquides comme des surfaces solides. La cible ne peut pas tomber et reste en lévitation dans les airs même lorsqu'elle est étourdie ou incapacitée.\n\nTant qu'elle a la forme d'un nuage brumeux, la cible ne peut ni parler ni manipuler d'objets, et aucun des objets qu'elle portait ou tenait ne peut être lâché, utilisé ou faire l'objet d'une interaction. La cible ne peut ni attaquer ni lancer de sorts."
   },
   {
     "id": "gate",
@@ -1603,7 +1603,7 @@
     "range": "Touch",
     "components": "V, S",
     "duration": "Up to 1 minute",
-    "description": "Vous touchez une créature consensuelle. Une fois avant la fin du sort, la cible peut lancer un d4 et ajouter le résultat obtenu à un test de caractéristique de son choix. Elle peut lancer le dé avant ou après avoir effectué le test. Le sort prend fin immédiatement après."
+    "description": "Vous touchez une créature consentante. Une fois avant la fin du sort, la cible peut lancer un d4 et ajouter le résultat obtenu à un test de caractéristique de son choix. Elle peut lancer le dé avant ou après avoir effectué le test. Le sort prend fin immédiatement après."
   },
   {
     "id": "guiding-bolt",
@@ -1669,7 +1669,7 @@
     "range": "30 feet",
     "components": "V, S, M",
     "duration": "Up to 1 minute",
-    "description": "Choisissez une créature consensuelle visible à portée. Jusqu'à la fin du sort, la vitesse de la cible est doublée, elle gagne un bonus de +2 à la CA, bénéficie d'un avantage sur les jets de sauvegarde de Dextérité et obtient une action supplémentaire lors de chacun de ses tours. Cette action ne peut être utilisée que pour effectuer l'action Attaquer (une seule attaque avec une arme), Se précipiter, Se désengager, Se cacher ou Utiliser un objet.\n\nLorsque le sort prend fin, la cible ne peut plus se déplacer ni effectuer d'actions jusqu'après son tour suivant, submergée par une vague de léthargie."
+    "description": "Choisissez une créature consentante visible à portée. Jusqu'à la fin du sort, la vitesse de la cible est doublée, elle gagne un bonus de +2 à la CA, bénéficie d'un avantage sur les jets de sauvegarde de Dextérité et obtient une action supplémentaire lors de chacun de ses tours. Cette action ne peut être utilisée que pour effectuer l'action Attaquer (une seule attaque avec une arme), Se précipiter, Se désengager, Se cacher ou Utiliser un objet.\n\nLorsque le sort prend fin, la cible ne peut plus se déplacer ni effectuer d'actions jusqu'après son tour suivant, submergée par une vague de léthargie."
   },
   {
     "id": "heal",
@@ -1735,7 +1735,7 @@
     "range": "Touch",
     "components": "V, S",
     "duration": "Up to 1 minute",
-    "description": "Une créature consensuelle que vous touchez est insufflée de bravoure. Jusqu'à la fin du sort, la créature est immunisée contre l'état effrayé et gagne des points de vie temporaires égaux à votre modificateur de caractéristique d'incantation au début de chacun de ses tours. Lorsque le sort prend fin, la cible perd tous les points de vie temporaires restants issus de ce sort."
+    "description": "Une créature consentante que vous touchez est insufflée de bravoure. Jusqu'à la fin du sort, la créature est immunisée contre l'état effrayé et gagne des points de vie temporaires égaux à votre modificateur de caractéristique d'incantation au début de chacun de ses tours. Lorsque le sort prend fin, la cible perd tous les points de vie temporaires restants issus de ce sort."
   },
   {
     "id": "hideous-laughter",
@@ -1966,7 +1966,7 @@
     "range": "60 feet",
     "components": "V, S, M",
     "duration": "Up to 10 minutes",
-    "description": "Une créature ou un objet de votre choix visible à portée s'élève verticalement, jusqu'à 6 mètres de haut, et reste suspendu pour la durée du sort. Le sort peut faire léviter une cible pesant jusqu'à 250 kg. Une créature non consensuelle qui réussit un jet de sauvegarde de Constitution n'est pas affectée.\n\nLa cible ne peut se déplacer qu'en poussant ou en tirant sur un objet ou une surface fixe à sa portée (comme un mur ou un plafond), ce qui lui permet de se déplacer comme si elle escaladait. Vous pouvez modifier l'altitude de la cible de 6 mètres dans un sens ou dans l'autre lors de votre tour. Si vous êtes la cible, vous pouvez monter ou descendre dans le cadre de votre déplacement. Sinon, vous pouvez utiliser votre action pour déplacer la cible, qui doit rester à portée du sort.\n\nLorsque le sort prend fin, la cible flotte doucement vers le sol si elle se trouve encore dans les airs."
+    "description": "Une créature ou un objet de votre choix visible à portée s'élève verticalement, jusqu'à 6 mètres de haut, et reste suspendu pour la durée du sort. Le sort peut faire léviter une cible pesant jusqu'à 250 kg. Une créature non consentante qui réussit un jet de sauvegarde de Constitution n'est pas affectée.\n\nLa cible ne peut se déplacer qu'en poussant ou en tirant sur un objet ou une surface fixe à sa portée (comme un mur ou un plafond), ce qui lui permet de se déplacer comme si elle escaladait. Vous pouvez modifier l'altitude de la cible de 6 mètres dans un sens ou dans l'autre lors de votre tour. Si vous êtes la cible, vous pouvez monter ou descendre dans le cadre de votre déplacement. Sinon, vous pouvez utiliser votre action pour déplacer la cible, qui doit rester à portée du sort.\n\nLorsque le sort prend fin, la cible flotte doucement vers le sol si elle se trouve encore dans les airs."
   },
   {
     "id": "light",
@@ -2043,7 +2043,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "8 hours",
-    "description": "Vous touchez une créature consensuelle qui ne porte pas d'armure, et une force magique protectrice l'entoure jusqu'à la fin du sort. La CA de base de la cible devient 13 + son modificateur de Dextérité. Le sort prend fin si la cible revêt une armure ou si vous l'annulez par une action."
+    "description": "Vous touchez une créature consentante qui ne porte pas d'armure, et une force magique protectrice l'entoure jusqu'à la fin du sort. La CA de base de la cible devient 13 + son modificateur de Dextérité. Le sort prend fin si la cible revêt une armure ou si vous l'annulez par une action."
   },
   {
     "id": "mage-hand",
@@ -2241,7 +2241,7 @@
     "range": "Touch",
     "components": "V, S",
     "duration": "24 hours",
-    "description": "Jusqu'à la fin du sort, une créature consensuelle que vous touchez devient immunisée contre les dégâts psychiques, tout effet visant à détecter ses émotions ou lire ses pensées, les sorts de divination, ainsi que l'état charmé. Le sort déjoue même les sorts de Souhait ainsi que les sorts ou effets de puissance similaire utilisés pour affecter l'esprit de la cible ou obtenir des informations sur elle."
+    "description": "Jusqu'à la fin du sort, une créature consentante que vous touchez devient immunisée contre les dégâts psychiques, tout effet visant à détecter ses émotions ou lire ses pensées, les sorts de divination, ainsi que l'état charmé. Le sort déjoue même les sorts de Souhait ainsi que les sorts ou effets de puissance similaire utilisés pour affecter l'esprit de la cible ou obtenir des informations sur elle."
   },
   {
     "id": "minor-illusion",
@@ -2340,7 +2340,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "8 hours",
-    "description": "Pour la durée du sort, vous masquez une cible que vous touchez à la magie de divination. La cible peut être une créature consensuelle, un lieu ou un objet ne dépassant 3 mètres dans aucune de ses dimensions. La cible ne peut être visée par aucune magie de divination ni perçue à travers des capteurs de divination magiques."
+    "description": "Pour la durée du sort, vous masquez une cible que vous touchez à la magie de divination. La cible peut être une créature consentante, un lieu ou un objet ne dépassant 3 mètres dans aucune de ses dimensions. La cible ne peut être visée par aucune magie de divination ni perçue à travers des capteurs de divination magiques."
   },
   {
     "id": "pass-without-trace",
@@ -2417,7 +2417,7 @@
     "range": "Touch",
     "components": "V, S, M",
     "duration": "Instantaneous",
-    "description": "Vous et jusqu'à huit créatures consensuelles qui se tiennent la main en cercle êtes transportés vers un autre plan d'existence. Vous pouvez spécifier une destination globale en termes généraux, comme la Cité d'Airain sur le plan Élémentaire du Feu ou le palais de Dispater au deuxième niveau des Neuf Enfers, et vous apparaissez dans ou près de cette destination. Si vous tentez d'atteindre la Cité d'Airain par exemple, vous pourriez arriver dans sa Rue d'Acier, devant sa Porte des Cendres, ou en observant la ville depuis l'autre côté de la Mer de Feu, à la discrétion du MD.\n\nAlternativement, si vous connaissez la séquence de glyphes d'un cercle de téléportation sur un autre plan d'existence, ce sort peut vous mener à ce cercle. Si le cercle de téléportation est trop petit pour accueillir toutes les créatures transportées, elles apparaissent dans les espaces non occupés les plus proches du cercle."
+    "description": "Vous et jusqu'à huit créatures consentantes qui se tiennent la main en cercle êtes transportés vers un autre plan d'existence. Vous pouvez spécifier une destination globale en termes généraux, comme la Cité d'Airain sur le plan Élémentaire du Feu ou le palais de Dispater au deuxième niveau des Neuf Enfers, et vous apparaissez dans ou près de cette destination. Si vous tentez d'atteindre la Cité d'Airain par exemple, vous pourriez arriver dans sa Rue d'Acier, devant sa Porte des Cendres, ou en observant la ville depuis l'autre côté de la Mer de Feu, à la discrétion du MD.\n\nAlternativement, si vous connaissez la séquence de glyphes d'un cercle de téléportation sur un autre plan d'existence, ce sort peut vous mener à ce cercle. Si le cercle de téléportation est trop petit pour accueillir toutes les créatures transportées, elles apparaissent dans les espaces non occupés les plus proches du cercle."
   },
   {
     "id": "plant-growth",
