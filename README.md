@@ -12,12 +12,21 @@ Elle remplace les fiches papier et les interfaces chargées par une UI sombre *m
 - 📱 **Ergonomie Mobile-First & Live Table** :
   - **Onglet Combat** : Gestion dynamique en temps réel (PV actuels/temporaires, modificateurs, dés, suivi des sorts et ressources).
   - **Onglet Fiche** : Consultation synthétique des statistiques, compétences et caractéristiques (`STR (Force)`, `DEX (Dextérité)`, etc.).
+  - **Onglet Sorts** : Gestion dynamique en temps réel des emplacement de sort et des sorts préparés et gestion du grimoire de sorts.
+  - **Onglet Sac** : Gestion dynamique en temps réel des objets et échange P2P (QRCode).
+  - **Onglet Perso** : Gestion des caractéristiques du personnage et partage du personnage entre différents appareils (QRCode).
   - **Modale d'Édition** : Modification sécurisée des statistiques de base sans risque de fausse manipulation en plein jeu.
 - 🎛️ **Composants Tactiles Dédiés** : Steppers sur-mesure (`-` / `+`), pavé numérique adapté, sélection automatique de texte au focus et zones de clic généreuses (40x40px min).
 - 🧠 **Calculs Automatiques** : Déduction directe des modificateurs de caractéristiques, de la perception passive et des bonus de maîtrise.
 - 💾 **Gestion des Données Local-First** :
   - Persistance automatique dans le `localStorage`.
   - Exportation & Importation de fiches sous format **JSON** pour le transfert entre appareils.
+
+---
+
+## 🌐 Données et Référentiel des Sorts
+
+Le référentiel des sorts intègre une base de données ouverte issue d'une API de référence libre de droits (Open Game License / SRD D&D 5E), initialement en anglais, qui a été entièrement structurée, enrichie et traduite en français (`spells_fr.json`) pour garantir une utilisation fluide et totalement autonome hors-ligne au sein de l'application.
 
 ---
 
@@ -54,6 +63,9 @@ dnd-companion-pwa/
 │   │   └── TradeModal.tsx           # Modale d'échange P2P
 │   ├── constants/
 │   │   └── abilities.ts             # Dictionnaire des caractéristiques (Codes, FR, descriptions)
+│   ├── data/
+│   │   ├── spells_en.json           # Dictionnaire des sorts (anglais)
+│   │   └── spells_fr.json           # Dictionnaire des sorts (français)
 │   ├── hooks/
 │   │   └── useWakeLock.ts           # Empeche l'ecran d'un smartphone de s'éteindre en pleine partie
 │   ├── store/

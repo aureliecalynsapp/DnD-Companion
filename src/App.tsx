@@ -19,10 +19,10 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>('combat');
   
   // Récupération dynamique du personnage actif au lieu de state.character
-  const character = useCharacterStore((state) => state.getActiveCharacter());
+  const rawCharacter = useCharacterStore((state) => state.getActiveCharacter());
 
   // Sécurité si aucun personnage n'est sélectionné
-  if (!character) {
+  if (!rawCharacter) {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
         <p className="text-slate-400 text-sm">Aucun personnage actif trouvé.</p>
@@ -30,17 +30,25 @@ export default function App() {
     );
   }
 
+  // 2. Normalisation sécurisée (purement locale au rendu)
+  const character = {
+    ...rawCharacter,
+    knownSpellIds: rawCharacter.knownSpellIds ?? [],
+    preparedSpellIds: rawCharacter.preparedSpellIds ?? [],
+    spellcastingAbility: rawCharacter.spellcastingAbility ?? 'INT',
+  };
+
   const pb = getProficiencyBonus(character.level || 1);
   const hpMax = character.hp?.max || 1;
   const hpCurrent = character.hp?.current ?? 0;
   const hpPercentage = Math.min(100, Math.max(0, (hpCurrent / hpMax) * 100));
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans select-none antialiased">
+    <div className="h-screen w-screen overflow-hidden bg-slate-950 text-slate-100 flex flex-col font-sans select-none antialiased">
       <InstallPrompt />
 
       {/* HEADER FIXE AVEC SAFE AREA IOS & PWA */}
-      <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] shadow-lg">
+      <header className="shrink-0 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] shadow-lg z-40">
         <div className="flex items-center justify-between mb-2">
           <div>
             <h1 className="text-lg font-bold tracking-tight text-white leading-none">{character.name}</h1>
@@ -70,7 +78,7 @@ export default function App() {
       </header>
 
       {/* CONTENU PRINCIPAL */}
-      <main className="flex-grow pb-28 p-4 max-w-md mx-auto w-full">
+      <main className="flex-1 overflow-hidden p-4 max-w-md mx-auto w-full flex flex-col">
         {activeTab === 'combat' && <CombatTab />}
         {activeTab === 'fiche' && <SheetTab />}
         {activeTab === 'sorts' && <SpellsTab />}
@@ -79,7 +87,7 @@ export default function App() {
       </main>
 
       {/* BOTTOM NAVIGATION FIXED (5 ONGLETS) */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 pb-safe">
+      <nav className="shrink-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 pb-safe z-40">
         <div className="flex justify-around items-center h-16 max-w-md mx-auto px-1">
           {[
             { id: 'combat', label: 'Combat', icon: Zap },

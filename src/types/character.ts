@@ -10,6 +10,20 @@ export interface SpellSlot {
   used: number; // Nombre d'emplacements dépensés
 }
 
+export interface Spell {
+  id: string;
+  name: string;
+  level: number; // 0 = Tour de magie / Cantrip
+  school: string;
+  castingTime: string;
+  range: string;
+  components: string;
+  duration: string;
+  description: string;
+}
+
+export type SpellcastingAbility = 'INT' | 'WIS' | 'CHA' | 'NONE';
+
 export interface Character {
   id: string;
   name: string;
@@ -29,6 +43,9 @@ export interface Character {
     failures: number;
   };
   spellSlots: Record<number, SpellSlot>;
+  spellcastingAbility?: SpellcastingAbility;
+  knownSpellIds?: string[];     // IDs des sorts appris / présents dans le grimoire
+  preparedSpellIds?: string[];  // IDs des sorts actuellement préparés (pour le combat)
   inventory: Item[];
   currency: Currency;
 }

@@ -1,13 +1,14 @@
 {
   "name": "dnd-pocket",
   "private": true,
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fetch-spells": "node scripts/download-spells.mjs"
   },
   "dependencies": {
     "html5-qrcode": "^2.3.8",

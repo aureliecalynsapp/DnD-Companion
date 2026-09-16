@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { Character, Item, Currency } from '../types/character';
+import type { Character, Item, Currency, SpellcastingAbility } from '../types/character';
 
 // Personnage par défaut pour l'initialisation
 const DEFAULT_CHARACTER: Character = {
@@ -24,6 +24,9 @@ const DEFAULT_CHARACTER: Character = {
     2: { max: 3, used: 0 },
     3: { max: 2, used: 0 },
   },
+  spellcastingAbility: 'INT' as const,
+  knownSpellIds: [],
+  preparedSpellIds: [],
   inventory: [
     { id: 'item-1', name: 'Épée longue', quantity: 1, weight: 3 },
     { id: 'item-2', name: 'Rations (1 jour)', quantity: 5, weight: 2 },
@@ -59,6 +62,10 @@ interface CharacterStoreState {
 
   // --- ACTIONS SORTS & EMPLACEMENTS ---
   useSpellSlot: (level: number, delta?: number) => void;
+  toggleKnownSpell: (spellId: string) => void;
+  togglePreparedSpell: (spellId: string) => void;
+  setSpellcastingAbility: (ability: SpellcastingAbility) => void;
+  setSpellSlotMax: (level: number, max: number) => void;
 
   // --- ACTIONS INVENTAIRE ---
   addItem: (item: Omit<Item, 'id'>) => void;
@@ -220,22 +227,97 @@ export const useCharacterStore = create<CharacterStoreState>()(
                 };
             });
             },
+        // --- RAJOUT : Définir le max d'emplacements par niveau ---
+        setSpellSlotMax: (level, max) =>
+            set((state) => {
+            const activeId = state.activeCharacterId;
+            if (!activeId) return state;
 
-        /*useSpellSlot: (level) => {
-          updateActive((char) => ({
-            spellSlots: char.spellSlots.map((slot) =>
-              slot.level === level ? { ...slot, current: Math.max(0, slot.current - 1) } : slot
-            ),
-          }));
-        },
+            return {
+                characters: state.characters.map((char) => {
+                if (char.id !== activeId) return char;
 
-        restoreSpellSlot: (level) => {
-          updateActive((char) => ({
-            spellSlots: char.spellSlots.map((slot) =>
-              slot.level === level ? { ...slot, current: Math.min(slot.max, slot.current + 1) } : slot
-            ),
-          }));
-        },*/
+                const currentSlots = char.spellSlots || {};
+                const slot = currentSlots[level] || { max: 0, used: 0 };
+
+                return {
+                    ...char,
+                    spellSlots: {
+                    ...currentSlots,
+                    [level]: { max, used: Math.min(slot.used, max) },
+                    },
+                };
+                }),
+            };
+            }),
+
+        // --- RAJOUT : Ajouter / Retirer du Grimoire ---
+        toggleKnownSpell: (spellId) =>
+            set((state) => {
+            const activeId = state.activeCharacterId;
+            if (!activeId) return state;
+
+            return {
+                characters: state.characters.map((char) => {
+                if (char.id !== activeId) return char;
+
+                const known = char.knownSpellIds || [];
+                const prepared = char.preparedSpellIds || [];
+                const isKnown = known.includes(spellId);
+
+                const updatedKnown = isKnown
+                    ? known.filter((id) => id !== spellId)
+                    : [...known, spellId];
+
+                // Si le sort est retiré du grimoire, on l'enlève aussi des préparés
+                const updatedPrepared = isKnown
+                    ? prepared.filter((id) => id !== spellId)
+                    : prepared;
+
+                return {
+                    ...char,
+                    knownSpellIds: updatedKnown,
+                    preparedSpellIds: updatedPrepared,
+                };
+                }),
+            };
+            }),
+
+        // --- RAJOUT : Préparer / Dépréparer un sort ---
+        togglePreparedSpell: (spellId) =>
+            set((state) => {
+            const activeId = state.activeCharacterId;
+            if (!activeId) return state;
+
+            return {
+                characters: state.characters.map((char) => {
+                if (char.id !== activeId) return char;
+
+                const prepared = char.preparedSpellIds || [];
+                const isPrepared = prepared.includes(spellId);
+
+                return {
+                    ...char,
+                    preparedSpellIds: isPrepared
+                    ? prepared.filter((id) => id !== spellId)
+                    : [...prepared, spellId],
+                };
+                }),
+            };
+            }),
+
+        // --- RAJOUT : Caractéristique d'incantation ---
+        setSpellcastingAbility: (ability) =>
+            set((state) => {
+            const activeId = state.activeCharacterId;
+            if (!activeId) return state;
+
+            return {
+                characters: state.characters.map((char) =>
+                char.id === activeId ? { ...char, spellcastingAbility: ability } : char
+                ),
+            };
+            }),
 
         // --- INVENTAIRE ---
         addItem: (newItem) => {
