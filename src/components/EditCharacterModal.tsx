@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { X, Save, Shield, Heart, Zap } from 'lucide-react';
+import { X, Save, Shield, Heart, Zap,GraduationCap } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import { NumberInput } from './common/NumberInput';
 import { ABILITIES_INFO } from '../constants/abilities';
-import type { Ability, Character } from '../types/character';
+import type { Ability, Character, SpellcastingAbility } from '../types/character';
 
 interface EditCharacterModalProps {
   isOpen: boolean;
@@ -14,6 +14,8 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
   // Récupération dynamique du personnage actif et de la méthode de mise à jour dédiée
   const character = useCharacterStore((state) => state.getActiveCharacter());
   const updateCharacterData = useCharacterStore((state) => state.updateCharacterData);
+  const setSpellSlotMax = useCharacterStore((state) => state.setSpellSlotMax);
+  const setSpellcastingAbility = useCharacterStore((state) => state.setSpellcastingAbility);
 
   const [formData, setFormData] = useState<Character>(character);
 
@@ -199,6 +201,47 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                     </div>
                   );
                 })}
+              </div>
+            </div>
+            
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                  Éditer les emplacements max (Niv 1-9)
+                </span>
+              </div>
+              <div className="grid grid-cols-3 gap-2 mt-2 pt-2">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((lvl) => {
+                  const max = character.spellSlots?.[lvl]?.max || 0;
+                  return (
+                    <div key={lvl} className="flex flex-col items-center bg-slate-950 p-1.5 rounded-lg border border-slate-800">
+                      <span className="text-[10px] font-bold text-slate-400">Niv {lvl}</span>
+                      <div className="w-28">
+                        <NumberInput
+                          value={max}
+                          min={0}
+                          max={9}
+                          onChange={(val) => setSpellSlotMax(lvl, val)}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="bg-slate-900 border border-slate-800 p-1.5 rounded-xl flex items-center justify-between gap-1.5 shadow-sm shrink-0">
+              <div className="flex items-center gap-1 bg-slate-950 px-2 py-1 rounded-lg border border-slate-800/80 shrink-0">
+                <GraduationCap className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                <select
+                  value={character.spellcastingAbility || 'INT'}
+                  onChange={(e) => setSpellcastingAbility(e.target.value as SpellcastingAbility)}
+                  className="bg-transparent text-[11px] font-bold text-amber-400 outline-none cursor-pointer pr-1"
+                >
+                  <option value="INT">Intelligence (INT)</option>
+                  <option value="WIS">Sagesse (WIS)</option>
+                  <option value="CHA">Charisme (CHA)</option>
+                  <option value="NONE">Aucune</option>
+                </select>
               </div>
             </div>
 

@@ -12,10 +12,9 @@ Elle remplace les fiches papier et les interfaces chargées par une UI sombre *m
 - 📱 **Ergonomie Mobile-First & Live Table** :
   - **Onglet Combat** : Gestion dynamique en temps réel (PV actuels/temporaires, modificateurs, dés, suivi des sorts et ressources).
   - **Onglet Fiche** : Consultation synthétique des statistiques, compétences et caractéristiques (`STR (Force)`, `DEX (Dextérité)`, etc.).
-  - **Onglet Sorts** : Gestion dynamique en temps réel des emplacement de sort et des sorts préparés et gestion du grimoire de sorts.
+  - **Onglet Sorts** : Gestion dynamique en temps réel des sorts préparés et gestion du grimoire de sorts.
   - **Onglet Sac** : Gestion dynamique en temps réel des objets et échange P2P (QRCode).
   - **Onglet Perso** : Gestion des caractéristiques du personnage et partage du personnage entre différents appareils (QRCode).
-  - **Modale d'Édition** : Modification sécurisée des statistiques de base sans risque de fausse manipulation en plein jeu.
 - 🎛️ **Composants Tactiles Dédiés** : Steppers sur-mesure (`-` / `+`), pavé numérique adapté, sélection automatique de texte au focus et zones de clic généreuses (40x40px min).
 - 🧠 **Calculs Automatiques** : Déduction directe des modificateurs de caractéristiques, de la perception passive et des bonus de maîtrise.
 - 💾 **Gestion des Données Local-First** :

@@ -13,7 +13,7 @@ export interface SpellSlot {
 export interface Spell {
   id: string;
   name: string;
-  level: number; // 0 = Tour de magie / Cantrip
+  level: number; // 0 = Mineur
   school: string;
   castingTime: string;
   range: string;
