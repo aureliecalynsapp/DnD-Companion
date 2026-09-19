@@ -218,7 +218,7 @@ export const CombatTab: React.FC = () => {
 
       {/* ================= EMPLACEMENTS DES SORTS (PLIABLE) ================= */}
       {spellEntries.length > 0 && (
-        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 space-y-3 shadow-lg shrink-0">
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-1 space-y-3 shadow-lg shrink-0">
           <button
             type="button"
             onClick={() => setIsSpellSlotsOpen(!isSpellSlotsOpen)}
@@ -238,11 +238,11 @@ export const CombatTab: React.FC = () => {
           </button>
 
           {isSpellSlotsOpen && (
-            <div className="grid grid-cols-3 gap-2 pt-1 animate-in fade-in duration-200">
+            <div className="grid grid-cols-3 gap-0.5 pt-1 animate-in fade-in duration-200">
               {spellEntries.map(({ level, max, used }) => {
                 const remaining = Math.max(0, max - used);
                 return (
-                  <div key={level} className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-2 shadow-sm flex flex-col justify-between">
+                  <div key={level} className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-1 shadow-sm flex flex-col justify-between">
                     <div className="flex justify-between items-center mb-2">
                       <span className="px-2 py-0.5 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-lg text-xs font-bold">
                         Niv. {level}
@@ -263,7 +263,7 @@ export const CombatTab: React.FC = () => {
                             key={index}
                             onClick={() => useSpellSlot(level, isUsed ? -1 : 1)}
                             type="button"
-                            className={`w-8 h-8 rounded-lg border flex items-center justify-center transition-all active:scale-90 ${
+                            className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all active:scale-90 ${
                               isUsed
                                 ? 'bg-slate-900/60 border-slate-800 text-slate-700'
                                 : 'bg-blue-950/40 hover:bg-blue-950/60 border-blue-500/40 text-blue-400 shadow-sm'

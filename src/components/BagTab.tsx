@@ -62,11 +62,10 @@ export const BagTab: React.FC = () => {
   return (
     <div className="space-y-6 pb-6">
       {/* HEADER + BOUTON D'ÉCHANGE */}
-      <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between gap-3">
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           <Backpack className="w-5 h-5 text-amber-400" />
-          Sac à dos
+          Sac
         </h2>
             {/* BADGE DE POIDS DYNAMIQUE (ROUGE SI SURCHARGÉ) */}
             <span
@@ -79,7 +78,6 @@ export const BagTab: React.FC = () => {
               {isOverloaded && <AlertTriangle className="w-3 h-3" />}
               {totalWeight} / {maxWeight} lb
             </span>
-            </div>
         <button
           onClick={() => setIsTradeOpen(true)}
           className="flex items-center gap-2 px-3 py-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 rounded-xl text-xs font-semibold active:scale-95 transition-all"
@@ -160,7 +158,7 @@ export const BagTab: React.FC = () => {
         {isBagOpen && (
           <div className="space-y-4 pt-1 animate-in fade-in duration-200">
             {/* AJOUT D'OBJET */}
-            <form onSubmit={handleAddItem} className="flex gap-2">
+            <form onSubmit={handleAddItem} className="flex gap-3">
               <input
                 type="text"
                 placeholder="Nom de l'objet..."
