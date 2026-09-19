@@ -58,7 +58,7 @@ export const CombatTab: React.FC = () => {
     .sort((a, b) => a.level - b.level);
 
   return (
-    <div className="h-full flex flex-col gap-3 overflow-y-auto pr-1 pb-24 scrollbar-thin scrollbar-thumb-slate-700">
+    <div className="h-full flex flex-col gap-2 overflow-y-auto pr-1 pb-0.5 scrollbar-thin scrollbar-thumb-slate-700">
       
       {/* ================= STATS CLÉS (CARTES INSTANTANÉES) ================= */}
       <div className="grid grid-cols-3 gap-2 shrink-0">
@@ -82,7 +82,7 @@ export const CombatTab: React.FC = () => {
       </div>
 
       {/* ================= AJUSTEMENT PV TACTILE ================= */}
-      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 space-y-3 shadow-lg shrink-0">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 space-y-3 shadow-lg shrink-0">
         <div className="flex items-center gap-2">
           <HeartPulse className="w-4 h-4 text-red-400" />
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">Ajuster les PV</h2>
@@ -120,7 +120,7 @@ export const CombatTab: React.FC = () => {
       </div>
 
       {/* ================= SAUVEGARDES DE MORT (PLIABLE) ================= */}
-      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 space-y-3 shadow-lg shrink-0">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 space-y-3 shadow-lg shrink-0">
         <button
           type="button"
           onClick={() => setIsDeathSavesOpen(!isDeathSavesOpen)}
@@ -180,7 +180,7 @@ export const CombatTab: React.FC = () => {
       </div>
 
       {/* ================= STATISTIQUES DE SORT (MOD, DD, ATT) ================= */}
-      <div className="bg-slate-900 border border-slate-800/80 p-3 rounded-2xl flex items-center justify-between gap-2 shadow-lg shrink-0">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 flex items-center justify-between gap-2 shadow-lg shrink-0">
         <div className="flex items-center gap-1.5 bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/60 shrink-0 text-xs font-bold text-slate-200">
           <GraduationCap className="w-4 h-4 text-blue-400 shrink-0" /> 
           <span>{character.spellcastingAbility || 'Aucune'}</span>                
@@ -218,7 +218,7 @@ export const CombatTab: React.FC = () => {
 
       {/* ================= EMPLACEMENTS DES SORTS (PLIABLE) ================= */}
       {spellEntries.length > 0 && (
-        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-1 space-y-3 shadow-lg shrink-0">
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 space-y-3 shadow-lg shrink-0">
           <button
             type="button"
             onClick={() => setIsSpellSlotsOpen(!isSpellSlotsOpen)}

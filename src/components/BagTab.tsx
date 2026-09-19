@@ -60,24 +60,24 @@ export const BagTab: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6 pb-6">
+    <div className="flex flex-col h-full space-y-2 pb-0.5">
       {/* HEADER + BOUTON D'ÉCHANGE */}
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between gap-3 shrink-0">
         <h2 className="text-xl font-bold text-white flex items-center gap-2">
           <Backpack className="w-5 h-5 text-amber-400" />
           Sac
         </h2>
-            {/* BADGE DE POIDS DYNAMIQUE (ROUGE SI SURCHARGÉ) */}
-            <span
-              className={`flex items-center gap-1 text-[10px] font-mono font-medium px-2 py-0.5 rounded-md border transition-colors ${
-                isOverloaded
-                  ? 'bg-red-950/60 border-red-800/80 text-red-400'
-                  : 'bg-slate-950/60 border-slate-800/60 text-slate-500'
-              }`}
-            >
-              {isOverloaded && <AlertTriangle className="w-3 h-3" />}
-              {totalWeight} / {maxWeight} lb
-            </span>
+        {/* BADGE DE POIDS DYNAMIQUE (ROUGE SI SURCHARGÉ) */}
+        <span
+          className={`flex items-center gap-1 text-[10px] font-mono font-medium px-2 py-0.5 rounded-md border transition-colors ${
+            isOverloaded
+              ? 'bg-red-950/60 border-red-800/80 text-red-400'
+              : 'bg-slate-950/60 border-slate-800/60 text-slate-500'
+          }`}
+        >
+          {isOverloaded && <AlertTriangle className="w-3 h-3" />}
+          {totalWeight} / {maxWeight} lb
+        </span>
         <button
           onClick={() => setIsTradeOpen(true)}
           className="flex items-center gap-2 px-3 py-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 rounded-xl text-xs font-semibold active:scale-95 transition-all"
@@ -88,7 +88,7 @@ export const BagTab: React.FC = () => {
       </div>
 
       {/* BOURSE (MONNAIE D'AVENTURIER) AVEC OPTION PLIER / DÉPLIER */}
-      <section className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+      <section className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shrink-0">
         <button
           type="button"
           onClick={() => setIsBourseOpen(!isBourseOpen)}
@@ -129,22 +129,19 @@ export const BagTab: React.FC = () => {
         )}
       </section>
 
-      {/* SECTION DU SAC & DE L'INVENTAIRE (PLIABLE) */}
-      <section className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-4">
+      {/* SECTION DU SAC & DE L'INVENTAIRE (PLIABLE & ADAPTABLE) */}
+      <section className={`bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col space-y-3 ${isBagOpen ? 'flex-1 min-h-0' : 'shrink-0'}`}>
         <button
           type="button"
           onClick={() => setIsBagOpen(!isBagOpen)}
-          className="w-full flex items-center justify-between text-left cursor-pointer group"
+          className="w-full flex items-center justify-between text-left cursor-pointer group shrink-0"
         >
           <div className="flex items-center gap-2">
             <h3 className="text-xs font-semibold text-slate-400 flex items-center gap-1.5 uppercase tracking-wider group-hover:text-slate-300 transition-colors">
               <Backpack className="w-4 h-4 text-amber-400" />
               Sac d'objets
             </h3>
-            {/* BADGE DE POIDS DYNAMIQUE (ROUGE SI SURCHARGÉ) */}
-            <span
-              className="text-[10px] font-mono font-medium text-slate-500 bg-slate-950/60 px-2 py-0.5 rounded-md border border-slate-800/60"
-            >
+            <span className="text-[10px] font-mono font-medium text-slate-500 bg-slate-950/60 px-2 py-0.5 rounded-md border border-slate-800/60">
               {itemsWeight} lb
             </span>
           </div>
@@ -156,9 +153,9 @@ export const BagTab: React.FC = () => {
         </button>
         
         {isBagOpen && (
-          <div className="space-y-4 pt-1 animate-in fade-in duration-200">
+          <div className="flex flex-col flex-1 min-h-0 space-y-3 pt-1 animate-in fade-in duration-200">
             {/* AJOUT D'OBJET */}
-            <form onSubmit={handleAddItem} className="flex gap-3">
+            <form onSubmit={handleAddItem} className="flex gap-3 shrink-0">
               <input
                 type="text"
                 placeholder="Nom de l'objet..."
@@ -181,59 +178,57 @@ export const BagTab: React.FC = () => {
               </button>
             </form>
 
-            {/* LISTE DE L'INVENTAIRE COMPACTE AVEC SCROLL FLUIDE */}
-            <div className="space-y-2">
+            {/* LISTE DE L'INVENTAIRE AVEC SCROLL FLEXIBLE */}
+            <div className="flex-1 min-h-0 overflow-y-auto pr-1.5 space-y-1.5 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-950">
               {inventory.length === 0 ? (
                 <div className="text-center py-8 text-slate-500 text-xs italic bg-slate-950/40 border border-slate-800/50 rounded-2xl">
                   Votre sac à dos est vide.
                 </div>
               ) : (
-                <div className="max-h-[45vh] overflow-y-auto pr-1.5 space-y-1.5 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-950">
-                  {inventory.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex items-center justify-between bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 shadow-sm"
-                    >
-                      <div className="flex-grow pr-3 flex items-baseline gap-2">
-                        <p className="text-sm font-semibold text-slate-200">{item.name}</p>
-                        <span className="text-[10px] font-mono text-slate-500">
-                          {item.weight ? `${item.weight * item.quantity} lb` : '0 lb'}
-                        </span>
-                      </div>
+                inventory.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center justify-between bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 shadow-sm"
+                  >
+                    <div className="flex-grow pr-3 flex items-baseline gap-2">
+                      <p className="text-sm font-semibold text-slate-200">{item.name}</p>
+                      <span className="text-[10px] font-mono text-slate-500">
+                        {item.weight ? `${item.weight * item.quantity} lb` : '0 lb'}
+                      </span>
+                    </div>
 
-                      {/* CONTROLES DE QUANTITÉ TACTILES COMPACTS */}
-                      <div className="flex items-center gap-1.5">
-                        <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5">
-                          <button
-                            type="button"
-                            onClick={() => updateItemQuantity(item.id, -1)}
-                            className="p-1 text-slate-400 hover:text-white rounded-md active:scale-90 transition-transform"
-                          >
-                            <Minus className="w-3 h-3" />
-                          </button>
-                          <span className="w-7 text-center text-xs font-mono font-bold text-amber-400">
-                            {item.quantity}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => updateItemQuantity(item.id, 1)}
-                            className="p-1 text-slate-400 hover:text-white rounded-md active:scale-90 transition-transform"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </button>
-                        </div>
-
+                    {/* CONTROLES DE QUANTITÉ TACTILES COMPACTS */}
+                    <div className="flex items-center gap-1.5">
+                      <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5">
                         <button
                           type="button"
-                          onClick={() => removeItem(item.id)}
-                          className="p-2 text-slate-500 hover:text-red-400 rounded-lg hover:bg-slate-900 active:scale-90 transition-all"
+                          onClick={() => updateItemQuantity(item.id, -1)}
+                          className="p-1 text-slate-400 hover:text-white rounded-md active:scale-90 transition-transform"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="w-7 text-center text-xs font-mono font-bold text-amber-400">
+                          {item.quantity}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => updateItemQuantity(item.id, 1)}
+                          className="p-1 text-slate-400 hover:text-white rounded-md active:scale-90 transition-transform"
+                        >
+                          <Plus className="w-3 h-3" />
                         </button>
                       </div>
+
+                      <button
+                        type="button"
+                        onClick={() => removeItem(item.id)}
+                        className="p-2 text-slate-500 hover:text-red-400 rounded-lg hover:bg-slate-900 active:scale-90 transition-all"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))
               )}
             </div>
           </div>
