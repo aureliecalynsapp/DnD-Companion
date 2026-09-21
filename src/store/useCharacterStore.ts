@@ -45,6 +45,10 @@ interface CharacterStoreState {
   characters: Character[];
   activeCharacterId: string;
 
+  // --- ÉTAT ACCESSIBILITÉ / ZOOM ---
+  zoomLevel: number;
+  setZoomLevel: (zoom: number) => void;
+
   // --- GETTER HELPER ---
   getActiveCharacter: () => Character;
 
@@ -100,6 +104,10 @@ export const useCharacterStore = create<CharacterStoreState>()(
       return {
         characters: [DEFAULT_CHARACTER],
         activeCharacterId: 'char-default-1',
+
+        // --- GESTION DU ZOOM GLOBAL ---
+        zoomLevel: 100,
+        setZoomLevel: (zoom: number) => set({ zoomLevel: zoom }),
 
         // Helper pour récupérer le perso actif dans le code JSX
         getActiveCharacter: () => {

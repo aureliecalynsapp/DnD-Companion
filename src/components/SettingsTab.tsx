@@ -1,17 +1,19 @@
+// src/components/SettingsTab.tsx
 import React, { useRef } from 'react';
-import { Sparkles, Download, Upload } from 'lucide-react';
+import { Sparkles, Download, Upload, ZoomIn } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import type { Character } from '../types/character';
 import { CharacterManager } from './CharacterManager';
 
 export const SettingsTab: React.FC = () => {
-  //const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-  
   // Récupération dynamique du personnage actif et des actions
   const character = useCharacterStore((state) => state.getActiveCharacter());
   const longRest = useCharacterStore((state) => state.longRest);
   const importOrUpdateCharacter = useCharacterStore((state) => state.importOrUpdateCharacter);
-  //const resetCharacter = useCharacterStore((state) => state.resetCharacter);
+  
+  // États et actions pour la gestion du zoom global
+  const zoomLevel = useCharacterStore((state) => state.zoomLevel ?? 100);
+  const setZoomLevel = useCharacterStore((state) => state.setZoomLevel);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -42,7 +44,6 @@ export const SettingsTab: React.FC = () => {
         } catch {
           alert('Erreur lors de la lecture du fichier JSON.');
         } finally {
-          // Reset de la valeur de l'input pour réimporter le même fichier si besoin
           if (fileInputRef.current) fileInputRef.current.value = '';
         }
       };
@@ -50,9 +51,40 @@ export const SettingsTab: React.FC = () => {
   };
 
   return (
-    <div className="space-y-2 pb-6">
+    <div className="space-y-3 pb-6">
       {/* GESTIONNAIRE MULTI-PERSONNAGES (SWITCH / ADD / QR CODE) */}
       <CharacterManager />
+
+      {/* SECTION ACCESSIBILITÉ & ZOOM */}
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Accessibilité & Affichage</h2>
+      <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            <ZoomIn className="w-4 h-4 text-blue-400" />
+            Zoom global de l'interface
+          </span>
+          <span className="text-xs font-mono font-bold text-blue-400 bg-blue-950/60 border border-blue-800/60 px-2 py-0.5 rounded">
+            {zoomLevel}%
+          </span>
+        </div>
+
+        {/* Curseur tactile de zoom (de 85% à 140%) */}
+        <input 
+          type="range" 
+          min="85" 
+          max="140" 
+          step="5"
+          value={zoomLevel} 
+          onChange={(e) => setZoomLevel(Number(e.target.value))}
+          className="w-full accent-blue-500 h-2 bg-slate-800 rounded-lg cursor-pointer"
+        />
+
+        <div className="flex justify-between text-[10px] text-slate-500">
+          <span>Compact (85%)</span>
+          <span>Normal (100%)</span>
+          <span>Grand (140%)</span>
+        </div>
+      </div>
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Actions de Session</h2>
       
@@ -97,21 +129,6 @@ export const SettingsTab: React.FC = () => {
           className="hidden" 
         />
       </div>
-
-      {/* Réinitialisation */}
-      {/* <div className="pt-2">
-        <button 
-          onClick={() => {
-            if (confirm(`Réinitialiser ${character.name} aux valeurs par défaut ?`)) {
-              resetCharacter();
-            }
-          }}
-          className="w-full bg-red-950/40 border border-red-900/60 hover:bg-red-900/40 p-3 rounded-xl flex items-center justify-center gap-2 text-xs font-semibold text-red-300 transition active:scale-95"
-        >
-          <RotateCcw className="w-4 h-4 text-red-400" />
-          Réinitialiser aux valeurs par défaut
-        </button>
-      </div>*/}
     </div>
   );
 };

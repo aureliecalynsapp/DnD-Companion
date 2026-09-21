@@ -1,7 +1,7 @@
 {
   "name": "dnd-pocket",
   "private": true,
-  "version": "1.0.7",
+  "version": "1.8.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,9 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "fetch-spells": "node scripts/download-spells.mjs",
-    "fetch-equipment": "node scripts/download-equipment.mjs"
+    "fetch-equipment": "node scripts/download-equipment.mjs",
+    "fetch-races": "node scripts/download-races.mjs",
+    "fetch-ability_score": "node scripts/download-ability_score.mjs"
   },
   "dependencies": {
     "html5-qrcode": "^2.3.8",
