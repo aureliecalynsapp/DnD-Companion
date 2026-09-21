@@ -98,7 +98,7 @@ export const SpellsTab: React.FC = () => {
                 Aucun sort prêt.
               </div>
             ) : (
-              <div className="flex-1 overflow-y-auto space-y-2 pr-1 scrollbar-thin scrollbar-thumb-slate-700">
+              <div className="flex-1 overflow-y-auto space-y-1 pr-1 scrollbar-thin scrollbar-thumb-slate-700">
                 {activeSpells.map((spell) => (
                   <div
                     key={spell.id}
@@ -179,7 +179,7 @@ export const SpellsTab: React.FC = () => {
             </div>
 
             {/* Liste des sorts du grimoire */}
-            <div className="flex-1 min-h-0 overflow-y-auto space-y-2 pr-1 scrollbar-thin scrollbar-thumb-slate-700">
+            <div className="flex-1 min-h-0 overflow-y-auto space-y-1 pr-1 scrollbar-thin scrollbar-thumb-slate-700">
               {knownSpells.length === 0 ? (
                 <div className="p-8 text-center text-xs text-slate-500 bg-slate-900/40 border border-dashed border-slate-800 rounded-2xl">
                   Votre grimoire est vide. Cliquez sur <span className="text-blue-400 font-bold">+</span> pour ajouter des sorts.
@@ -247,8 +247,8 @@ export const SpellsTab: React.FC = () => {
 
       {/* ================= MODAL FULLSCREEN : BIBLE DES SORTS ================= */}
       {isCatalogOpen && (
-        <div className="fixed inset-0 z-[100] bg-slate-950 flex flex-col p-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-[calc(1rem+env(safe-area-inset-bottom))] animate-in fade-in duration-150">
-          <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-800 shrink-0">
+        <div className="fixed inset-0 z-[100] bg-slate-950 flex flex-col p-2 pt-[calc(1rem+env(safe-area-inset-top))] pb-[calc(1rem+env(safe-area-inset-bottom))] animate-in fade-in duration-150">
+          <div className="flex justify-between items-center mb-2 pb-3 border-b border-slate-800 shrink-0">
             <div>
               <h3 className="text-base font-bold text-white">Bible des Sorts</h3>
               <p className="text-[11px] text-slate-400">Ajoutez des sorts à votre grimoire</p>
@@ -262,7 +262,7 @@ export const SpellsTab: React.FC = () => {
             </button>
           </div>
 
-          <div className="relative mb-3 shrink-0">
+          <div className="relative mb-2 shrink-0">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
             <input
               type="text"
@@ -293,7 +293,7 @@ export const SpellsTab: React.FC = () => {
             </div>
 
             {/* Liste triée alphabétiquement de la Bible */}
-            <div className="flex-1 min-h-0 overflow-y-auto space-y-2 pr-1 scrollbar-thin scrollbar-thumb-slate-700">
+            <div className="flex-1 min-h-0 overflow-y-auto space-y-1 pr-1 scrollbar-thin scrollbar-thumb-slate-700">
               {filteredCatalog.map((spell) => {
                 const isKnown = knownIds.includes(spell.id);
 

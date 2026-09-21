@@ -50,7 +50,7 @@ export const SettingsTab: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-2 pb-6">
       {/* GESTIONNAIRE MULTI-PERSONNAGES (SWITCH / ADD / QR CODE) */}
       <CharacterManager />
 

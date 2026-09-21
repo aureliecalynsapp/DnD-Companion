@@ -18,7 +18,7 @@ export const SheetTab: React.FC = () => {
   };
 
   return (
-    <div className="space-y-3 pb-6">
+    <div className="space-y-2 pb-6">
       <div className="flex items-center justify-between">
         <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
           Caractéristiques

@@ -31,7 +31,7 @@ const DEFAULT_CHARACTER: Character = {
     { id: 'item-1', name: 'Épée longue', quantity: 1, weight: 3 },
     { id: 'item-2', name: 'Rations (1 jour)', quantity: 5, weight: 2 },
   ],
-  currency: { cp: 10, sp: 5, ep: 0, gp: 15, pp: 0 },
+  currency: { pc: 10, pa: 5, po: 15, pp: 0 },
   armorClass : 16,
   initiativeBonus : 0,
   deathSaves: {
@@ -353,10 +353,9 @@ export const useCharacterStore = create<CharacterStoreState>()(
         updateCurrency: (deltaCurrency) => {
           updateActive((char) => ({
             currency: {
-              cp: Math.max(0, char.currency.cp + (deltaCurrency.cp || 0)),
-              sp: Math.max(0, char.currency.sp + (deltaCurrency.sp || 0)),
-              ep: Math.max(0, char.currency.ep + (deltaCurrency.ep || 0)),
-              gp: Math.max(0, char.currency.gp + (deltaCurrency.gp || 0)),
+              pc: Math.max(0, char.currency.pc + (deltaCurrency.pc || 0)),
+              pa: Math.max(0, char.currency.pa + (deltaCurrency.pa || 0)),
+              po: Math.max(0, char.currency.po + (deltaCurrency.po || 0)),
               pp: Math.max(0, char.currency.pp + (deltaCurrency.pp || 0)),
             },
           }));

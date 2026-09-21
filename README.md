@@ -23,9 +23,9 @@ Elle remplace les fiches papier et les interfaces chargées par une UI sombre *m
 
 ---
 
-## 🌐 Données et Référentiel des Sorts
+## 🌐 Données et Référentiel
 
-Le référentiel des sorts intègre une base de données ouverte issue d'une API de référence libre de droits (Open Game License / SRD D&D 5E), initialement en anglais, qui a été entièrement structurée, enrichie et traduite en français (`spells_fr.json`) pour garantir une utilisation fluide et totalement autonome hors-ligne au sein de l'application.
+Les référentiel des sorts et équipements intègre une base de données ouverte issue d'une API de référence libre de droits (Open Game License / SRD D&D 5E), initialement en anglais, qui a été entièrement structurée, enrichie et traduite en français (`spells_fr.json`,`equipment_fr.json`) pour garantir une utilisation fluide et totalement autonome hors-ligne au sein de l'application.
 
 ---
 

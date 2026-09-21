@@ -19,7 +19,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
   const receiveTrade = useCharacterStore((state) => state.receiveTrade);
 
   const inventory = character.inventory || [];
-  const currency = character.currency || { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 };
+  const currency = character.currency || { pc: 0, pa: 0, po: 0, pp: 0 };
 
   // État local pour basculer entre le mode Don (génération QR) et le mode Réception (scanner)
   const [mode, setMode] = useState<'send' | 'receive'>('send');
@@ -54,8 +54,8 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
     }
 
     if (sendGold > 0) {
-      currencyToTrade = { gp: sendGold };
-      updateCurrency({ gp: -sendGold });
+      currencyToTrade = { po: sendGold };
+      updateCurrency({ po: -sendGold });
     }
 
     if (itemsToTrade || currencyToTrade) {
@@ -235,7 +235,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
                   icon={<Coins className="w-3.5 h-3.5 text-amber-400" />}
                   value={sendGold}
                   min={0}
-                  max={currency.gp || 0}
+                  max={currency.po || 0}
                   onChange={(val) => setSendGold(val)}
                 />
 

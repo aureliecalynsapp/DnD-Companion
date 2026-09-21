@@ -59,9 +59,8 @@ export interface Item {
 }
 
 export interface Currency {
-  cp: number; // Pièces de Cuivre
-  sp: number; // Pièces d'Argent
-  ep: number; // Pièces d'Électrum
-  gp: number; // Pièces d'Or
+  pc: number; // Pièces de Cuivre
+  pa: number; // Pièces d'Argent
+  po: number; // Pièces d'Or
   pp: number; // Pièces de Platine
 }
