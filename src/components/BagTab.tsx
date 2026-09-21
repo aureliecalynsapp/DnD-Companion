@@ -629,7 +629,7 @@ export const BagTab: React.FC = () => {
                   )}
                   {selectedItemDetail.twoHandedDamage && (
                     <div>
-                      <span className="text-slate-500">Dégâts (A deux mains) :</span> <span className="font-mono font-bold text-amber-400">{selectedItemDetail.twoHandedDamage.damage_dice}</span> ({selectedItemDetail.damage.damage_type?.name})
+                      <span className="text-slate-500">Dégâts (A deux mains) :</span> <span className="font-mono font-bold text-amber-400">{selectedItemDetail.twoHandedDamage.damage_dice}</span> ({selectedItemDetail.twoHandedDamage.damage_type?.name})
                     </div>
                   )}
                   {selectedItemDetail.range && (
