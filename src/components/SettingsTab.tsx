@@ -52,12 +52,10 @@ export const SettingsTab: React.FC = () => {
 
   return (
     <div className="space-y-3 pb-6">
-      {/* GESTIONNAIRE MULTI-PERSONNAGES (SWITCH / ADD / QR CODE) */}
-      <CharacterManager />
-
+      
       {/* SECTION ACCESSIBILITÉ & ZOOM */}
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Accessibilité & Affichage</h2>
-      <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-3">
+      <div className="bg-slate-900 border border-slate-800 p-2 rounded-xl space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-slate-200 flex items-center gap-2">
             <ZoomIn className="w-4 h-4 text-blue-400" />
@@ -68,23 +66,21 @@ export const SettingsTab: React.FC = () => {
           </span>
         </div>
 
-        {/* Curseur tactile de zoom (de 85% à 140%) */}
+        {/* Curseur tactile de zoom */}
         <input 
           type="range" 
-          min="85" 
-          max="140" 
-          step="5"
+          min="80" 
+          max="150" 
+          step="10"
           value={zoomLevel} 
           onChange={(e) => setZoomLevel(Number(e.target.value))}
           className="w-full accent-blue-500 h-2 bg-slate-800 rounded-lg cursor-pointer"
         />
-
-        <div className="flex justify-between text-[10px] text-slate-500">
-          <span>Compact (85%)</span>
-          <span>Normal (100%)</span>
-          <span>Grand (140%)</span>
-        </div>
       </div>
+
+      {/* GESTIONNAIRE MULTI-PERSONNAGES (SWITCH / ADD / QR CODE) */}
+      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Mes personnages</h2>
+      <CharacterManager />
 
       <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Actions de Session</h2>
       
@@ -92,7 +88,7 @@ export const SettingsTab: React.FC = () => {
       <div className="space-y-2">
         <button 
           onClick={longRest}
-          className="w-full bg-slate-900 border border-slate-800 hover:bg-slate-800 active:bg-slate-700 p-4 rounded-xl text-left flex items-center justify-between transition active:scale-[0.99]"
+          className="w-full bg-slate-900 border border-slate-800 hover:bg-slate-800 active:bg-slate-700 p-2 rounded-xl text-left flex items-center justify-between transition active:scale-[0.99]"
         >
           <div>
             <span className="text-sm font-bold text-white block">Repos Long</span>

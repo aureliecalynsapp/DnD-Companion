@@ -23,19 +23,20 @@ export const CharacterManager: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-sm space-y-3">
+    <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-2 shadow-sm space-y-2">
       {/* En-tête : Titre + Actions (QR Code et +) */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-slate-400">
-          <Users className="w-4 h-4 text-blue-400" />
-          <h2 className="text-xs font-bold uppercase tracking-wider">Mes Personnages</h2>
-        </div>
+        
+          <span className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+            <Users className="w-4 h-4 text-blue-400" />
+            Personnage actif
+          </span>
 
         <div className="flex items-center gap-2">
           {/* Bouton QR Code décalé en haut */}
           <button
             onClick={() => setIsShareModalOpen(true)}
-            className="p-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-blue-400 rounded-lg transition-all"
+            className="p-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-blue-400 rounded-xl transition-all"
             title="Partager par QR Code"
             type="button"
           >
@@ -45,7 +46,7 @@ export const CharacterManager: React.FC = () => {
           {/* Bouton + au lieu de "Nouveau" */}
           <button
             onClick={()  => createCharacter()}
-            className="p-2 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white rounded-lg transition-all shadow-md flex items-center justify-center"
+            className="p-2.5 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white rounded-xl transition-all shadow-md flex items-center justify-center"
             title="Nouveau personnage"
             type="button"
           >

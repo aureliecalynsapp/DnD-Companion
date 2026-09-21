@@ -26,7 +26,7 @@ export const SheetTab: React.FC = () => {
         <span className="text-[10px] text-slate-500 italic">JdS = Jet de Sauvegarde</span>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-1">
         {Object.entries(abilities).map(([key, attr]) => {
           const mod = getAbilityModifier(attr.value);
           const formatMod = mod >= 0 ? `+${mod}` : `${mod}`;
@@ -36,7 +36,7 @@ export const SheetTab: React.FC = () => {
             <div 
               key={key} 
               title={info.description}
-              className="bg-slate-900 border border-slate-800 rounded-xl p-3 flex justify-between items-center shadow-sm hover:border-slate-700 transition-colors"
+              className="bg-slate-900 border border-slate-800 rounded-xl p-2 flex justify-between items-center shadow-sm hover:border-slate-700 transition-colors"
             >
               <div>
                 <div className="flex items-baseline gap-1">

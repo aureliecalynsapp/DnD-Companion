@@ -88,7 +88,7 @@ export default function App() {
         </header>
 
         {/* CONTENU CENTRAL AVEC SCROLLBAR PROpre (Seule cette zone défile) */}
-        <main className="flex-1 overflow-y-auto p-4 w-full flex flex-col">
+        <main className="flex-1 overflow-y-auto p-2 w-full flex flex-col scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-950">
           {activeTab === 'combat' && <CombatTab />}
           {activeTab === 'fiche' && <SheetTab />}
           {activeTab === 'sorts' && <SpellsTab />}

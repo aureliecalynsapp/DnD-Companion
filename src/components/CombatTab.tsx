@@ -62,19 +62,19 @@ export const CombatTab: React.FC = () => {
       
       {/* ================= STATS CLÉS (CARTES INSTANTANÉES) ================= */}
       <div className="grid grid-cols-3 gap-2 shrink-0">
-        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 text-center flex flex-col items-center justify-center shadow-lg">
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 text-center flex flex-col items-center justify-center shadow-lg">
           <Shield className="w-5 h-5 text-blue-400 mb-1" />
           <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-400 mb-0.5">Armure</span>
           <span className="text-2xl font-black text-white">{armorClass}</span>
         </div>
-        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 text-center flex flex-col items-center justify-center shadow-lg">
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 text-center flex flex-col items-center justify-center shadow-lg">
           <Zap className="w-5 h-5 text-amber-400 mb-1" />
           <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-400 mb-0.5">Initiative</span>
           <span className="text-2xl font-black text-white">
             {initiativeBonus >= 0 ? `+${initiativeBonus}` : initiativeBonus}
           </span>
         </div>
-        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 text-center flex flex-col items-center justify-center shadow-lg">
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 text-center flex flex-col items-center justify-center shadow-lg">
           <Eye className="w-5 h-5 text-emerald-400 mb-1" />
           <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-400 mb-0.5">Perception</span>
           <span className="text-2xl font-black text-white">{passivePerception}</span>
@@ -82,7 +82,7 @@ export const CombatTab: React.FC = () => {
       </div>
 
       {/* ================= AJUSTEMENT PV TACTILE ================= */}
-      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 space-y-3 shadow-lg shrink-0">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 space-y-3 shadow-lg shrink-0">
         <div className="flex items-center gap-2">
           <HeartPulse className="w-4 h-4 text-red-400" />
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">Ajuster les PV</h2>
@@ -120,7 +120,7 @@ export const CombatTab: React.FC = () => {
       </div>
 
       {/* ================= SAUVEGARDES DE MORT (PLIABLE) ================= */}
-      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 space-y-3 shadow-lg shrink-0">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 space-y-3 shadow-lg shrink-0">
         <button
           type="button"
           onClick={() => setIsDeathSavesOpen(!isDeathSavesOpen)}
@@ -180,7 +180,7 @@ export const CombatTab: React.FC = () => {
       </div>
 
       {/* ================= STATISTIQUES DE SORT (MOD, DD, ATT) ================= */}
-      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 flex items-center justify-between gap-2 shadow-lg shrink-0">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 flex items-center justify-between gap-2 shadow-lg shrink-0">
         <div className="flex items-center gap-1.5 bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800/60 shrink-0 text-xs font-bold text-slate-200">
           <GraduationCap className="w-4 h-4 text-blue-400 shrink-0" /> 
           <span>{character.spellcastingAbility || 'Aucune'}</span>                
@@ -218,7 +218,7 @@ export const CombatTab: React.FC = () => {
 
       {/* ================= EMPLACEMENTS DES SORTS (PLIABLE) ================= */}
       {spellEntries.length > 0 && (
-        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-3 space-y-3 shadow-lg shrink-0">
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 space-y-3 shadow-lg shrink-0">
           <button
             type="button"
             onClick={() => setIsSpellSlotsOpen(!isSpellSlotsOpen)}
