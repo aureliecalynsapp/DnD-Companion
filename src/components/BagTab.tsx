@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Coins, Backpack, Plus, Minus, Trash2, ArrowRightLeft, ChevronDown, AlertTriangle, CheckCircle2, Search, X, PackageOpen, ChevronRight, Swords, Shield, Compass } from 'lucide-react';
+import { Coins, Backpack, Plus, Minus, Trash2, ArrowRightLeft, ChevronDown, AlertTriangle, CheckCircle2, Search, X, PackageOpen, ChevronRight, Swords, Shield, Compass, Road, Pickaxe } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import { TradeModal } from './TradeModal';
 import { NumberInput } from './common/NumberInput';
@@ -78,40 +78,13 @@ export interface CatalogItem {
 
 const equipmentData = equipmentDataJson as CatalogItem[];
 
-// Dictionnaire de mapping pour traduire les catégories d'équipement anglaises du JSON en français
+// Dictionnaire de mapping pour traduire les catégories d'équipement 
 export const equipmentCategoryMap: Record<string, string> = {
-  'Tools': "Outil",
-  'Mounts and Vehicles': "Monture",
-  'Weapon': "Arme",
-  'Armor': "Armure",
-  'Adventuring Gear': "Autre",
-};
-
-// Dictionnaire de traduction pour les catégories d'armes (weaponCategory)
-export const weaponCategoryMap: Record<string, string> = {
-  'Martial': 'Guerre',
-  'Simple': 'Courante',
-};
-
-// Dictionnaire de traduction pour le type de portée d'arme (weaponRange)
-export const weaponRangeMap: Record<string, string> = {
-  'Melee': 'Corps à corps',
-  'Ranged': 'À distance',
-};
-
-// Dictionnaire de traduction pour les catégories d'armures (armorCategory)
-export const armorCategoryMap: Record<string, string> = {
-  'Light': 'Légère',
-  'Medium': 'Intermédiaire',
-  'Heavy': 'Lourde',
-  'Shield': 'Bouclier',
-};
-
-// Dictionnaire de traduction pour les catégories de véhicules et montures (vehicleCategory)
-export const vehicleCategoryMap: Record<string, string> = {
-  'Mounts and Other Animals': 'Montures et autres animaux',
-  'Tack, Harness, and Drawn Vehicles': 'Harnachements, bâts et véhicules tirés',
-  'Waterborne Vehicles': 'Véhicules aquatiques',
+  'Outils': "Outil",
+  'Montures et véhicules': "Monture",
+  'Arme': "Arme",
+  'Armure': "Armure",
+  "Équipement d'aventurier": "Autre",
 };
 
 // Dictionnaire de traduction pour les unités de vitesse (speed.unit)
@@ -125,30 +98,6 @@ export const speedUnitMap: Record<string, string> = {
 export const translateEquipmentCategory = (category?: string | null): string => {
   if (!category) return 'Divers';
   return equipmentCategoryMap[category] || category;
-};
-
-// Fonction utilitaire pour obtenir la traduction d'une catégorie d'arme (avec fallback)
-export const translateWeaponCategory = (category?: string | null): string => {
-  if (!category) return '';
-  return weaponCategoryMap[category] || category;
-};
-
-// Fonction utilitaire pour obtenir la traduction du type de portée d'arme (avec fallback)
-export const translateWeaponRange = (rangeType?: string | null): string => {
-  if (!rangeType) return '';
-  return weaponRangeMap[rangeType] || rangeType;
-};
-
-// Fonction utilitaire pour obtenir la traduction de la catégorie d'armure (avec fallback)
-export const translateArmorCategory = (category?: string | null): string => {
-  if (!category) return '';
-  return armorCategoryMap[category] || category;
-};
-
-// Fonction utilitaire pour obtenir la traduction de la catégorie de véhicule/monture (avec fallback)
-export const translateVehicleCategory = (category?: string | null): string => {
-  if (!category) return '';
-  return vehicleCategoryMap[category] || category;
 };
 
 // Fonction utilitaire pour traduire l'unité de vitesse
@@ -565,7 +514,7 @@ export const BagTab: React.FC = () => {
                   key={cat}
                   type="button"
                   onClick={() => setCatalogCategory(cat)}
-                  className={`py-1.5 px-2.5 text-[10px] font-bold rounded-lg text-center transition-all shrink-0 whitespace-nowrap ${
+                  className={`py-1.5 px-1.5 text-[10px] font-bold rounded-lg text-center transition-all shrink-0 whitespace-nowrap ${
                     catalogCategory === cat
                       ? 'bg-amber-500 text-slate-950 shadow-md'
                       : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
@@ -655,7 +604,7 @@ export const BagTab: React.FC = () => {
             </div>
 
             {/* SECTION SPÉCIFIQUE AUX ARMES */}
-            {selectedItemDetail.equipmentCategory === 'Weapon' && (
+            {selectedItemDetail.equipmentCategory === 'Arme' && (
               <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
                 <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Swords className="w-4 h-4" />
@@ -665,17 +614,22 @@ export const BagTab: React.FC = () => {
                 <div className="grid grid-cols-2 gap-2 text-xs text-slate-300">
                   {selectedItemDetail.weaponCategory && (
                     <div>
-                      <span className="text-slate-500">Catégorie :</span> <span className="font-semibold text-white">{translateWeaponCategory(selectedItemDetail.weaponCategory)}</span>
+                      <span className="text-slate-500">Catégorie :</span> <span className="font-semibold text-white">{selectedItemDetail.weaponCategory}</span>
                     </div>
                   )}
                   {selectedItemDetail.weaponRange && (
                     <div>
-                      <span className="text-slate-500">Type de portée :</span> <span className="font-semibold text-white">{translateWeaponRange(selectedItemDetail.weaponRange)}</span>
+                      <span className="text-slate-500">Type de portée :</span> <span className="font-semibold text-white">{selectedItemDetail.weaponRange}</span>
                     </div>
                   )}
                   {selectedItemDetail.damage && (
                     <div>
                       <span className="text-slate-500">Dégâts :</span> <span className="font-mono font-bold text-amber-400">{selectedItemDetail.damage.damage_dice}</span> ({selectedItemDetail.damage.damage_type?.name})
+                    </div>
+                  )}
+                  {selectedItemDetail.twoHandedDamage && (
+                    <div>
+                      <span className="text-slate-500">Dégâts (A deux mains) :</span> <span className="font-mono font-bold text-amber-400">{selectedItemDetail.twoHandedDamage.damage_dice}</span> ({selectedItemDetail.damage.damage_type?.name})
                     </div>
                   )}
                   {selectedItemDetail.range && (
@@ -703,7 +657,7 @@ export const BagTab: React.FC = () => {
             )}
 
             {/* SECTION SPÉCIFIQUE AUX ARMURES ET BOUCLIERS */}
-            {selectedItemDetail.equipmentCategory === 'Armor' && (
+            {selectedItemDetail.equipmentCategory === 'Armure' && (
               <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
                 <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Shield className="w-4 h-4 text-amber-400" />
@@ -713,7 +667,7 @@ export const BagTab: React.FC = () => {
                 <div className="grid grid-cols-2 gap-2 text-xs text-slate-300">
                   {selectedItemDetail.armorCategory && (
                     <div>
-                      <span className="text-slate-500">Type :</span> <span className="font-semibold text-white">{translateArmorCategory(selectedItemDetail.armorCategory)}</span>
+                      <span className="text-slate-500">Type :</span> <span className="font-semibold text-white">{selectedItemDetail.armorCategory}</span>
                     </div>
                   )}
                   {selectedItemDetail.armorClass && (
@@ -728,7 +682,7 @@ export const BagTab: React.FC = () => {
                   )}
                   {selectedItemDetail.strMinimum !== undefined && selectedItemDetail.strMinimum > 0 && (
                     <div>
-                      <span className="text-slate-500">Force requise :</span> <span className="font-semibold text-white">FOR {selectedItemDetail.strMinimum}</span>
+                      <span className="text-slate-500">Force requise (FOR):</span> <span className="font-semibold text-white">{selectedItemDetail.strMinimum}</span>
                     </div>
                   )}
                   {selectedItemDetail.stealthDisadvantage && (
@@ -742,7 +696,7 @@ export const BagTab: React.FC = () => {
             )}
 
             {/* SECTION SPÉCIFIQUE AUX MONTURES ET VÉHICULES */}
-            {selectedItemDetail.equipmentCategory === 'Mounts and Vehicles' && (
+            {selectedItemDetail.equipmentCategory === 'Montures et véhicules' && (
               <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
                 <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Compass className="w-4 h-4 text-amber-400" />
@@ -752,7 +706,7 @@ export const BagTab: React.FC = () => {
                 <div className="grid grid-cols-2 gap-2 text-xs text-slate-300">
                   {selectedItemDetail.vehicleCategory && (
                     <div className="col-span-2">
-                      <span className="text-slate-500">Catégorie :</span> <span className="font-semibold text-white">{translateVehicleCategory(selectedItemDetail.vehicleCategory)}</span>
+                      <span className="text-slate-500">Catégorie :</span> <span className="font-semibold text-white">{selectedItemDetail.vehicleCategory}</span>
                     </div>
                   )}
                   {selectedItemDetail.speed && (
@@ -763,6 +717,42 @@ export const BagTab: React.FC = () => {
                   {selectedItemDetail.capacity && (
                     <div>
                       <span className="text-slate-500">Capacité :</span> <span className="font-semibold text-white">{selectedItemDetail.capacity}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            {/* SECTION SPÉCIFIQUE AUX EQUIPEMENT D'AVENTURIER */}
+            {selectedItemDetail.equipmentCategory === "Équipement d'aventurier" && (
+              <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
+                <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <Road className="w-4 h-4 text-amber-400" />
+                  Caractéristiques d'équipement d'aventurier
+                </h4>
+                
+                <div className="grid grid-cols-2 gap-2 text-xs text-slate-300">
+                  {selectedItemDetail.gearCategory && (
+                    <div className="col-span-2">
+                      <span className="text-slate-500">Catégorie :</span> <span className="font-semibold text-white">{selectedItemDetail.gearCategory}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            {/* SECTION SPÉCIFIQUE AUX OUTILS */}
+            {selectedItemDetail.equipmentCategory === "Outils" && (
+              <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
+                <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <Pickaxe className="w-4 h-4 text-amber-400" />
+                  Caractéristiques des outils
+                </h4>
+                
+                <div className="grid grid-cols-2 gap-2 text-xs text-slate-300">
+                  {selectedItemDetail.toolCategory && (
+                    <div className="col-span-2">
+                      <span className="text-slate-500">Catégorie :</span> <span className="font-semibold text-white">{selectedItemDetail.toolCategory}</span>
                     </div>
                   )}
                 </div>

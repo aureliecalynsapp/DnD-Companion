@@ -167,7 +167,7 @@ export const SpellsTab: React.FC = () => {
                   key={lvl}
                   type="button"
                   onClick={() => setGrimoireLevelFilter(lvl as any)}
-                  className={`py-1.5 px-2 text-[10px] font-bold rounded-lg text-center transition-all shrink-0 whitespace-nowrap ${
+                  className={`py-1.5 px-1.5 text-[10px] font-bold rounded-lg text-center transition-all shrink-0 whitespace-nowrap ${
                     grimoireLevelFilter === lvl
                       ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
@@ -281,7 +281,7 @@ export const SpellsTab: React.FC = () => {
                   key={lvl}
                   type="button"
                   onClick={() => setCatalogLevelFilter(lvl as any)}
-                  className={`py-1.5 px-2 text-[10px] font-bold rounded-lg text-center transition-all shrink-0 whitespace-nowrap ${
+                  className={`py-1.5 px-1.5 text-[10px] font-bold rounded-lg text-center transition-all shrink-0 whitespace-nowrap ${
                     catalogLevelFilter === lvl
                       ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
