@@ -80,11 +80,11 @@ const equipmentData = equipmentDataJson as CatalogItem[];
 
 // Dictionnaire de mapping pour traduire les catégories d'équipement anglaises du JSON en français
 export const equipmentCategoryMap: Record<string, string> = {
-  'Adventuring Gear': "Équipement d'aventure",
-  'Tools': "Outils",
-  'Mounts and Vehicles': "Montures et véhicules",
-  'Weapon': "Armes",
-  'Armor': "Armures",
+  'Tools': "Outil",
+  'Mounts and Vehicles': "Monture",
+  'Weapon': "Arme",
+  'Armor': "Armure",
+  'Adventuring Gear': "Autre",
 };
 
 // Dictionnaire de traduction pour les catégories d'armes (weaponCategory)
