@@ -58,7 +58,7 @@ export default function App() {
         <InstallPrompt />
 
         {/* HEADER FIXE */}
-        <header className="shrink-0 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] shadow-lg z-40">
+        <header className="shrink-0 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-2 pb-1 pt-[calc(0.75rem+env(safe-area-inset-top))] shadow-lg z-40">
           <div className="flex items-center justify-between mb-2">
             <div>
               <h1 className="text-lg font-bold tracking-tight text-white leading-none">{character.name}</h1>
@@ -72,7 +72,7 @@ export default function App() {
           </div>
           
           {/* Jauge de PV tactile */}
-          <div className="relative w-full h-7 bg-slate-800 rounded-lg overflow-hidden border border-slate-700 shadow-inner">
+          <div className="relative w-full h-5 bg-slate-800 rounded-lg overflow-hidden border border-slate-700 shadow-inner">
             <div 
               className="absolute top-0 left-0 h-full bg-gradient-to-r from-red-700 to-red-500 transition-all duration-200 ease-out"
               style={{ width: `${hpPercentage}%` }}
@@ -98,7 +98,7 @@ export default function App() {
 
         {/* NAVIGATION FIXE EN BAS */}
         <nav className="shrink-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 pb-safe z-40">
-          <div className="flex justify-around items-center h-16 w-full px-1">
+          <div className="flex justify-around items-center h-12 w-full px-1">
             {[
               { id: 'combat', label: 'Combat', icon: Zap },
               { id: 'fiche', label: 'Fiche', icon: ShieldCheck },

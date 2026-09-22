@@ -82,7 +82,7 @@ export const CombatTab: React.FC = () => {
       </div>
 
       {/* ================= AJUSTEMENT PV TACTILE ================= */}
-      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 space-y-3 shadow-lg shrink-0">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 space-y-2 shadow-lg shrink-0">
         <div className="flex items-center gap-2">
           <HeartPulse className="w-4 h-4 text-red-400" />
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">Ajuster les PV</h2>
@@ -120,7 +120,7 @@ export const CombatTab: React.FC = () => {
       </div>
 
       {/* ================= SAUVEGARDES DE MORT (PLIABLE) ================= */}
-      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 space-y-3 shadow-lg shrink-0">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-2 space-y-2 shadow-lg shrink-0">
         <button
           type="button"
           onClick={() => setIsDeathSavesOpen(!isDeathSavesOpen)}

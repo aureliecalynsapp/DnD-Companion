@@ -51,10 +51,11 @@ export interface Character {
 }
 
 export interface Item {
-  id: string;
+  id: string;         // ID unique de l'instance dans le sac
+  catalogId?: string; // ID officiel du catalogue (ex: "longsword", "backpack")
   name: string;
   quantity: number;
-  weight?: number; // en lb
+  weight?: number;
   description?: string;
 }
 

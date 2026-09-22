@@ -1,5 +1,6 @@
+// src/components/EditCharacterModal.tsx
 import React, { useState, useEffect } from 'react';
-import { X, Save, Shield, Heart, Zap,GraduationCap } from 'lucide-react';
+import { X, Save, Shield, Heart, Zap, GraduationCap } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import { NumberInput } from './common/NumberInput';
 import { ABILITIES_INFO } from '../constants/abilities';
@@ -48,32 +49,34 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
   };
 
   return (
-    <div className="fixed inset-0 w-screen h-screen z-[9999] bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fadeIn">
+    // Overlay absolu qui épouse exactement les contours du conteneur de l'application (max-w-md)
+    <div className="absolute inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-3 animate-fadeIn">
       
       <div className="absolute inset-0" onClick={onClose} />
 
-      <div className="relative z-10 bg-slate-900 border border-slate-800 w-full max-w-lg max-h-[85vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden">
+      {/* Boîte modale contenue et responsive aux dimensions de l'application */}
+      <div className="relative z-10 bg-slate-900 border border-slate-800 w-full max-h-[100%] rounded-2xl flex flex-col shadow-2xl overflow-hidden">
         
         {/* HEADER FIXE */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-slate-900 shrink-0">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-            Éditer le Personnage ({formData.name})
+        <div className="flex items-center justify-between px-4 py-1 border-b border-slate-800 bg-slate-900 shrink-0">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200 truncate pr-2">
+            Éditer : {formData.name}
           </h2>
           <button 
             onClick={onClose} 
             type="button" 
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition"
+            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* CORPS DE FORMULAIRE SCROLLABLE */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-4 text-xs scrollbar-thin scrollbar-thumb-slate-700">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs scrollbar-thin scrollbar-thumb-slate-700">
           <form id="edit-form" onSubmit={handleSubmit} className="space-y-4">
             
             {/* Identité */}
-            <div className="space-y-3">
+            <div className="space-y-1">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Identité</span>
               <div>
                 <label className="text-slate-400 block mb-1">Nom du personnage</label>
@@ -81,7 +84,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                   type="text"
                   value={formData.name || ''}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500 text-sm font-semibold"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-white focus:outline-none focus:border-blue-500 text-sm font-semibold"
                   required
                 />
               </div>
@@ -93,7 +96,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                     type="text"
                     value={formData.class || ''}
                     onChange={(e) => setFormData({ ...formData, class: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500 font-medium"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-white focus:outline-none focus:border-blue-500 font-medium"
                     required
                   />
                 </div>
@@ -114,13 +117,13 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                   type="text"
                   value={formData.race || ''}
                   onChange={(e) => setFormData({ ...formData, race: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500 font-medium"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-white focus:outline-none focus:border-blue-500 font-medium"
                 />
               </div>
             </div>
 
             {/* Combat & Santé */}
-            <div className="space-y-3 pt-2">
+            <div className="space-y-2 pt-2 border-t border-slate-800/60">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Combat & Santé</span>
               <div className="grid grid-cols-3 gap-2">
                 <NumberInput
@@ -153,7 +156,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
             </div>
 
             {/* Caractéristiques & JdS */}
-            <div className="space-y-3 pt-2">
+            <div className="space-y-2 pt-2 border-t border-slate-800/60">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
                   Caractéristiques & JdS
@@ -163,7 +166,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-1">
                 {(Object.keys(formData.abilities || {}) as Ability[]).map((ability) => {
                   const info = ABILITIES_INFO[ability] || { fullLabel: ability, description: '' };
                   const abilityData = formData.abilities[ability] || { value: 10, proficient: false };
@@ -171,7 +174,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                   return (
                     <div 
                       key={ability} 
-                      className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 flex items-center justify-between gap-2"
+                      className="bg-slate-950 p-2 rounded-lg border border-slate-800 flex items-center justify-between gap-2"
                       title={info.description}
                     >
                       <div className="shrink-0">
@@ -204,19 +207,18 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
               </div>
             </div>
             
-            <div className="space-y-3 pt-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
-                  Éditer les emplacements max (Niv 1-9)
-                </span>
-              </div>
-              <div className="grid grid-cols-3 gap-2 mt-2 pt-2">
+            {/* Emplacements de sorts */}
+            <div className="space-y-2.5 pt-2 border-t border-slate-800/60">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                Emplacements de sorts max (Niv 1-9)
+              </span>
+              <div className="grid grid-cols-3 gap-1">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((lvl) => {
                   const max = character.spellSlots?.[lvl]?.max || 0;
                   return (
                     <div key={lvl} className="flex flex-col items-center bg-slate-950 p-1.5 rounded-lg border border-slate-800">
-                      <span className="text-[10px] font-bold text-slate-400">Niv {lvl}</span>
-                      <div className="w-28">
+                      <span className="text-[10px] font-bold text-slate-400 mb-1">Niv {lvl}</span>
+                      <div className="w-full">
                         <NumberInput
                           value={max}
                           min={0}
@@ -229,13 +231,21 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                 })}
               </div>
             </div>
-            <div className="bg-slate-900 border border-slate-800 p-1.5 rounded-xl flex items-center justify-between gap-1.5 shadow-sm shrink-0">
-              <div className="flex items-center gap-1 bg-slate-950 px-2 py-1 rounded-lg border border-slate-800/80 shrink-0">
-                <GraduationCap className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+
+            {/* Caractéristique d'incantation */}
+            <div className="space-y-2 pt-2 border-t border-slate-800/60 pb-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                Caractéristique d'incantation
+              </span>
+              <div className="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <GraduationCap className="w-4 h-4 text-blue-400" />
+                  <span className="text-slate-300">Statistique clé</span>
+                </div>
                 <select
                   value={character.spellcastingAbility || 'INT'}
                   onChange={(e) => setSpellcastingAbility(e.target.value as SpellcastingAbility)}
-                  className="bg-transparent text-[11px] font-bold text-amber-400 outline-none cursor-pointer pr-1"
+                  className="bg-slate-900 border border-slate-800 text-xs font-bold text-amber-400 p-2 rounded-lg outline-none cursor-pointer"
                 >
                   <option value="INT">Intelligence (INT)</option>
                   <option value="WIS">Sagesse (WIS)</option>
@@ -244,23 +254,22 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                 </select>
               </div>
             </div>
-
           </form>
         </div>
 
         {/* FOOTER FIXE */}
-        <div className="p-5 pt-4 border-t border-slate-800 bg-slate-900 shrink-0 flex gap-3">
+        <div className="p-2 border-t border-slate-800 bg-slate-900 shrink-0 flex gap-2">
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 bg-slate-800 hover:bg-slate-700 active:bg-slate-650 text-slate-300 font-semibold py-3 rounded-xl transition text-xs"
+            className="flex-1 bg-slate-800 hover:bg-slate-700 active:bg-slate-650 text-slate-300 font-semibold py-2 rounded-xl transition text-xs"
           >
             Annuler
           </button>
           <button
             type="submit"
             form="edit-form"
-            className="flex-1 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-1.5 transition shadow-lg shadow-blue-950 text-xs"
+            className="flex-1 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold py-2 rounded-xl flex items-center justify-center gap-1.5 transition shadow-lg shadow-blue-950 text-xs"
           >
             <Save className="w-4 h-4" /> Sauvegarder
           </button>

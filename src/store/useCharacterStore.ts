@@ -20,16 +20,14 @@ const DEFAULT_CHARACTER: Character = {
     CHA: { value: 13, proficient: false },
   },
   spellSlots: {
-    1: { max: 4, used: 0 },
-    2: { max: 3, used: 0 },
-    3: { max: 2, used: 0 },
+    1: { max: 1, used: 0 },
   },
   spellcastingAbility: 'INT' as const,
   knownSpellIds: [],
   preparedSpellIds: [],
   inventory: [
-    { id: 'item-1', name: 'Épée longue', quantity: 1, weight: 3 },
-    { id: 'item-2', name: 'Rations (1 jour)', quantity: 5, weight: 2 },
+    { id: 'item-1', name: 'Épée longue', quantity: 1, weight: 3, catalogId: "longsword" },
+    { id: 'item-2', name: 'Rations de subsistance (1 jour)', quantity: 5, weight: 2, catalogId: "rations-1-day" },
   ],
   currency: { pc: 10, pa: 5, po: 15, pp: 0 },
   armorClass : 16,
@@ -330,7 +328,12 @@ export const useCharacterStore = create<CharacterStoreState>()(
         // --- INVENTAIRE ---
         addItem: (newItem) => {
           updateActive((char) => {
-            const itemWithId: Item = { ...newItem, id: `item_${Date.now()}` };
+            const itemWithId: Item = { 
+              ...newItem, 
+              id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
+              // On conserve l'id du catalogue s'il est présent dans newItem, sinon undefined
+              catalogId: newItem.catalogId || (newItem as any).id 
+            };
             return { inventory: [...char.inventory, itemWithId] };
           });
         },

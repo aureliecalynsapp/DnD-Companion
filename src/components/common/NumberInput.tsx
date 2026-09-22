@@ -45,7 +45,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   return (
     <div className="flex flex-col gap-1 w-full">
       {label && (
-        <label className="text-slate-400 flex items-center gap-1 text-[11px] select-none">
+        <label className="text-slate-400 flex items-center gap-1 text-[8px] select-none">
           {icon}
           {label}
         </label>
@@ -55,7 +55,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           type="button"
           onClick={handleDecrement}
           disabled={value <= min}
-          className="w-10 h-10 flex items-center justify-center bg-slate-900/60 active:bg-slate-800 text-slate-300 disabled:opacity-30 disabled:active:bg-transparent touch-manipulation select-none shrink-0"
+          className="w-8 h-8 flex items-center justify-center bg-slate-900/60 active:bg-slate-800 text-slate-300 disabled:opacity-30 disabled:active:bg-transparent touch-manipulation select-none shrink-0"
         >
           <Minus className="w-4 h-4" />
         </button>
@@ -74,7 +74,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           type="button"
           onClick={handleIncrement}
           disabled={value >= max}
-          className="w-10 h-10 flex items-center justify-center bg-slate-900/60 active:bg-slate-800 text-slate-300 disabled:opacity-30 disabled:active:bg-transparent touch-manipulation select-none shrink-0"
+          className="w-8 h-8 flex items-center justify-center bg-slate-900/60 active:bg-slate-800 text-slate-300 disabled:opacity-30 disabled:active:bg-transparent touch-manipulation select-none shrink-0"
         >
           <Plus className="w-4 h-4" />
         </button>

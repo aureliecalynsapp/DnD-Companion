@@ -49,31 +49,35 @@ dnd-companion-pwa/
 ├── src/
 │   ├── components/
 │   │   ├── common/
-│   │   │   └── NumberInput.tsx      # Stepper tactile réutilisable avec contrôles +/-
-│   │   ├── BagTab.tsx               # Vue Sac à dos (Pièces et objets)
-│   │   ├── CharacterManager.tsx     # Gestion des multi perso
-│   │   ├── CombatTab.tsx            # Vue principale de jeu (PV, sorts, actions)
-│   │   ├── EditCharacterModal.tsx   # Modale d'édition complète du personnage
-│   │   ├── InstallPrompt.tsx        # Installation sur smartphone à la première utilisation
-│   │   ├── SettingsTab.tsx          # Vue des paramétrages du perso
-│   │   ├── ShareCharacterModal.tsx  # Modale de partage de perso
-│   │   ├── SheetTab.tsx             # Vue de consultation (Caractéristiques, JdS, compétences)
-│   │   ├── SpellsTab.tsx            # Vue des sorts
-│   │   └── TradeModal.tsx           # Modale d'échange P2P
+│   │   │   └── NumberInput.tsx       # Stepper tactile réutilisable avec contrôles +/-
+│   │   ├── BagTab.tsx                # Vue Sac à dos (Pièces et objets)
+│   │   ├── CatalogEquipmentModal.tsx # Modal du référentiel d'objets
+│   │   ├── CharacterManager.tsx      # Gestion des multi perso
+│   │   ├── CombatTab.tsx             # Vue principale de jeu (PV, sorts, actions)
+│   │   ├── DetailEquipmentModal.tsx  # Modal du détail d'objets
+│   │   ├── EditCharacterModal.tsx    # Modale d'édition complète du personnage
+│   │   ├── InstallPrompt.tsx         # Installation sur smartphone à la première utilisation
+│   │   ├── SettingsTab.tsx           # Vue des paramétrages du perso
+│   │   ├── ShareCharacterModal.tsx   # Modale de partage de perso
+│   │   ├── SheetTab.tsx              # Vue de consultation (Caractéristiques, JdS, compétences)
+│   │   ├── SpellsTab.tsx             # Vue des sorts
+│   │   └── TradeModal.tsx            # Modale d'échange P2P
 │   ├── constants/
 │   │   └── abilities.ts             # Dictionnaire des caractéristiques (Codes, FR, descriptions)
 │   ├── data/
-│   │   ├── spells_en.json           # Dictionnaire des sorts (anglais)
+│   │   ├── equipment_fr.json        # Dictionnaire des objets (français)
 │   │   └── spells_fr.json           # Dictionnaire des sorts (français)
 │   ├── hooks/
 │   │   └── useWakeLock.ts           # Empeche l'ecran d'un smartphone de s'éteindre en pleine partie
 │   ├── store/
 │   │   └── useCharacterStore.ts     # Store Zustand principal (État, calculs, persistance)
 │   ├── types/
+│   │   ├── catalogEquipment.ts      # Interfaces TypeScript de référentiel d'objet
 │   │   └── character.ts             # Interfaces TypeScript de la fiche de personnage
 │   ├── utils/
 │   │   ├── characterPayload.ts      # Fonctions de partage de perso
 │   │   ├── dnd.ts                   # Fonctions pures (calculs de modificateurs)
+│   │   ├── equipmentUtils.ts        # Fonctions pour equipment
 │   │   └── tradePayload.ts          # Fonctions d'échande P2P
 │   ├── App.css                      # Styles globaux & directives Tailwind
 │   ├── App.tsx                      # Layout principal et navigation par onglets
