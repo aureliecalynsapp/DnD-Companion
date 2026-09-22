@@ -56,11 +56,11 @@ export const CharacterManager: React.FC = () => {
       </div>
 
       {/* Sélecteur de personnage + Actions (Édition + Suppression) */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between">
         <select
           value={activeCharacterId}
           onChange={(e) => setActiveCharacter(e.target.value)}
-          className="flex-grow bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-blue-500 transition-colors truncate"
+          className="flex bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-blue-500 transition-colors truncate"
         >
           {characters.map((char) => (
             <option key={char.id} value={char.id}>
@@ -69,6 +69,7 @@ export const CharacterManager: React.FC = () => {
           ))}
         </select>
 
+        <div className="flex items-center gap-2">
         {/* Bouton Éditer (Crayon) */}
         <button
           onClick={() => setIsEditModalOpen(true)}
@@ -86,6 +87,7 @@ export const CharacterManager: React.FC = () => {
         >
           <Trash2 className="w-4 h-4" />
         </button>
+        </div>
       </div>
 
       {/* Modales associées */}

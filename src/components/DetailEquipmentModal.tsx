@@ -16,11 +16,13 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
 
   return (
     <div className="fixed inset-0 z-[110] bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[85vh] overflow-y-auto shadow-2xl scrollbar-thin scrollbar-thumb-slate-700 flex flex-col">
+      <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[100%] overflow-y-auto shadow-2xl scrollbar-thin scrollbar-thumb-slate-700 flex flex-col">
         
         {/* Fil d'Ariane si on navigue dans les sous-objets d'un pack */}
         {detailStack.length > 1 && (
-          <button type="button" onClick={() => setDetailStack((prev) => prev.slice(0, -1))} className="flex items-center gap-1 text-xs text-amber-400 font-semibold mb-2 hover:underline self-start">
+          <button type="button" 
+            onClick={() => setDetailStack((prev) => prev.slice(0, -1))} 
+            className="flex items-center gap-1 text-xs text-amber-400 font-semibold mb-2 hover:underline self-start">
             ← Retour au composant précédent
           </button>
         )}
@@ -37,7 +39,7 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
           </button>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 bg-slate-950 p-2.5 rounded-xl text-xs text-slate-300 mb-3 border border-slate-800/80">
+        <div className="grid grid-cols-2 gap-2 bg-slate-950 p-2 rounded-xl text-xs text-slate-300 mb-3 border border-slate-800/80">
           <div>
             <strong className="text-slate-500">Poids:</strong> {selectedItemDetail.weight} lb
           </div>
@@ -48,7 +50,7 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
 
         {/* SECTION SPÉCIFIQUE AUX ARMES */}
         {selectedItemDetail.equipmentCategory === 'Arme' && (
-          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
+          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-2 mb-3 space-y-2">
             <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
               <Swords className="w-4 h-4" />
               Caractéristiques d'arme
@@ -100,7 +102,7 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
 
         {/* SECTION SPÉCIFIQUE AUX ARMURES ET BOUCLIERS */}
         {selectedItemDetail.equipmentCategory === 'Armure' && (
-          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
+          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-2 mb-3 space-y-2">
             <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
               <Shield className="w-4 h-4 text-amber-400" />
               Caractéristiques d'armure
@@ -138,7 +140,7 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
 
         {/* SECTION SPÉCIFIQUE AUX MONTURES ET VÉHICULES */}
         {selectedItemDetail.equipmentCategory === 'Montures et véhicules' && (
-          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
+          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-2 mb-3 space-y-2">
             <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
               <Compass className="w-4 h-4 text-amber-400" />
               Caractéristiques de transport
@@ -165,7 +167,7 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
         
         {/* SECTION SPÉCIFIQUE AUX ÉQUIPEMENTS D'AVENTURIER */}
         {selectedItemDetail.equipmentCategory === "Équipement d'aventurier" && (
-          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
+          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-2 mb-3 space-y-2">
             <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
               <Road className="w-4 h-4 text-amber-400" />
               Caractéristiques d'équipement d'aventurier
@@ -182,7 +184,7 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
         
         {/* SECTION SPÉCIFIQUE AUX OUTILS */}
         {selectedItemDetail.equipmentCategory === "Outils" && (
-          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 mb-3 space-y-2">
+          <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-2 mb-3 space-y-2">
             <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
               <Pickaxe className="w-4 h-4 text-amber-400" />
               Caractéristiques des outils
@@ -198,9 +200,11 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
         )}
 
         {selectedItemDetail.description && (
+      <div className="flex-1 overflow-y-auto px-2 py-3 my-1 scrollbar-thin scrollbar-thumb-slate-700">
           <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-line mb-3">
             {selectedItemDetail.description}
           </p>
+          </div>
         )}
 
         {/* SECTION DYNAMIQUE DES CONTENUS (SI C'EST UN PACK) */}

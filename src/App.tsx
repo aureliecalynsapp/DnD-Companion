@@ -27,7 +27,7 @@ export default function App() {
   // Sécurité si aucun personnage n'est sélectionné
   if (!rawCharacter) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4">
+      <div className="min-h-[100dvh] bg-slate-950 text-slate-100 flex items-center justify-center p-4">
         <p className="text-slate-400 text-sm">Aucun personnage actif trouvé.</p>
       </div>
     );

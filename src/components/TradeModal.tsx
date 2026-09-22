@@ -125,7 +125,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl space-y-5 max-h-[90vh] flex flex-col">
+      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl space-y-5 max-h-[100%] flex flex-col">
         {/* EN-TÊTE DE LA MODALE */}
         <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
           <div className="flex items-center gap-2 text-amber-400 font-bold text-lg">

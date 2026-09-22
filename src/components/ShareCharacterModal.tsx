@@ -61,7 +61,7 @@ export const ShareCharacterModal: React.FC<ShareCharacterModalProps> = ({ onClos
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
+      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl space-y-4 max-h-[100%] flex flex-col">
         {/* HEADER */}
         <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
           <h3 className="text-white font-bold text-base flex items-center gap-2">
