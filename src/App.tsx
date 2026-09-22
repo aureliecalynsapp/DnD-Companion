@@ -48,7 +48,7 @@ export default function App() {
 
   return (
     // Fond global couvrant tout l'écran, centré pour éviter le décalage du zoom
-    <div className="h-screen w-screen overflow-hidden bg-slate-950 text-slate-100 flex justify-center items-center font-sans select-none antialiased">
+    <div className="h-[100dvh] w-screen overflow-hidden bg-slate-950 text-slate-100 flex justify-center items-center font-sans select-none antialiased">
       
       {/* CONTENEUR PRINCIPAL CENTRÉ ET RESPONSIVE */}
       <div 

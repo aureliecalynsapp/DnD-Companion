@@ -36,7 +36,7 @@ export const CharacterManager: React.FC = () => {
           {/* Bouton QR Code décalé en haut */}
           <button
             onClick={() => setIsShareModalOpen(true)}
-            className="p-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-blue-400 rounded-xl transition-all"
+            className="p-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-blue-400 rounded-xl transition-all"
             title="Partager par QR Code"
             type="button"
           >
@@ -46,7 +46,7 @@ export const CharacterManager: React.FC = () => {
           {/* Bouton + au lieu de "Nouveau" */}
           <button
             onClick={()  => createCharacter()}
-            className="p-2.5 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white rounded-xl transition-all shadow-md flex items-center justify-center"
+            className="p-2 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white rounded-xl transition-all shadow-md flex items-center justify-center"
             title="Nouveau personnage"
             type="button"
           >
@@ -56,11 +56,11 @@ export const CharacterManager: React.FC = () => {
       </div>
 
       {/* Sélecteur de personnage + Actions (Édition + Suppression) */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between gap-2">
         <select
           value={activeCharacterId}
           onChange={(e) => setActiveCharacter(e.target.value)}
-          className="flex-grow bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-3 py-2.5 text-sm font-medium focus:outline-none focus:border-blue-500 transition-colors truncate"
+          className="flex-grow bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-blue-500 transition-colors truncate"
         >
           {characters.map((char) => (
             <option key={char.id} value={char.id}>
@@ -72,7 +72,7 @@ export const CharacterManager: React.FC = () => {
         {/* Bouton Éditer (Crayon) */}
         <button
           onClick={() => setIsEditModalOpen(true)}
-          className="p-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 rounded-xl transition-all border border-slate-700/50 flex-shrink-0"
+          className="p-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 rounded-xl transition-all border border-slate-700/50 flex-shrink-0"
           title="Éditer le personnage"
         >
           <Edit3 className="w-4 h-4" />
@@ -81,7 +81,7 @@ export const CharacterManager: React.FC = () => {
         {/* Bouton Supprimer (Poubelle) */}
         <button
           onClick={() => handleDelete(activeChar.id, activeChar.name)}
-          className="p-2.5 bg-red-950/40 hover:bg-red-900/60 active:scale-95 text-red-400 rounded-xl transition-all border border-red-800/40 flex-shrink-0"
+          className="p-2 bg-red-950/40 hover:bg-red-900/60 active:scale-95 text-red-400 rounded-xl transition-all border border-red-800/40 flex-shrink-0"
           title="Supprimer le personnage"
         >
           <Trash2 className="w-4 h-4" />
