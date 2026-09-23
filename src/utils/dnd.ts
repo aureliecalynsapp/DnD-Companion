@@ -70,9 +70,9 @@ export const useArmorClass = (): number => {
 
   // 2. Analyse des objets équipés
   equippedItems.forEach((item) => {
-    // Si c'est un bouclier, on cumule (+2 généralement)
+    // Si c'est un bouclier, on cumule (+2 généralement) [Sécurisé avec ?? 0]
     if (item?.categoryEquipment === 'shield') {
-      baseAC += item?.armorClassBase;
+      baseAC += item?.armorClassBase ?? 0;
     } 
     // Si c'est une armure corporelle
     else if (item?.categoryEquipment === 'chest' && item?.armorClassBase) {
@@ -81,10 +81,12 @@ export const useArmorClass = (): number => {
       maxDexBonus = Math.min(dexMod, item?.armorClassMaxBonus || dexMod);
     }
   });
+
   // 3. Si aucune armure n'est portée, on applique la formule nue (10 + DEX)
   if (!hasArmor) {
     return baseAC + 10 + dexMod;
   }
+  
   // 4. Retourne la CA totale de l'armure + le bonus de DEX autorisé + bouclier éventuel
   return baseAC + maxDexBonus;
 };
