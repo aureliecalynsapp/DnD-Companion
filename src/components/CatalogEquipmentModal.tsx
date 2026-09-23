@@ -75,11 +75,13 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
         const subName = foundSubCatalog ? foundSubCatalog.name : subItemRef.name;
         const subId = foundSubCatalog ? foundSubCatalog.id : subItemRef.id;
         const subWeight = foundSubCatalog ? foundSubCatalog.weight : 0;
-        const subOnHandeddamageDice = foundSubCatalog ? foundSubCatalog.damage.damage_dice : null;
-        const subTwoHandeddamageDice = foundSubCatalog ? foundSubCatalog.twoHandedDamage.damage_dice : null;
-        const subArmorClassBase = foundSubCatalog ? foundSubCatalog.armorClass.base : null;
-        const subArmorClassDexBonus = foundSubCatalog ? foundSubCatalog.armorClass.dex_bonus : null;
-        const subArmorClassMaxBonus = foundSubCatalog ? foundSubCatalog.armorClass.max_bonus : null;
+        
+        // Sécurisation avec le chaînage optionnel (?) et conversion explicite en undefined si null
+        const subOnHandeddamageDice = foundSubCatalog?.damage?.damage_dice ?? undefined;
+        const subTwoHandeddamageDice = foundSubCatalog?.twoHandedDamage?.damage_dice ?? undefined;
+        const subArmorClassBase = foundSubCatalog?.armorClass?.base ?? undefined;
+        const subArmorClassDexBonus = foundSubCatalog?.armorClass?.dex_bonus ?? undefined;
+        const subArmorClassMaxBonus = foundSubCatalog?.armorClass?.max_bonus ?? undefined;
 
         const existingItem = inventory.find((inv) => inv.name.toLowerCase() === subName.toLowerCase());
 
@@ -98,7 +100,7 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
             armorClassBase: subArmorClassBase,
             armorClassDexBonus: subArmorClassDexBonus,
             armorClassMaxBonus: subArmorClassMaxBonus,
-            });
+          });
         }
       });
       setPurchaseSuccess(`Pack acheté ! Les composants de "${catalogItem.name}" ont été ajoutés à votre sac.`);
@@ -109,18 +111,18 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
         updateItemQuantity(existingItem.id, 1);
       } else {
         addItem({ 
-            name: catalogItem.name, 
-            quantity: 1, 
-            weight: catalogItem.weight, 
-            catalogId: catalogItem.id,
-            categoryEquipment: catalogItem.categoryEquipment, 
-            isEquipped: false,
-            onHandeddamageDice: catalogItem.damage?.damage_dice,
-            twoHandeddamageDice: catalogItem.twoHandedDamage?.damage_dice || null, 
-            armorClassBase: catalogItem.armorClass?.base,
-            armorClassDexBonus: catalogItem.armorClass?.dex_bonus || null,
-            armorClassMaxBonus: catalogItem.armorClass?.max_bonus || null,
-            });
+          name: catalogItem.name, 
+          quantity: 1, 
+          weight: catalogItem.weight, 
+          catalogId: catalogItem.id,
+          categoryEquipment: catalogItem.categoryEquipment, 
+          isEquipped: false,
+          onHandeddamageDice: catalogItem.damage?.damage_dice ?? undefined,
+          twoHandeddamageDice: catalogItem.twoHandedDamage?.damage_dice ?? undefined, 
+          armorClassBase: catalogItem.armorClass?.base ?? undefined,
+          armorClassDexBonus: catalogItem.armorClass?.dex_bonus ?? undefined,
+          armorClassMaxBonus: catalogItem.armorClass?.max_bonus ?? undefined,
+        });
       }
       setPurchaseSuccess(`Achat réussi ! "${catalogItem.name}" a été ajouté à votre sac.`);
     }
