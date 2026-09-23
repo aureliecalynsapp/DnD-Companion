@@ -10,12 +10,19 @@ import { BagTab } from './components/BagTab';
 import { SettingsTab } from './components/SettingsTab';
 import { InstallPrompt } from './components/InstallPrompt';
 import { useWakeLock } from './hooks/useWakeLock';
+import { DiceModal } from './components/DiceModal';
+import { 
+  //GiDiceSixFacesFour, //d4
+  //GiDiceSixFacesSix, //d6
+  //GiDiceEightFacesEight, //d8
+  GiDiceTwentyFacesTwenty, //d20
+} from 'react-icons/gi';
 
 type TabId = 'combat' | 'fiche' | 'sorts' | 'sac' | 'perso';
 
 export default function App() {
   useWakeLock();
-
+  const [isDiceOpen, setDiceOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId>('combat');
   
   // Récupération dynamique du personnage actif
@@ -69,7 +76,16 @@ export default function App() {
             <span className="text-xs font-mono font-bold text-amber-400 bg-amber-950/80 border border-amber-800 px-2.5 py-1 rounded-md">
               PB +{pb}
             </span>
+              <button
+                type="button"
+                onClick={() => setDiceOpen(true)}
+                className="p-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl font-bold transition-all active:scale-95 shadow-sm flex items-center justify-center shrink-0"
+                title="Dés"
+              >
+                <GiDiceTwentyFacesTwenty className="w-4 h-4 stroke-[3]" />
+              </button>
           </div>
+              
           
           {/* Jauge de PV tactile */}
           <div className="relative w-full h-5 bg-slate-800 rounded-lg overflow-hidden border border-slate-700 shadow-inner">
@@ -86,6 +102,11 @@ export default function App() {
             </div>
           </div>
         </header>
+
+        {/* ================= MODAL FULLSCREEN : CATALOGUE ================= */}
+        {isDiceOpen && (
+           <DiceModal onClose={() => setDiceOpen(false)} />
+        )}
 
         {/* CONTENU CENTRAL AVEC SCROLLBAR PROpre (Seule cette zone défile) */}
         <main className="flex-1 overflow-y-auto p-2 w-full flex flex-col scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-950">

@@ -23,6 +23,7 @@ export interface Spell {
 }
 
 export type SpellcastingAbility = 'INT' | 'WIS' | 'CHA' | 'NONE';
+export type categoryEquipment = 'ring' | 'head' | 'necklace' | 'shield'| 'chest'| 'weapon' | 'feet' | 'quiver';
 
 export interface Character {
   id: string;
@@ -35,8 +36,6 @@ export interface Character {
     max: number;
     temp: number;
   };
-  armorClass: number;
-  initiativeBonus: number;
   abilities: Record<Ability, AbilityScore>;
   deathSaves: {
     successes: number;
@@ -57,6 +56,13 @@ export interface Item {
   quantity: number;
   weight?: number;
   description?: string;
+  categoryEquipment?: categoryEquipment;
+  isEquipped?: boolean;
+  onHandeddamageDice?: string;
+  twoHandeddamageDice?: string;
+  armorClassBase?: number;
+  armorClassDexBonus?: boolean;
+  armorClassMaxBonus?: number;
 }
 
 export interface Currency {
@@ -65,3 +71,4 @@ export interface Currency {
   po: number; // Pièces d'Or
   pp: number; // Pièces de Platine
 }
+

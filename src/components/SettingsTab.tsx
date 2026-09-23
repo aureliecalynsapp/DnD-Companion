@@ -59,7 +59,7 @@ export const SettingsTab: React.FC = () => {
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-slate-200 flex items-center gap-2">
             <ZoomIn className="w-4 h-4 text-blue-400" />
-            Zoom global de l'interface
+            Zoom
           </span>
           <span className="text-xs font-mono font-bold text-blue-400 bg-blue-950/60 border border-blue-800/60 px-2 py-0.5 rounded">
             {zoomLevel}%

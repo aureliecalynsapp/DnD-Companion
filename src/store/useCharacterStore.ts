@@ -30,8 +30,6 @@ const DEFAULT_CHARACTER: Character = {
     { id: 'item-2', name: 'Rations de subsistance (1 jour)', quantity: 5, weight: 2, catalogId: "rations-1-day" },
   ],
   currency: { pc: 10, pa: 5, po: 15, pp: 0 },
-  armorClass : 16,
-  initiativeBonus : 0,
   deathSaves: {
     successes: 0,
     failures: 0,
@@ -49,6 +47,7 @@ interface CharacterStoreState {
 
   // --- GETTER HELPER ---
   getActiveCharacter: () => Character;
+  toggleEquipItem: (itemId: string) => void;
 
   // --- ACTIONS MULTI-PERSONNAGES & SWITCH ---
   setActiveCharacter: (id: string) => void;
@@ -417,6 +416,32 @@ export const useCharacterStore = create<CharacterStoreState>()(
             return { inventory: updatedInventory, currency: updatedCurrency };
           });
         },
+
+// Dans le corps du store (retour de create) :
+toggleEquipItem: (itemId) => {
+  updateActive((char) => {
+    const targetItem = char.inventory.find((i) => i.id === itemId);
+    if (!targetItem) return char;
+
+    const willBeWeared = !targetItem.isEquipped;
+    const category = targetItem.categoryEquipment;
+
+    // Met à jour l'inventaire : active/désactive l'objet 
+    // et déséquipe les autres objets de la même catégorie (sauf anneaux si cumulables)
+    const updatedInventory = char.inventory.map((item) => {
+      if (item.id === itemId) {
+        return { ...item, isEquipped: willBeWeared };
+      }
+      if (willBeWeared && category && item.categoryEquipment === category && category !== 'ring') {
+        return { ...item, isEquipped: false };
+      }
+      return item;
+    });
+
+    return { inventory: updatedInventory };
+  });
+},
+
       };
     },
     {

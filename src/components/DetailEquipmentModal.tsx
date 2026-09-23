@@ -117,7 +117,13 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
                 <div>
                   <span className="text-slate-500">Classe d'Armure (CA) :</span> <span className="font-mono font-bold text-amber-400">{selectedItemDetail.armorClass.base}</span>
                   {selectedItemDetail.armorClass.dex_bonus ? (
-                    <span className="block text-[10px] text-emerald-400 mt-0.5">+ mod. de Dextérité</span>
+                <div>
+                    {selectedItemDetail.armorClass.max_bonus ? (
+                        <span className="block text-[10px] text-emerald-400 mt-0.5">+ mod. de Dextérité / Max +{selectedItemDetail.armorClass.max_bonus}</span>
+                    ) : (
+                        <span className="block text-[10px] text-emerald-400 mt-0.5">+ mod. de Dextérité</span>
+                    )}                    
+                </div>
                   ) : (
                     <span className="block text-[10px] text-slate-500 mt-0.5">Aucun bonus de Dextérité</span>
                   )}

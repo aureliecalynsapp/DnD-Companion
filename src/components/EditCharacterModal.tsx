@@ -1,6 +1,6 @@
 // src/components/EditCharacterModal.tsx
 import React, { useState, useEffect } from 'react';
-import { X, Save, Shield, Heart, Zap, GraduationCap } from 'lucide-react';
+import { X, Save, Heart, GraduationCap } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import { NumberInput } from './common/NumberInput';
 import { ABILITIES_INFO } from '../constants/abilities';
@@ -133,24 +133,6 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                   min={1}
                   max={999}
                   onChange={(val) => setFormData({ ...formData, hp: { ...formData.hp, max: val } })}
-                />
-
-                <NumberInput
-                  label="CA"
-                  icon={<Shield className="w-3.5 h-3.5 text-blue-400" />}
-                  value={formData.armorClass || 10}
-                  min={1}
-                  max={40}
-                  onChange={(val) => setFormData({ ...formData, armorClass: val })}
-                />
-
-                <NumberInput
-                  label="Init"
-                  icon={<Zap className="w-3.5 h-3.5 text-amber-400" />}
-                  value={formData.initiativeBonus || 0}
-                  min={-5}
-                  max={20}
-                  onChange={(val) => setFormData({ ...formData, initiativeBonus: val })}
                 />
               </div>
             </div>

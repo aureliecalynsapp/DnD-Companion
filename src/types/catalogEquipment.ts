@@ -1,3 +1,5 @@
+import type { categoryEquipment } from './character';
+
 export interface CatalogItem {
   id: string;
   name: string;
@@ -13,6 +15,7 @@ export interface CatalogItem {
   armorClass?: {
     base: number;
     dex_bonus: boolean;
+    max_bonus: number;
   } | null;
   capacity?: string | null;
   categoryRange?: string | null;
@@ -57,6 +60,7 @@ export interface CatalogItem {
   vehicleCategory?: string | null;
   weaponCategory?: string | null;
   weaponRange?: string | null;
+  categoryEquipment?: categoryEquipment;
 }
 
 export interface CatalogItemContent {
