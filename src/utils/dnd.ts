@@ -72,12 +72,12 @@ export const useArmorClass = (): number => {
   equippedItems.forEach((item) => {
     // Si c'est un bouclier, on cumule (+2 généralement)
     if (item?.categoryEquipment === 'shield') {
-      baseAC += item.armorClassBase;
+      baseAC += item?.armorClassBase;
     } 
     // Si c'est une armure corporelle
     else if (item?.categoryEquipment === 'chest' && item?.armorClassBase) {
       hasArmor = true;
-      baseAC += item.armorClassBase;
+      baseAC += item?.armorClassBase;
       maxDexBonus = Math.min(dexMod, item?.armorClassMaxBonus || dexMod);
     }
   });
