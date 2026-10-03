@@ -103,8 +103,12 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
             (decodedText) => {
               const tradeData = decodeTradePayload(decodedText);
               if (tradeData) {
-                receiveTrade(tradeData);
-                setScannedSuccess(true);
+                // Utilisation de setTimeout pour détacher l'appel du callback synchrone de html5-qrcode
+                // et éviter l'erreur de transition d'état React
+                setTimeout(() => {
+                  receiveTrade(tradeData);
+                  setScannedSuccess(true);
+                }, 0);
                 qrCodeInstance.stop().catch(() => {});
               } else {
                 console.error("Code QR d'échange invalide");
