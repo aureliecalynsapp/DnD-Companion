@@ -201,15 +201,15 @@ export const SpellsTab: React.FC = () => {
                         className="flex flex-col flex-1 cursor-pointer min-w-0"
                         onClick={() => setSelectedSpell(spell)}
                       >
-                        <div className="flex items-center gap-1.5 truncate">
+                        <div className="flex items-center gap-1.5">
                         <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
                           spell.level === 0 ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400'
                         }`}>
                           {spell.level === 0 ? 'Mineur' : `Niv. ${spell.level}`}
                         </span>
-                          <span className="font-bold text-xs text-slate-200 truncate">{spell.name}</span>
+                          <span className="font-bold text-xs text-slate-200">{spell.name}</span>
                         </div>
-                        <span className="text-[8px] text-slate-400 mt-0.5 truncate">{spell.school}</span>
+                        <span className="text-[8px] text-slate-400 mt-0.5">{spell.school}</span>
                       </div>
 
                       <div className="flex items-center gap-1 shrink-0">
@@ -309,13 +309,13 @@ export const SpellsTab: React.FC = () => {
                       className="flex flex-col flex-1 cursor-pointer min-w-0"
                       onClick={() => setSelectedSpell(spell)}
                     >
-                      <div className="flex items-center gap-1.5 truncate">
+                      <div className="flex items-center gap-1.5">
                         <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-800 text-slate-300 rounded shrink-0">
                           Niv {spell.level}
                         </span>
-                        <span className="font-bold text-xs text-slate-200 truncate">{spell.name}</span>
+                        <span className="font-bold text-xs text-slate-200">{spell.name}</span>
                       </div>
-                      <span className="text-[10px] text-slate-500 mt-0.5 truncate">{spell.school}</span>
+                      <span className="text-[10px] text-slate-500 mt-0.5">{spell.school}</span>
                     </div>
 
                     <button
@@ -342,7 +342,7 @@ export const SpellsTab: React.FC = () => {
   <div className="fixed inset-0 z-[110] bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-2 animate-fadeIn">
     
     {/* Boîte principale de la modale strictement contenue dans l'écran */}
-    <div className="relative z-10 bg-slate-900 border border-slate-800 w-full max-w-md max-h-[100%] rounded-2xl flex flex-col shadow-2xl overflow-hidden">
+    <div className="relative z-10 bg-slate-900 border border-slate-800 w-full max-w-md max-h-[98%] rounded-2xl flex flex-col shadow-2xl overflow-hidden">
       
       {/* En-tête du sort (Fixe) */}
       <div className="flex justify-between items-start p-2 pb-3 border-b border-slate-800 bg-slate-900 shrink-0">

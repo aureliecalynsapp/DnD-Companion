@@ -23,12 +23,11 @@ export const CharacterManager: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-2 shadow-sm space-y-2">
+    <div>
       {/* En-tête : Titre + Actions (QR Code et +) */}
-      <div className="flex items-center justify-between">
-        
+      <div className="flex items-center justify-between pb-1">        
           <span className="text-sm font-semibold text-slate-200 flex items-center gap-2">
-            <Users className="w-4 h-4 text-blue-400" />
+            <Users className="w-4 h-4 text-emerald-400" />
             Personnage actif
           </span>
 
@@ -36,7 +35,7 @@ export const CharacterManager: React.FC = () => {
           {/* Bouton QR Code décalé en haut */}
           <button
             onClick={() => setIsShareModalOpen(true)}
-            className="p-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-blue-400 rounded-xl transition-all"
+            className="p-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-emerald-400 rounded-xl transition-all"
             title="Partager par QR Code"
             type="button"
           >
@@ -46,7 +45,7 @@ export const CharacterManager: React.FC = () => {
           {/* Bouton + au lieu de "Nouveau" */}
           <button
             onClick={()  => createCharacter()}
-            className="p-2 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white rounded-xl transition-all shadow-md flex items-center justify-center"
+            className="p-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white rounded-xl transition-all shadow-md flex items-center justify-center"
             title="Nouveau personnage"
             type="button"
           >
@@ -56,11 +55,11 @@ export const CharacterManager: React.FC = () => {
       </div>
 
       {/* Sélecteur de personnage + Actions (Édition + Suppression) */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2 overflow-hidden">
         <select
           value={activeCharacterId}
           onChange={(e) => setActiveCharacter(e.target.value)}
-          className="flex bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:border-blue-500 transition-colors truncate"
+          className="w-full flex-1 min-w-0 bg-slate-950 border border-slate-800 text-slate-100 rounded-xl p-2 text-sm font-medium focus:outline-none focus:border-blue-500 transition-colors truncate"
         >
           {characters.map((char) => (
             <option key={char.id} value={char.id}>
@@ -69,24 +68,26 @@ export const CharacterManager: React.FC = () => {
           ))}
         </select>
 
-        <div className="flex items-center gap-2">
-        {/* Bouton Éditer (Crayon) */}
-        <button
-          onClick={() => setIsEditModalOpen(true)}
-          className="p-2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 rounded-xl transition-all border border-slate-700/50 flex-shrink-0"
-          title="Éditer le personnage"
-        >
-          <Edit3 className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Bouton Éditer (Crayon) */}
+          <button
+            type="button"
+            onClick={() => setIsEditModalOpen(true)}
+            className="p-2 bg-emerald-800 hover:bg-emerald-700 active:scale-95 text-emerald-300 rounded-xl transition-all border border-emerald-700/50 flex-shrink-0 cursor-pointer"
+            title="Éditer le personnage"
+          >
+            <Edit3 className="w-4 h-4" />
+          </button>
 
-        {/* Bouton Supprimer (Poubelle) */}
-        <button
-          onClick={() => handleDelete(activeChar.id, activeChar.name)}
-          className="p-2 bg-red-950/40 hover:bg-red-900/60 active:scale-95 text-red-400 rounded-xl transition-all border border-red-800/40 flex-shrink-0"
-          title="Supprimer le personnage"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
+          {/* Bouton Supprimer (Poubelle) */}
+          <button
+            type="button"
+            onClick={() => handleDelete(activeChar.id, activeChar.name)}
+            className="p-2 bg-red-950/40 hover:bg-red-900/60 active:scale-95 text-red-400 rounded-xl transition-all border border-red-800/40 flex-shrink-0 cursor-pointer"
+            title="Supprimer le personnage"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
         </div>
       </div>
 

@@ -1,9 +1,10 @@
 // src/components/BagTab.tsx
 import React, { useState } from 'react';
-import { Coins, Backpack, Plus, Trash2, ArrowRightLeft, ChevronDown, AlertTriangle, Search } from 'lucide-react';
+import { Coins, Backpack, Plus, Trash2, Pencil, ArrowRightLeft, ChevronDown, AlertTriangle, Search, PackageOpen } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import { TradeModal } from './TradeModal';
 import { CatalogEquipmentModal } from './CatalogEquipmentModal';
+import { EditEquipmentModal } from './EditEquipmentModal';
 import { DetailEquipmentModal } from './DetailEquipmentModal';
 import { NumberInput } from './common/NumberInput';
 import type { Currency, Item } from '../types/character';
@@ -35,6 +36,9 @@ export const BagTab: React.FC = () => {
   const [isBourseOpen, setIsBourseOpen] = useState(false);
   const [isBagOpen, setIsBagOpen] = useState(true);
 
+  // État pour la modale d'édition/création d'objet personnalisé
+  const [editingItem, setEditingItem] = useState<CatalogItem | null>(null);
+
   // États pour la recherche et la modale du catalogue
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [bagSearch, setBagSearch] = useState('');
@@ -42,26 +46,48 @@ export const BagTab: React.FC = () => {
   // État pour la modale de détail d'un objet (cliqué depuis l'inventaire personnel)
   const [selectedItemDetail, setSelectedItemDetail] = useState<CatalogItem | null>(null);
 
+  // Fonction pour ouvrir les détails d'un objet de l'inventaire
   const handleOpenDetail = (item: Item) => {
-  // Recherche prioritaire par catalogId s'il existe, sinon fallback sur le nom
-  const found = equipmentData.find(
-    (eq) => eq.id === item.catalogId || eq.name.toLowerCase() === item.name.toLowerCase()
-  );
+    // Recherche prioritaire par catalogId, sinon correspondance sur le nom (insensible à la casse)
+    const catalogMatch = equipmentData.find(
+      (eq) => eq.id === item.catalogId || eq.name.trim().toLowerCase() === item.name.trim().toLowerCase()
+    );
 
-  if (found) {
-    setSelectedItemDetail(found);
-  } else {
-    setSelectedItemDetail({
-      id: item.id,
-      name: item.name,
-      equipmentCategory: "Équipement d'aventurier",
-      gearCategory: null,
-      weight: item.weight || 0,
-      cost: { quantity: 0, unit: 'po' },
-      description: "Objet personnalisé ou absent du catalogue officiel."
-    });
-  }
-};
+    // Fusion intelligente : l'item d'inventaire ou le catalogue fournit les informations
+    const detailData: CatalogItem = {
+      id: catalogMatch?.id || item.catalogId || item.id,
+      name: item.name || catalogMatch?.name || 'Objet sans nom',
+      
+      // On utilise equipmentCategory (le champ standardisé du catalogue), sans jamais lire categoryEquipment
+      equipmentCategory: catalogMatch?.equipmentCategory || item.equipmentCategory || "Équipement d'aventurier",
+      
+      // Sous-catégories spécifiques
+      gearCategory: item.gearCategory !== undefined ? item.gearCategory : (catalogMatch?.gearCategory || null),
+      armorCategory: item.armorCategory !== undefined ? item.armorCategory : (catalogMatch?.armorCategory || null),
+      weaponCategory: item.weaponCategory !== undefined ? item.weaponCategory : (catalogMatch?.weaponCategory || null),
+      toolCategory: item.toolCategory !== undefined ? item.toolCategory : (catalogMatch?.toolCategory || null),
+      vehicleCategory: item.vehicleCategory !== undefined ? item.vehicleCategory : (catalogMatch?.vehicleCategory || null),
+      
+      // Poids et valeur financière
+      weight: item.weight !== undefined ? item.weight : (catalogMatch?.weight || 0),
+      cost: item.cost || catalogMatch?.cost || { quantity: 0, unit: 'po' },
+      
+      // Description (priorité au catalogue pour les objets de base, ou description personnalisée si éditée)
+      description: (item.description && item.description.trim() !== '') 
+        ? item.description 
+        : (catalogMatch?.description || "Pas de description"),
+      
+      // Propriétés de combat / règles optionnelles
+      armorClass: item.armorClass !== undefined ? item.armorClass : catalogMatch?.armorClass,
+      stealthDisadvantage: item.stealthDisadvantage !== undefined ? item.stealthDisadvantage : catalogMatch?.stealthDisadvantage,
+      damage: item.damage !== undefined ? item.damage : catalogMatch?.damage,
+      weaponRange: item.weaponRange !== undefined ? item.weaponRange : catalogMatch?.weaponRange,
+      properties: item.properties !== undefined ? item.properties : catalogMatch?.properties,
+      strMinimum: item.strMinimum !== undefined ? item.strMinimum : catalogMatch?.strMinimum,
+    };
+
+    setSelectedItemDetail(detailData);
+  };
 
   // --- CALCULS DE POIDS ---
   const itemsWeight = inventory.reduce((sum, item) => {
@@ -199,7 +225,23 @@ export const BagTab: React.FC = () => {
                 type="button"
                 onClick={() => setIsCatalogOpen(true)}
                 className="p-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl font-bold transition-all active:scale-95 shadow-sm flex items-center justify-center shrink-0"
-                title="Ajouter des objets depuis la Bible"
+                title="Ajouter des objets depuis le Catalogue"
+              >
+                <PackageOpen className="w-4 h-4 stroke-[3]" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditingItem({
+                  id: crypto.randomUUID(),
+                  name: '',
+                  equipmentCategory: "Équipement d'aventurier",
+                  gearCategory: null,
+                  weight: 0,
+                  cost: { quantity: 0, unit: 'po' },
+                  description: ''
+                })}
+                className="p-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl font-bold transition-all active:scale-95 shadow-sm flex items-center justify-center shrink-0"
+                title="Ajouter des objets personnalisés"
               >
                 <Plus className="w-4 h-4 stroke-[3]" />
               </button>
@@ -209,7 +251,7 @@ export const BagTab: React.FC = () => {
             <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-0.5 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-950">
               {inventory.length === 0 ? (
                 <div className="text-center py-8 text-slate-500 text-xs italic bg-slate-950/60 border border-slate-800/50 rounded-2xl">
-                  Votre sac à dos est vide. Cliquez sur <span className="text-amber-400 font-bold">+</span> pour ajouter des objets.
+                  Votre sac à dos est vide. Cliquez sur <PackageOpen className="text-amber-400 font-bold" /> ou <span className="text-amber-400 font-bold">+</span> pour ajouter des objets.
                 </div>
               ) : filteredInventory.length === 0 ? (
                 <div className="text-center py-4 text-slate-500 text-xs bg-slate-950/60 border border-slate-800/50 rounded-xl">
@@ -224,9 +266,9 @@ export const BagTab: React.FC = () => {
                     {/* ZONE CLIQUABLE POUR OUVRIR LES DÉTAILS DE L'OBJET DU SAC */}
                     <div
                       onClick={() => handleOpenDetail(item)}
-                      className="flex items-center gap-2 truncate flex-1 cursor-pointer group"
+                      className="flex items-center gap-2 flex-1 cursor-pointer group"
                     >
-                      <p className="text-sm font-semibold text-slate-200 group-hover:text-amber-300 truncate transition-colors">
+                      <p className="text-sm font-semibold text-slate-200 group-hover:text-amber-300 transition-colors">
                         {item.name}
                       </p>
                       <span className="text-[8px] font-mono text-slate-500 shrink-0">
@@ -241,20 +283,59 @@ export const BagTab: React.FC = () => {
                           min={0}
                           max={999}
                           onChange={(newVal) => {
-                            const delta = newVal - item.quantity;
-                            if (delta !== 0) { updateItemQuantity(item.id, delta); }
+                            // RÈGLE : Si c'est un objet du catalogue ET que la quantité atteint 0, on le supprime
+                            if (item.catalogId && newVal === 0) {
+                              removeItem(item.id);
+                            } else {
+                              // Pour les objets créés ou qté > 0, on transmet la valeur absolue exacte (0 autorisé)
+                              updateItemQuantity(item.id, newVal);
+                            }
                           }}
                         />
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={() => removeItem(item.id)}
-                        className="p-2 text-slate-500 hover:text-red-400 rounded-xl hover:bg-slate-900 active:scale-90 transition-all border border-slate-800/80"
-                        title="Supprimer l'objet"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      {/* AFFICHAGE CONDITIONNEL : Poubelle si l'objet vient du catalogue (catalogId), Édition sinon */}
+                      {item.catalogId ? (
+                        <button
+                          type="button"
+                          onClick={() => removeItem(item.id)}
+                          className="p-2 text-slate-500 hover:text-red-400 rounded-xl hover:bg-slate-900 active:scale-90 transition-all border border-slate-800/80"
+                          title="Supprimer l'objet du catalogue"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingItem({
+                              id: item.id,
+                              name: item.name,
+                              equipmentCategory: item.equipmentCategory || "Équipement d'aventurier",
+                              gearCategory: item.gearCategory ?? null,
+                              armorCategory: item.armorCategory ?? null,
+                              weaponCategory: item.weaponCategory ?? null,
+                              toolCategory: item.toolCategory ?? null,
+                              vehicleCategory: item.vehicleCategory ?? null,
+                              weight: item.weight ?? 0,
+                              cost: item.cost ?? { quantity: 0, unit: 'po' },
+                              description: item.description ?? '',
+                              armorClass: item.armorClass,
+                              stealthDisadvantage: item.stealthDisadvantage,
+                              damage: item.damage,
+                              twoHandedDamage: item.twoHandedDamage,
+                              weaponRange: item.weaponRange,
+                              strMinimum: item.strMinimum,
+                              speed: item.speed,
+                              capacity: item.capacity,
+                            });
+                          }}
+                          className="p-2 text-slate-400 hover:text-amber-400 rounded-xl hover:bg-slate-900 active:scale-90 transition-all border border-slate-800/80"
+                          title="Éditer l'objet personnalisé"
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))
@@ -267,6 +348,14 @@ export const BagTab: React.FC = () => {
       {/* ================= MODAL FULLSCREEN : CATALOGUE ================= */}
       {isCatalogOpen && (
         <CatalogEquipmentModal onClose={() => setIsCatalogOpen(false)} />
+      )}
+
+      {/* ================= MODAL FULLSCREEN : Edition Item ================= */}
+      {editingItem && (
+        <EditEquipmentModal
+          item={editingItem}
+          onClose={() => setEditingItem(null)}
+        />
       )}
 
       {/* ================= MODAL : FICHE DÉTAIL D'UN OBJET DEPUIS LE SAC ================= */}

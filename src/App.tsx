@@ -79,7 +79,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setDiceOpen(true)}
-                className="p-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl font-bold transition-all active:scale-95 shadow-sm flex items-center justify-center shrink-0"
+                className="p-2.5 bg-purple-500 hover:bg-purple-400 text-slate-950 rounded-xl font-bold transition-all active:scale-95 shadow-sm flex items-center justify-center shrink-0"
                 title="Dés"
               >
                 <GiDiceTwentyFacesTwenty className="w-4 h-4 stroke-[3]" />

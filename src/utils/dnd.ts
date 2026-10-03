@@ -53,7 +53,7 @@ export const getSpellAttackBonus = (character: Character): number => {
   return pb + mod;
 };
 
-export const useArmorClass = (): number => {
+export const useArmorClassEquipped = (): number => {
   // 1. Récupération dynamique depuis le store Zustand
   const inventory = useCharacterStore((state) => state.getActiveCharacter().inventory) || [];
   const dexValue = useCharacterStore((state) => state.getActiveCharacter().abilities.DEX.value);
@@ -72,13 +72,13 @@ export const useArmorClass = (): number => {
   equippedItems.forEach((item) => {
     // Si c'est un bouclier, on cumule (+2 généralement) [Sécurisé avec ?? 0]
     if (item?.categoryEquipment === 'shield') {
-      baseAC += item?.armorClassBase ?? 0;
+      baseAC += item?.armorClass.base ?? 0;
     } 
     // Si c'est une armure corporelle
-    else if (item?.categoryEquipment === 'chest' && item?.armorClassBase) {
+    else if (item?.categoryEquipment === 'chest' && item?.armorClass.base) {
       hasArmor = true;
-      baseAC += item?.armorClassBase;
-      maxDexBonus = Math.min(dexMod, item?.armorClassMaxBonus || dexMod);
+      baseAC += item?.armorClass.base;
+      maxDexBonus = Math.min(dexMod, item?.armorClass.max_bonus || dexMod);
     }
   });
 
@@ -89,4 +89,10 @@ export const useArmorClass = (): number => {
   
   // 4. Retourne la CA totale de l'armure + le bonus de DEX autorisé + bouclier éventuel
   return baseAC + maxDexBonus;
+};
+
+
+export const useArmorClass = (): number => {
+  const armorClass = useCharacterStore((state) => state.getActiveCharacter().armorClass);
+  return armorClass;
 };

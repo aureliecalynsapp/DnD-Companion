@@ -9,7 +9,24 @@ const DEFAULT_CHARACTER: Character = {
   class: 'Guerrier',
   level: 1,
   race: 'Humain',
+  alignment : '',
+  xp: 0,
+  personality: '',
+  ideals: '',
+  links: '',
+  faults: '',
+  age: 30,
+  height: 180,
+  weight: 80,
+  eyes: '',
+  skin: '',
+  hair: '',
+  appearance: '',
+  allies: '',
+  history: '',
+  additionalAbility: '',
   hp: { current: 12, max: 12, temp: 0 },
+  hpNote: '',
   /*hitDice: { current: 1, total: 1, dieType: 'd10' },*/
   abilities: {
     STR: { value: 16, proficient: true },
@@ -25,11 +42,12 @@ const DEFAULT_CHARACTER: Character = {
   spellcastingAbility: 'INT' as const,
   knownSpellIds: [],
   preparedSpellIds: [],
-  inventory: [
-    { id: 'item-1', name: 'Épée longue', quantity: 1, weight: 3, catalogId: "longsword" },
-    { id: 'item-2', name: 'Rations de subsistance (1 jour)', quantity: 5, weight: 2, catalogId: "rations-1-day" },
-  ],
+  inventory: [],
   currency: { pc: 10, pa: 5, po: 15, pp: 0 },
+  armorClass : 16,
+  armorClassNote : '',
+  initiativeBonus : 0,
+  initiativeBonusNote : '',
   deathSaves: {
     successes: 0,
     failures: 0,
@@ -343,17 +361,22 @@ export const useCharacterStore = create<CharacterStoreState>()(
           }));
         },
 
-        updateItemQuantity: (itemId, delta) => {
+        updateItemQuantity: (itemId: string, newQuantity: number) => {
           updateActive((char) => {
-            const updatedInventory = char.inventory
-              .map((item) => {
-                if (item.id === itemId) {
-                  const newQty = item.quantity + delta;
-                  return newQty > 0 ? { ...item, quantity: newQty } : null;
+            const updatedInventory = char.inventory.reduce((acc, item) => {
+              if (item.id === itemId) {
+                // Règle 1 : Si c'est un objet du catalogue et que la quantité atteint 0, on le supprime de l'inventaire
+                if (item.catalogId && newQuantity <= 0) {
+                  return acc; // L'objet n'est pas réintégré dans le tableau (suppression)
                 }
-                return item;
-              })
-              .filter(Boolean) as Item[];
+                
+                // Règle 2 : Pour les objets personnalisés ou qté > 0, on met à jour (0 est autorisé et conservé)
+                acc.push({ ...item, quantity: Math.max(0, newQuantity) });
+              } else {
+                acc.push(item);
+              }
+              return acc;
+            }, [] as Item[]);
 
             return { inventory: updatedInventory };
           });

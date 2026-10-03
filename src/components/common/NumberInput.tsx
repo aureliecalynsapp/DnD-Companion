@@ -1,5 +1,7 @@
+// src/components/common/NumberInput.tsx
 import React from 'react';
 import { Minus, Plus } from 'lucide-react';
+import { UI } from '../../utils/themes';
 
 interface NumberInputProps {
   value: number;
@@ -20,16 +22,29 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   icon,
   step = 1,
 }) => {
+  // Utilitaire pour éviter les erreurs d'arrondi des nombres flottants (ex: 0.2 + 0.1)
+  const precision = (step.toString().split('.')[1] || '').length;
+
+  const roundToPrecision = (val: number) => {
+    return parseFloat(val.toFixed(precision));
+  };
+
   const handleDecrement = () => {
-    if (value > min) onChange(value - step);
+    if (value > min) {
+      const newValue = Math.max(min, roundToPrecision(value - step));
+      onChange(newValue);
+    }
   };
 
   const handleIncrement = () => {
-    if (value < max) onChange(value + step);
+    if (value < max) {
+      const newValue = Math.min(max, roundToPrecision(value + step));
+      onChange(newValue);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseInt(e.target.value, 10);
+    const val = parseFloat(e.target.value);
     if (isNaN(val)) {
       onChange(min);
     } else {
@@ -43,9 +58,9 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-1 w-full">
+    <div className="flex flex-col w-full">
       {label && (
-        <label className="text-slate-400 flex items-center gap-1 text-[8px] select-none">
+        <label className={UI.label}>
           {icon}
           {label}
         </label>
@@ -62,8 +77,8 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
         <input
           type="number"
-          inputMode="numeric"
-          pattern="[0-9]*"
+          inputMode="decimal"
+          step={step}
           value={value}
           onChange={handleChange}
           onFocus={handleFocus}

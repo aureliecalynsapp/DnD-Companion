@@ -84,9 +84,9 @@ export const DiceModal: React.FC<DiceModalProps> = ({ onClose }) => {
     <div className="fixed inset-0 z-[100] bg-slate-950 flex flex-col p-3 pt-[calc(1rem+env(safe-area-inset-top))] pb-[calc(1rem+env(safe-area-inset-bottom))] overflow-hidden animate-in fade-in duration-150">
       
       {/* En-tête de la modale (fixe) */}
-      <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-800 shrink-0">
+      <div className="flex justify-between items-center mb-3 pb-2 border-b border-slate-800 shrink-0">
         <h3 className="text-base font-bold text-white flex items-center gap-2">
-          <GiDiceTwentyFacesTwenty className="w-5 h-5 text-amber-400" />
+          <GiDiceTwentyFacesTwenty className="w-4 h-4 text-purple-400" />
           Lancer de dés
         </h3>
         <div className="flex items-center gap-2">
@@ -133,7 +133,7 @@ export const DiceModal: React.FC<DiceModalProps> = ({ onClose }) => {
             onChange={setD8} 
             min={0} 
             max={20} 
-            icon={<GiDiceEightFacesEight className="w-3.5 h-3.5 text-purple-400" />} 
+            icon={<GiDiceEightFacesEight className="w-3.5 h-3.5 text-amber-400" />} 
           />
           <NumberInput 
             label="Dés D10" 
@@ -141,7 +141,7 @@ export const DiceModal: React.FC<DiceModalProps> = ({ onClose }) => {
             onChange={setD10} 
             min={0} 
             max={20} 
-            icon={<span className="font-bold text-xs text-amber-400">D10</span>} 
+            icon={<span className="font-bold text-xs text-grey-400">D10</span>} 
           />
           <NumberInput 
             label="Dés D12" 
@@ -157,7 +157,7 @@ export const DiceModal: React.FC<DiceModalProps> = ({ onClose }) => {
             onChange={setD20} 
             min={0} 
             max={20} 
-            icon={<GiDiceTwentyFacesTwenty className="w-3.5 h-3.5 text-amber-500" />} 
+            icon={<GiDiceTwentyFacesTwenty className="w-3.5 h-3.5 text-purple-500" />} 
           />
         </div>
 
@@ -165,7 +165,7 @@ export const DiceModal: React.FC<DiceModalProps> = ({ onClose }) => {
         <button
           type="button"
           onClick={handleRoll}
-          className="w-full py-3 bg-amber-500 hover:bg-amber-400 active:scale-[0.98] text-slate-950 font-black rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
+          className="w-full py-3 bg-purple-500 hover:bg-purple-400 active:scale-[0.98] text-slate-950 font-black rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
         >
           <Dices className="w-5 h-5" />
           LANCER LES DÉS
@@ -174,10 +174,10 @@ export const DiceModal: React.FC<DiceModalProps> = ({ onClose }) => {
 
       {/* Zone de résultat avec scrollbar customisée uniquement sur les détails */}
       {rollResult && (
-        <div className="flex-1 min-h-0 bg-slate-900 border border-amber-500/30 rounded-2xl p-3 flex flex-col gap-2 shadow-xl animate-in fade-in duration-200 mt-2">
+        <div className="flex-1 min-h-0 bg-slate-900 border border-purple-500/30 rounded-2xl p-3 flex flex-col gap-2 shadow-xl animate-in fade-in duration-200 mt-2">
           <div className="flex justify-between items-center border-b border-slate-800 pb-2 shrink-0">
             <span className="text-xs uppercase font-bold tracking-wider text-slate-400">Résultat Total</span>
-            <span className="text-2xl font-black text-amber-400">{rollResult.total}</span>
+            <span className="text-2xl font-black text-purple-400">{rollResult.total}</span>
           </div>
 
           <div className="flex flex-col flex-1 min-h-0 space-y-1.5">
@@ -192,7 +192,7 @@ export const DiceModal: React.FC<DiceModalProps> = ({ onClose }) => {
                     <span className="text-xs font-mono text-slate-400">
                       [{res.rolls.join(', ')}]
                     </span>
-                    <span className="text-xs font-bold font-mono text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                    <span className="text-xs font-bold font-mono text-purple-300 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
                       = {res.subtotal}
                     </span>
                   </div>

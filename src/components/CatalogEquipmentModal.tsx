@@ -39,13 +39,13 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
     );
   };
 
-  // Tentative d'achat/ajout d'un objet depuis le catalogue
-  const handleAddFromCatalog = (catalogItem: CatalogItem) => {
+  // Gestion unifiée de l'ajout d'un objet (avec ou sans débit de pièces)
+  const handleAddItem = (catalogItem: CatalogItem, deductCost: boolean) => {
     setPurchaseError(null);
     setPurchaseSuccess(null);
 
-    // Vérification des fonds si l'objet est payant
-    if (catalogItem.cost && catalogItem.cost.unit && catalogItem.cost.quantity > 0) {
+    // Vérification des fonds si l'objet est payant et que le débit est demandé
+    if (deductCost && catalogItem.cost && catalogItem.cost.unit && catalogItem.cost.quantity > 0) {
       const unitKey = catalogItem.cost.unit.toLowerCase();
       const unitDisplay = unitMap[unitKey] || catalogItem.cost.unit;
       const requiredAmount = catalogItem.cost.quantity;
@@ -57,8 +57,8 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
       }
     }
 
-    // Débit des pièces dans la bourse du personnage
-    if (catalogItem.cost && catalogItem.cost.unit && catalogItem.cost.quantity > 0) {
+    // Débit des pièces dans la bourse du personnage si demandé
+    if (deductCost && catalogItem.cost && catalogItem.cost.unit && catalogItem.cost.quantity > 0) {
       const unitKey = catalogItem.cost.unit.toLowerCase();
       const unitDisplay = unitMap[unitKey] || catalogItem.cost.unit;
       const currencyUpdates: Partial<Currency> = { [unitDisplay]: -catalogItem.cost.quantity };
@@ -76,12 +76,11 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
         const subId = foundSubCatalog ? foundSubCatalog.id : subItemRef.id;
         const subWeight = foundSubCatalog ? foundSubCatalog.weight : 0;
         
-        // Sécurisation avec le chaînage optionnel (?) et conversion explicite en undefined si null
-        const subOnHandeddamageDice = foundSubCatalog?.damage?.damage_dice ?? undefined;
+        /*const subOnHandeddamageDice = foundSubCatalog?.damage?.damage_dice ?? undefined;
         const subTwoHandeddamageDice = foundSubCatalog?.twoHandedDamage?.damage_dice ?? undefined;
         const subArmorClassBase = foundSubCatalog?.armorClass?.base ?? undefined;
         const subArmorClassDexBonus = foundSubCatalog?.armorClass?.dex_bonus ?? undefined;
-        const subArmorClassMaxBonus = foundSubCatalog?.armorClass?.max_bonus ?? undefined;
+        const subArmorClassMaxBonus = foundSubCatalog?.armorClass?.max_bonus ?? undefined;*/
 
         const existingItem = inventory.find((inv) => inv.name.toLowerCase() === subName.toLowerCase());
 
@@ -95,15 +94,19 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
             catalogId: subId,
             categoryEquipment: catalogItem.categoryEquipment,
             isEquipped: false, 
-            onHandeddamageDice: subOnHandeddamageDice,
+            /*onHandeddamageDice: subOnHandeddamageDice,
             twoHandeddamageDice: subTwoHandeddamageDice,
             armorClassBase: subArmorClassBase,
             armorClassDexBonus: subArmorClassDexBonus,
-            armorClassMaxBonus: subArmorClassMaxBonus,
+            armorClassMaxBonus: subArmorClassMaxBonus,*/
           });
         }
       });
-      setPurchaseSuccess(`Pack acheté ! Les composants de "${catalogItem.name}" ont été ajoutés à votre sac.`);
+      setPurchaseSuccess(
+        deductCost 
+          ? `Pack acheté ! Les composants de "${catalogItem.name}" ont été ajoutés à votre sac.` 
+          : `Pack obtenu ! Les composants de "${catalogItem.name}" ont été ajoutés gratuitement à votre sac.`
+      );
     } else {
       const existingItem = inventory.find((item) => item.name.toLowerCase() === catalogItem.name.toLowerCase());
 
@@ -117,14 +120,18 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
           catalogId: catalogItem.id,
           categoryEquipment: catalogItem.categoryEquipment, 
           isEquipped: false,
-          onHandeddamageDice: catalogItem.damage?.damage_dice ?? undefined,
+          /*onHandeddamageDice: catalogItem.damage?.damage_dice ?? undefined,
           twoHandeddamageDice: catalogItem.twoHandedDamage?.damage_dice ?? undefined, 
           armorClassBase: catalogItem.armorClass?.base ?? undefined,
           armorClassDexBonus: catalogItem.armorClass?.dex_bonus ?? undefined,
-          armorClassMaxBonus: catalogItem.armorClass?.max_bonus ?? undefined,
+          armorClassMaxBonus: catalogItem.armorClass?.max_bonus ?? undefined,*/
         });
       }
-      setPurchaseSuccess(`Achat réussi ! "${catalogItem.name}" a été ajouté à votre sac.`);
+      setPurchaseSuccess(
+        deductCost 
+          ? `Achat réussi ! "${catalogItem.name}" a été ajouté à votre sac.` 
+          : `Objet obtenu ! "${catalogItem.name}" a été ajouté gratuitement à votre sac.`
+      );
     }
   };
 
@@ -150,7 +157,7 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
             <PackageOpen className="w-5 h-5 text-amber-400" />
             Catalogue d'Objets
           </h3>
-          <p className="text-[11px] text-slate-400">Ajoutez des objets officiels à votre sac (le coût est débité)</p>
+          <p className="text-[11px] text-slate-400">Ajoutez des objets officiels à votre sac (achat ou gratuit)</p>
         </div>
         <button
           type="button"
@@ -226,11 +233,11 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
                   onClick={() => setSelectedItemDetail(item)}
                   className="flex flex-col flex-1 min-w-0 cursor-pointer group"
                 >
-                  <div className="flex items-center gap-1.5 truncate">
+                  <div className="flex items-center gap-1.5">
                     <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-800 text-amber-400 rounded shrink-0 border border-slate-700/50">
                       {translateEquipmentCategory(item.equipmentCategory)}
                     </span>
-                    <span className="font-bold text-xs text-slate-200 group-hover:text-amber-300 truncate transition-colors">
+                    <span className="font-bold text-xs text-slate-200 group-hover:text-amber-300 transition-colors">
                       {item.name}
                     </span>
                   </div>
@@ -245,15 +252,28 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
                   </div>
                 </div>
 
-                {/* BOUTON D'ACHAT / AJOUT */}
-                <button
-                  type="button"
-                  onClick={() => handleAddFromCatalog(item)}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shrink-0 flex items-center gap-1 active:scale-95 shadow-sm"
-                  title={item.contents && item.contents.length > 0 ? "Acheter et déballer les composants dans le sac" : "Acheter"}
-                >
-                  <Plus className="w-4 h-4 stroke-[3]" />
-                </button>
+                {/* BOUTONS D'ACTION (ACHAT AVEC PIÈCES / AJOUT GRATUIT) */}
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {/* Bouton d'achat (consomme les pièces) */}
+                  <button
+                    type="button"
+                    onClick={() => handleAddItem(item, true)}
+                    className="p-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all flex items-center justify-center active:scale-95 shadow-sm"
+                    title={item.contents && item.contents.length > 0 ? "Acheter le pack (débit des pièces)" : "Acheter (débit des pièces)"}
+                  >
+                    <Coins className="w-4 h-4" />
+                  </button>
+
+                  {/* Bouton objet trouvé ou donné (gratuit, sans consommer de pièces) */}
+                  <button
+                    type="button"
+                    onClick={() => handleAddItem(item, false)}
+                    className="p-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center justify-center active:scale-95 shadow-sm"
+                    title="Objet trouvé ou donné (gratuit, sans consommer de pièces)"
+                  >
+                    <Plus className="w-4 h-4 stroke-[3]" />
+                  </button>
+                </div>
               </div>
             ))
           )}

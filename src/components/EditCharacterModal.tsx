@@ -1,10 +1,11 @@
 // src/components/EditCharacterModal.tsx
 import React, { useState, useEffect } from 'react';
-import { X, Save, Heart, GraduationCap } from 'lucide-react';
+import { X, Save, Shield, Heart, Zap, GraduationCap } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import { NumberInput } from './common/NumberInput';
 import { ABILITIES_INFO } from '../constants/abilities';
 import type { Ability, Character, SpellcastingAbility } from '../types/character';
+import { UI } from '../utils/themes';
 
 interface EditCharacterModalProps {
   isOpen: boolean;
@@ -55,11 +56,11 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Boîte modale contenue et responsive aux dimensions de l'application */}
-      <div className="relative z-10 bg-slate-900 border border-slate-800 w-full max-h-[100%] rounded-2xl flex flex-col shadow-2xl overflow-hidden">
+      <div className="relative z-10 bg-slate-900 border border-slate-800 w-full max-h-[98%] rounded-2xl flex flex-col shadow-2xl overflow-hidden">
         
         {/* HEADER FIXE */}
         <div className="flex items-center justify-between px-4 py-1 border-b border-slate-800 bg-slate-900 shrink-0">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200 truncate pr-2">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200 pr-2">
             Éditer : {formData.name}
           </h2>
           <button 
@@ -79,7 +80,7 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
             <div className="space-y-1">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Identité</span>
               <div>
-                <label className="text-slate-400 block mb-1">Nom du personnage</label>
+                <label className={UI.label}>Nom du personnage</label>
                 <input
                   type="text"
                   value={formData.name || ''}
@@ -91,16 +92,15 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
 
               <div className="grid grid-cols-3 gap-2 items-end">
                 <div className="col-span-2">
-                  <label className="text-slate-400 block mb-1">Classe</label>
+                  <label className={UI.label}>Classe</label>
                   <input
                     type="text"
                     value={formData.class || ''}
                     onChange={(e) => setFormData({ ...formData, class: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-white focus:outline-none focus:border-blue-500 font-medium"
+                    className={UI.inputText}
                     required
                   />
                 </div>
-                <div>
                   <NumberInput
                     label="Niveau"
                     value={formData.level || 1}
@@ -108,16 +108,165 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                     max={20}
                     onChange={(val) => setFormData({ ...formData, level: val })}
                   />
-                </div>
               </div>
-
+              <div className="grid grid-cols-3 gap-2 items-end">
+                <div className="col-span-2">
+                  <label className={UI.label}>Alignement</label>
+                  <input
+                    type="text"
+                    value={formData.alignment || ''}
+                    onChange={(e) => setFormData({ ...formData, alignment: e.target.value })}
+                    className={UI.inputText}
+                    required
+                  />
+                </div>
+                  <NumberInput
+                    label="XP"
+                    value={formData.xp || 1}
+                    min={1}
+                    max={99999}
+                    onChange={(val) => setFormData({ ...formData, xp: val })}
+                  />
+              </div>
+              <div className="grid grid-cols-3 gap-2 items-end">
+                  <NumberInput
+                    label="Age"
+                    value={formData.age || 1}
+                    min={1}
+                    max={9999}
+                    onChange={(val) => setFormData({ ...formData, age: val })}
+                  />
+                  <NumberInput
+                    label="Taille (cm)"
+                    value={formData.height || 1}
+                    min={1}
+                    max={999}
+                    onChange={(val) => setFormData({ ...formData, height: val })}
+                  />
+                  <NumberInput
+                    label="Poids (kg)"
+                    value={formData.weight || 1}
+                    min={1}
+                    max={9999}
+                    onChange={(val) => setFormData({ ...formData, weight: val })}
+                  />
+              </div>
               <div>
-                <label className="text-slate-400 block mb-1">Race / Origine</label>
+                <label className={UI.label}>Race / Origine</label>
                 <input
                   type="text"
                   value={formData.race || ''}
                   onChange={(e) => setFormData({ ...formData, race: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-white focus:outline-none focus:border-blue-500 font-medium"
+                  className={UI.inputText}
+                />
+              </div>
+              <div className="grid grid-cols-3 gap-2 items-end">
+                <div>
+                  <label className={UI.label}>Yeux</label>
+                  <input
+                    type="text"
+                    value={formData.eyes || ''}
+                    onChange={(e) => setFormData({ ...formData, eyes: e.target.value })}
+                    className={UI.inputText}
+                  />
+                </div>
+                <div>
+                  <label className={UI.label}>Peau</label>
+                  <input
+                    type="text"
+                    value={formData.skin || ''}
+                    onChange={(e) => setFormData({ ...formData, skin: e.target.value })}
+                    className={UI.inputText}
+                  />
+                </div>
+                <div>
+                  <label className={UI.label}>Cheveux</label>
+                  <input
+                    type="text"
+                    value={formData.hair || ''}
+                    onChange={(e) => setFormData({ ...formData, hair: e.target.value })}
+                    className={UI.inputText}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className={UI.label}>Apparence</label>
+                <textarea
+                  rows={3}
+                  value={formData.appearance || ''}
+                  onChange={(e) => setFormData({ ...formData, appearance: e.target.value })}
+                  placeholder="Apparence du personnage..."
+                  className={UI.textarea}
+                />
+              </div>
+              <div>
+                <label className={UI.label}>Traits de personnalité</label>
+                <textarea
+                  rows={3}
+                  value={formData.personality || ''}
+                  onChange={(e) => setFormData({ ...formData, personality: e.target.value })}
+                  placeholder="Traits de personnalité..."
+                  className={UI.textarea}
+                />
+              </div>
+              <div>
+                <label className={UI.label}>Idéaux</label>
+                <textarea
+                  rows={3}
+                  value={formData.ideals || ''}
+                  onChange={(e) => setFormData({ ...formData, ideals: e.target.value })}
+                  placeholder="Idéaux..."
+                  className={UI.textarea}
+                />
+              </div>
+              <div>
+                <label className={UI.label}>Liens</label>
+                <textarea
+                  rows={3}
+                  value={formData.links || ''}
+                  onChange={(e) => setFormData({ ...formData, links: e.target.value })}
+                  placeholder="Liens..."
+                  className={UI.textarea}
+                />
+              </div>
+              <div>
+                <label className={UI.label}>Défauts</label>
+                <textarea
+                  rows={3}
+                  value={formData.faults || ''}
+                  onChange={(e) => setFormData({ ...formData, faults: e.target.value })}
+                  placeholder="Défauts..."
+                  className={UI.textarea}
+                />
+              </div>
+              <div>
+                <label className={UI.label}>Alliés et organisations</label>
+                <textarea
+                  rows={3}
+                  value={formData.allies || ''}
+                  onChange={(e) => setFormData({ ...formData, allies: e.target.value })}
+                  placeholder="Alliés et organisations..."
+                  className={UI.textarea}
+                />
+              </div>
+              <div>
+                <label className={UI.label}>Histoire du personnage</label>
+                <textarea
+                  rows={3}
+                  value={formData.history || ''}
+                  onChange={(e) => setFormData({ ...formData, history: e.target.value })}
+                  placeholder="Histoire du personnage..."
+                  className={UI.textarea}
+                />
+              </div>
+              <div>
+                <label className={UI.label}>Capacités et traits supplémentaires</label>
+                <textarea
+                  rows={3}
+                  value={formData.additionalAbility || ''}
+                  onChange={(e) => setFormData({ ...formData, additionalAbility: e.target.value })}
+                  placeholder="Capacités et traits supplémentaires..."
+                  className={UI.textarea}
                 />
               </div>
             </div>
@@ -133,6 +282,43 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                   min={1}
                   max={999}
                   onChange={(val) => setFormData({ ...formData, hp: { ...formData.hp, max: val } })}
+                />
+                <NumberInput
+                  label="CA"
+                  icon={<Shield className="w-3.5 h-3.5 text-blue-400" />}
+                  value={formData.armorClass || 10}
+                  min={1}
+                  max={40}
+                  onChange={(val) => setFormData({ ...formData, armorClass: val })}
+                />
+                <NumberInput
+                  label="Bonus d'initiative"
+                  icon={<Zap className="w-3.5 h-3.5 text-amber-400" />}
+                  value={formData.initiativeBonus || 0}
+                  min={-5}
+                  max={20}
+                  onChange={(val) => setFormData({ ...formData, initiativeBonus: val })}
+                />
+                <textarea
+                  rows={3}
+                  value={formData.hpNote || ''}
+                  onChange={(e) => setFormData({ ...formData, hpNote: e.target.value })}
+                  placeholder="Note PV Max..."
+                  className={UI.textarea}
+                />
+                <textarea
+                  rows={3}
+                  value={formData.armorClassNote || ''}
+                  onChange={(e) => setFormData({ ...formData, armorClassNote: e.target.value })}
+                  placeholder="Note Classe d'armure..."
+                  className={UI.textarea}
+                />
+                <textarea
+                  rows={3}
+                  value={formData.initiativeBonusNote || ''}
+                  onChange={(e) => setFormData({ ...formData, initiativeBonusNote: e.target.value })}
+                  placeholder="Note bonus d'initiative..."
+                  className={UI.textarea}
                 />
               </div>
             </div>
@@ -156,13 +342,13 @@ export const EditCharacterModal: React.FC<EditCharacterModalProps> = ({ isOpen, 
                   return (
                     <div 
                       key={ability} 
-                      className="bg-slate-950 p-2 rounded-lg border border-slate-800 flex items-center justify-between gap-2"
+                      className="bg-slate-950 p-1 rounded-lg border border-slate-800 flex items-center justify-between gap-2"
                       title={info.description}
                     >
                       <div className="shrink-0">
                         <div className="flex items-baseline gap-1">
-                          <span className="font-bold text-slate-300 block">{ability}</span>
-                          <span className="text-[10px] text-slate-400">({info.fullLabel})</span>
+                          <span className="font-bold text-slate-300 block">{info.fullLabel}</span>
+                          <span className="text-[10px] text-slate-400">({ability})</span>
                         </div>
                         <label className="flex items-center gap-1.5 mt-1 cursor-pointer">
                           <input

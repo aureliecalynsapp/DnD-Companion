@@ -2,6 +2,7 @@ import React from 'react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import { getAbilityModifier } from '../utils/dnd';
 import { ABILITIES_INFO } from '../constants/abilities';
+import { UI } from '../utils/themes';
 
 export const SheetTab: React.FC = () => {
   // Récupération dynamique du personnage actif
@@ -18,7 +19,7 @@ export const SheetTab: React.FC = () => {
   };
 
   return (
-    <div className="space-y-2 pb-6">
+    <div className={UI.tab}>
       <div className="flex items-center justify-between">
         <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
           Caractéristiques
@@ -41,7 +42,7 @@ export const SheetTab: React.FC = () => {
               <div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-xs font-bold text-slate-200 block">{key}</span>
-                  <span className="text-[10px] text-slate-400 font-medium truncate max-w-[70px]">
+                  <span className="text-[10px] text-slate-400 font-medium max-w-[70px]">
                     ({info.fullLabel})
                   </span>
                 </div>

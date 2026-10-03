@@ -16,7 +16,7 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
 
   return (
     <div className="fixed inset-0 z-[110] bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[100%] overflow-y-auto shadow-2xl scrollbar-thin scrollbar-thumb-slate-700 flex flex-col">
+      <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[98%] overflow-y-auto shadow-2xl scrollbar-thin scrollbar-thumb-slate-700 flex flex-col">
         
         {/* Fil d'Ariane si on navigue dans les sous-objets d'un pack */}
         {detailStack.length > 1 && (
@@ -226,8 +226,8 @@ export const DetailEquipmentModal: React.FC<DetailEquipmentModalProps> = ({ init
                 const foundSub = findCatalogItemByRef(subRef);
                 return (
                   <div key={subRef.id} onClick={() => { if (foundSub) { setDetailStack((prev) => [...prev, foundSub]); } }} className={`flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-slate-800/60 ${foundSub ? 'cursor-pointer hover:border-amber-500/50 hover:bg-slate-850 transition-all' : ''}`}>
-                    <div className="flex items-center gap-2 truncate">
-                      <span className="text-xs font-semibold text-slate-200 truncate">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-slate-200">
                         {foundSub ? foundSub.name : subRef.name}
                       </span>
                       <span className="text-[10px] font-mono text-amber-400 font-bold bg-amber-950/40 px-1.5 py-0.5 rounded border border-amber-800/40 shrink-0">

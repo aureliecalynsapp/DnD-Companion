@@ -1,9 +1,10 @@
 // src/components/SettingsTab.tsx
 import React, { useRef } from 'react';
-import { Sparkles, Download, Upload, ZoomIn } from 'lucide-react';
+import { Sparkles, Download, Upload, ZoomIn, Zap, Save } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import type { Character } from '../types/character';
 import { CharacterManager } from './CharacterManager';
+import { UI } from '../utils/themes';
 
 export const SettingsTab: React.FC = () => {
   // Récupération dynamique du personnage actif et des actions
@@ -51,21 +52,19 @@ export const SettingsTab: React.FC = () => {
   };
 
   return (
-    <div className="space-y-3 pb-6">
+    <div className={UI.tab}>
       
       {/* SECTION ACCESSIBILITÉ & ZOOM */}
-      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Accessibilité & Affichage</h2>
-      <div className="bg-slate-900 border border-slate-800 p-2 rounded-xl space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-semibold text-slate-200 flex items-center gap-2">
-            <ZoomIn className="w-4 h-4 text-blue-400" />
-            Zoom
-          </span>
-          <span className="text-xs font-mono font-bold text-blue-400 bg-blue-950/60 border border-blue-800/60 px-2 py-0.5 rounded">
+      <div className={UI.cardInteractiveFull}>
+        <div className="flex items-center gap-2">
+            <ZoomIn className="w-4 h-4 text-emerald-400" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-200 transition-colors">
+              Zoom
+            </h2>
+          <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded">
             {zoomLevel}%
           </span>
         </div>
-
         {/* Curseur tactile de zoom */}
         <input 
           type="range" 
@@ -74,56 +73,67 @@ export const SettingsTab: React.FC = () => {
           step="10"
           value={zoomLevel} 
           onChange={(e) => setZoomLevel(Number(e.target.value))}
-          className="w-full accent-blue-500 h-2 bg-slate-800 rounded-lg cursor-pointer"
+          className="w-full accent-emerald-500 h-2 bg-slate-800 rounded-lg cursor-pointer"
         />
       </div>
-
+      
       {/* GESTIONNAIRE MULTI-PERSONNAGES (SWITCH / ADD / QR CODE) */}
-      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Mes personnages</h2>
-      <CharacterManager />
+      <div className={UI.cardInteractiveFull}>
+        <CharacterManager />
+      </div>
 
-      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Actions de Session</h2>
       
       {/* Repos */}
-      <div className="space-y-2">
-        <button 
-          onClick={longRest}
-          className="w-full bg-slate-900 border border-slate-800 hover:bg-slate-800 active:bg-slate-700 p-2 rounded-xl text-left flex items-center justify-between transition active:scale-[0.99]"
-        >
-          <div>
-            <span className="text-sm font-bold text-white block">Repos Long</span>
-            <span className="text-xs text-slate-400">Réinitialiser PV, dés de vie et emplacements de sorts</span>
-          </div>
-          <Sparkles className="w-5 h-5 text-blue-400" />
-        </button>
+      <div className={UI.cardInteractiveFull}>
+        <div className="flex items-center gap-2">
+            <Zap className="w-4 h-4 text-emerald-400" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-200 transition-colors">
+              Actions de sessions
+            </h2>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-slate-400">REPOS LONG : Réinitialiser PV, dés de vie et emplacements de sorts</span>
+          <button 
+            onClick={longRest}
+            className="bg-emerald-900 border border-emerald-800 hover:bg-emerald-800 active:bg-emerald-700 p-2 rounded-xl text-left flex items-center justify-between transition active:scale-[0.99]"
+          >
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+          </button>
+        </div>
       </div>
-
-      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 pt-2">Gestion Fichier de sauvegarde</h2>
       
       {/* Export / Import JSON */}
-      <div className="grid grid-cols-2 gap-2">
-        <button 
-          onClick={handleExport}
-          className="bg-slate-900 border border-slate-800 hover:bg-slate-800 active:bg-slate-700 p-3 rounded-xl flex items-center justify-center gap-2 text-sm font-semibold text-slate-200 transition active:scale-95"
-        >
-          <Download className="w-4 h-4 text-emerald-400" />
-          Exporter (JSON)
-        </button>
+      <div className={UI.cardInteractiveFull}>
+        <div className="flex items-center gap-2">
+            <Save className="w-4 h-4 text-emerald-400" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-200 transition-colors">
+              Gestion Fichier de sauvegarde
+            </h2>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <button 
+            onClick={handleExport}
+            className="bg-emerald-900 border border-emerald-800 hover:bg-emerald-800 active:bg-emerald-700 p-1 rounded-xl flex items-center justify-center gap-2 text-sm font-semibold text-slate-200 transition active:scale-95"
+          >
+            <Download className="w-4 h-4 text-emerald-400" />
+            Exporter (JSON)
+          </button>
 
-        <button 
-          onClick={() => fileInputRef.current?.click()}
-          className="bg-slate-900 border border-slate-800 hover:bg-slate-800 active:bg-slate-700 p-3 rounded-xl flex items-center justify-center gap-2 text-sm font-semibold text-slate-200 transition active:scale-95"
-        >
-          <Upload className="w-4 h-4 text-amber-400" />
-          Importer (JSON)
-        </button>
-        <input 
-          type="file" 
-          ref={fileInputRef} 
-          onChange={handleImport} 
-          accept=".json" 
-          className="hidden" 
-        />
+          <button 
+            onClick={() => fileInputRef.current?.click()}
+            className="bg-amber-900 border border-amber-800 hover:bg-amber-800 active:bg-amber-700 p-1 rounded-xl flex items-center justify-center gap-2 text-sm font-semibold text-slate-200 transition active:scale-95"
+          >
+            <Upload className="w-4 h-4 text-amber-400" />
+            Importer (JSON)
+          </button>
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            onChange={handleImport} 
+            accept=".json" 
+            className="hidden" 
+          />
+        </div>
       </div>
     </div>
   );

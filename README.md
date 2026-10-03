@@ -55,7 +55,9 @@ dnd-companion-pwa/
 │   │   ├── CharacterManager.tsx      # Gestion des multi perso
 │   │   ├── CombatTab.tsx             # Vue principale de jeu (PV, sorts, actions)
 │   │   ├── DetailEquipmentModal.tsx  # Modal du détail d'objets
+│   │   ├── DiceModal.tsx             # Modal d'un set de dés
 │   │   ├── EditCharacterModal.tsx    # Modale d'édition complète du personnage
+│   │   ├── EditEquipmentModal.tsx    # Modale d'édition complète d'un objet
 │   │   ├── InstallPrompt.tsx         # Installation sur smartphone à la première utilisation
 │   │   ├── SettingsTab.tsx           # Vue des paramétrages du perso
 │   │   ├── ShareCharacterModal.tsx   # Modale de partage de perso
@@ -78,6 +80,7 @@ dnd-companion-pwa/
 │   │   ├── characterPayload.ts      # Fonctions de partage de perso
 │   │   ├── dnd.ts                   # Fonctions pures (calculs de modificateurs)
 │   │   ├── equipmentUtils.ts        # Fonctions pour equipment
+│   │   ├── theme.ts                 # UI
 │   │   └── tradePayload.ts          # Fonctions d'échande P2P
 │   ├── App.css                      # Styles globaux & directives Tailwind
 │   ├── App.tsx                      # Layout principal et navigation par onglets
