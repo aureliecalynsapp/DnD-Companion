@@ -44,13 +44,35 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
   }, [selectedItemId]);
 
   // Génération du QR Code d'échange et déduction immédiate des éléments de l'inventaire/bourse
+  // Transmet toutes les propriétés pour supporter à la fois les objets du catalogue et les objets créés/personnalisés
   const handleGenerateQR = () => {
     let itemsToTrade: Omit<Item, 'id'>[] | undefined;
     let currencyToTrade: Partial<Currency> | undefined;
 
     if (selectedItemId && selectedItem && sendQty > 0) {
-      itemsToTrade = [{ name: selectedItem.name, quantity: sendQty, weight: selectedItem.weight }];
-      updateItemQuantity(selectedItem.id, -sendQty);
+      itemsToTrade = [{
+        name: selectedItem.name,
+        quantity: sendQty,
+        weight: selectedItem.weight,
+        catalogId: selectedItem.catalogId,
+        equipmentCategory: selectedItem.equipmentCategory,
+        gearCategory: selectedItem.gearCategory,
+        armorCategory: selectedItem.armorCategory,
+        weaponCategory: selectedItem.weaponCategory,
+        toolCategory: selectedItem.toolCategory,
+        vehicleCategory: selectedItem.vehicleCategory,
+        cost: selectedItem.cost,
+        description: selectedItem.description,
+        armorClass: selectedItem.armorClass,
+        stealthDisadvantage: selectedItem.stealthDisadvantage,
+        damage: selectedItem.damage,
+        twoHandedDamage: selectedItem.twoHandedDamage,
+        weaponRange: selectedItem.weaponRange,
+        strMinimum: selectedItem.strMinimum,
+        speed: selectedItem.speed,
+        capacity: selectedItem.capacity,
+      }];
+      updateItemQuantity(selectedItem.id, selectedItem.quantity - sendQty);
     }
 
     if (sendGold > 0) {
@@ -133,6 +155,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
             <span>Échange P2P ({character.name})</span>
           </div>
           <button
+            type="button"
             onClick={onClose}
             className="p-1 text-slate-400 hover:text-white rounded-xl bg-slate-800/50 active:scale-95 transition-transform"
           >
