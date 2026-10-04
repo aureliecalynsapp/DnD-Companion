@@ -27,9 +27,14 @@ export const BagTab: React.FC = () => {
   const strength = character.abilities?.STR?.value || 10;
   const maxWeight = strength * 15;
 
+  // Utilitaire pour formater proprement le poids et éviter les erreurs de virgule flottante IEEE 754
+  const formatWeight = (val: number): number => {
+    return Number(val.toFixed(2));
+  };
+
   // Calcul du poids de la monnaie (50 pièces = 1 lb)
   const totalCoins = Object.values(currency).reduce((sum, qty) => sum + (qty || 0), 0);
-  const coinsWeight = Number((totalCoins / 50).toFixed(1));
+  const coinsWeight = formatWeight(totalCoins / 50);
 
   // --- ÉTATS LOCAUX ---
   const [isTradeOpen, setIsTradeOpen] = useState(false);
@@ -90,12 +95,14 @@ export const BagTab: React.FC = () => {
   };
 
   // --- CALCULS DE POIDS ---
-  const itemsWeight = inventory.reduce((sum, item) => {
-    const itemWeight = item.weight || 0;
-    return sum + itemWeight * item.quantity;
-  }, 0);
+  const itemsWeight = formatWeight(
+    inventory.reduce((sum, item) => {
+      const itemWeight = item.weight || 0;
+      return sum + itemWeight * item.quantity;
+    }, 0)
+  );
 
-  const totalWeight = Number((itemsWeight + coinsWeight).toFixed(1));
+  const totalWeight = formatWeight(itemsWeight + coinsWeight);
   const isOverloaded = totalWeight > maxWeight;
 
   // Configuration de la grille 2x2 avec les dénominations françaises
@@ -272,7 +279,7 @@ export const BagTab: React.FC = () => {
                         {item.name}
                       </p>
                       <span className="text-[8px] font-mono text-slate-500 shrink-0">
-                        {item.weight ? `${item.weight * item.quantity} lb` : '0 lb'}
+                        {item.weight ? `${formatWeight(item.weight * item.quantity)} lb` : '0 lb'}
                       </span>
                     </div>
 
