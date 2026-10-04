@@ -408,15 +408,21 @@ export const useCharacterStore = create<CharacterStoreState>()(
           }));
         },
 
-        receiveTrade: ({ items, currency }) => {
+receiveTrade: ({ items, currency }) => {
           updateActive((char) => {
             let updatedInventory = [...char.inventory];
 
             if (items) {
               items.forEach((tradeItem) => {
-                const existingIndex = updatedInventory.findIndex(
-                  (i) => i.name.toLowerCase() === tradeItem.name.toLowerCase()
-                );
+                // Log de débogage pour inspecter l'objet reçu et ses propriétés
+                console.log("📦 Objet reçu via QR Code :", tradeItem);
+
+                // Les objets du catalogue se cumulent via leur catalogId.
+                // Les objets personnalisés (sans catalogId) sont ajoutés comme uniques.
+                const existingIndex = tradeItem.catalogId
+                  ? updatedInventory.findIndex((i) => i.catalogId === tradeItem.catalogId)
+                  : -1;
+
                 if (existingIndex >= 0) {
                   updatedInventory[existingIndex].quantity += tradeItem.quantity;
                 } else {
@@ -439,7 +445,6 @@ export const useCharacterStore = create<CharacterStoreState>()(
             return { inventory: updatedInventory, currency: updatedCurrency };
           });
         },
-
 // Dans le corps du store (retour de create) :
 toggleEquipItem: (itemId) => {
   updateActive((char) => {

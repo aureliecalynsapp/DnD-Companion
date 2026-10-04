@@ -44,7 +44,6 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
   }, [selectedItemId]);
 
   // Génération du QR Code d'échange et déduction immédiate des éléments de l'inventaire/bourse
-  // Transmet toutes les propriétés pour supporter à la fois les objets du catalogue et les objets créés/personnalisés
   const handleGenerateQR = () => {
     let itemsToTrade: Omit<Item, 'id'>[] | undefined;
     let currencyToTrade: Partial<Currency> | undefined;
@@ -82,6 +81,8 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
 
     if (itemsToTrade || currencyToTrade) {
       const encoded = encodeTradePayload(itemsToTrade, currencyToTrade);
+      // 📦 Log de contrôle pour l'envoi
+      console.log("📤 Payload QR Code généré avec succès :", encoded);
       setTradePayload(encoded);
     }
   };
@@ -89,7 +90,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
   // Référence pour piloter proprement l'instance de la caméra et éviter les flux fantômes
   const scannerRef = useRef<Html5Qrcode | null>(null);
 
-  // Gestion du cycle de vie du scanner QR (démarrage à l'ouverture de l'onglet et nettoyage strict au démontage ou changement de mode)
+  // Gestion du cycle de vie du scanner QR
   useEffect(() => {
     if (mode === 'receive' && !scannedSuccess) {
       const timer = setTimeout(() => {
@@ -101,17 +102,20 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
             { facingMode: 'environment' },
             { fps: 10, qrbox: { width: 220, height: 220 } },
             (decodedText) => {
+              // 📷 LOGS DE DÉBOGAGE POUR LA RÉCEPTION
+              console.log("📷 Texte brut scanné depuis le QR Code :", decodedText);
+
               const tradeData = decodeTradePayload(decodedText);
+              console.log("🔍 Données décodées du trade :", tradeData);
+
               if (tradeData) {
-                // Utilisation de setTimeout pour détacher l'appel du callback synchrone de html5-qrcode
-                // et éviter l'erreur de transition d'état React
                 setTimeout(() => {
                   receiveTrade(tradeData);
                   setScannedSuccess(true);
                 }, 0);
                 qrCodeInstance.stop().catch(() => {});
               } else {
-                console.error("Code QR d'échange invalide");
+                console.error("❌ Erreur : Le payload décodé est invalide ou vide !");
               }
             },
             () => {}
