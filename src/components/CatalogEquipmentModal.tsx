@@ -18,7 +18,8 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
   // --- ÉTATS GLOBAUX (Zustand) ---
   const character = useCharacterStore((state) => state.getActiveCharacter());
   const inventory = character.inventory || [];
-  const updateItemQuantity = useCharacterStore((state) => state.updateItemQuantity);
+  //const updateItemQuantity = useCharacterStore((state) => state.updateItemQuantity);
+  const incrementItemQuantity = useCharacterStore((state) => state.incrementItemQuantity);
   const addItem = useCharacterStore((state) => state.addItem);
   const updateCurrency = useCharacterStore((state) => state.updateCurrency);
   const currency = character.currency || { pc: 0, pa: 0, po: 0, pp: 0 };
@@ -76,29 +77,26 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
         const subId = foundSubCatalog ? foundSubCatalog.id : subItemRef.id;
         const subWeight = foundSubCatalog ? foundSubCatalog.weight : 0;
         
-        /*const subOnHandeddamageDice = foundSubCatalog?.damage?.damage_dice ?? undefined;
-        const subTwoHandeddamageDice = foundSubCatalog?.twoHandedDamage?.damage_dice ?? undefined;
-        const subArmorClassBase = foundSubCatalog?.armorClass?.base ?? undefined;
-        const subArmorClassDexBonus = foundSubCatalog?.armorClass?.dex_bonus ?? undefined;
-        const subArmorClassMaxBonus = foundSubCatalog?.armorClass?.max_bonus ?? undefined;*/
-
-        const existingItem = inventory.find((inv) => inv.name.toLowerCase() === subName.toLowerCase());
+        // RÈGLE DE MATCHING : sur catalogId si présent, sinon sur id unique
+        const existingItem = inventory.find((inv) => {
+          if (subId) {
+            return inv.catalogId === subId;
+          } else {
+            return inv.id === subId;
+          }
+        });
 
         if (existingItem) {
-          updateItemQuantity(existingItem.id, subQuantity);
+          incrementItemQuantity(existingItem.id, subQuantity);
         } else {
           addItem({ 
+            id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
             name: subName, 
             quantity: subQuantity, 
             weight: subWeight, 
-            catalogId: subId,
+            catalogId: subId || undefined,
             categoryEquipment: catalogItem.categoryEquipment,
             isEquipped: false, 
-            /*onHandeddamageDice: subOnHandeddamageDice,
-            twoHandeddamageDice: subTwoHandeddamageDice,
-            armorClassBase: subArmorClassBase,
-            armorClassDexBonus: subArmorClassDexBonus,
-            armorClassMaxBonus: subArmorClassMaxBonus,*/
           });
         }
       });
@@ -108,23 +106,26 @@ export const CatalogEquipmentModal: React.FC<CatalogEquipmentModalProps> = ({ on
           : `Pack obtenu ! Les composants de "${catalogItem.name}" ont été ajoutés gratuitement à votre sac.`
       );
     } else {
-      const existingItem = inventory.find((item) => item.name.toLowerCase() === catalogItem.name.toLowerCase());
+      // RÈGLE DE MATCHING : sur catalogId si présent, sinon sur id unique
+      const existingItem = inventory.find((item) => {
+        if (catalogItem.id) {
+          return item.catalogId === catalogItem.id;
+        } else {
+          return item.id === catalogItem.id;
+        }
+      });
 
       if (existingItem) {
-        updateItemQuantity(existingItem.id, 1);
+        incrementItemQuantity(existingItem.id, 1);
       } else {
         addItem({ 
+          id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
           name: catalogItem.name, 
           quantity: 1, 
           weight: catalogItem.weight, 
-          catalogId: catalogItem.id,
+          catalogId: catalogItem.id || undefined,
           categoryEquipment: catalogItem.categoryEquipment, 
           isEquipped: false,
-          /*onHandeddamageDice: catalogItem.damage?.damage_dice ?? undefined,
-          twoHandeddamageDice: catalogItem.twoHandedDamage?.damage_dice ?? undefined, 
-          armorClassBase: catalogItem.armorClass?.base ?? undefined,
-          armorClassDexBonus: catalogItem.armorClass?.dex_bonus ?? undefined,
-          armorClassMaxBonus: catalogItem.armorClass?.max_bonus ?? undefined,*/
         });
       }
       setPurchaseSuccess(

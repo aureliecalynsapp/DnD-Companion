@@ -232,7 +232,7 @@ export const BagTab: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setEditingItem({
-                  id: crypto.randomUUID(),
+                  id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
                   name: '',
                   equipmentCategory: "Équipement d'aventurier",
                   gearCategory: null,

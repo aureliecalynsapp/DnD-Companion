@@ -1,10 +1,11 @@
 import type { Item, Currency } from '../types/character';
 
-// Structure compacte pour alléger la taille du payload dans le QR Code (types assouplis pour les objets complexes)
+// Structure compacte intégrant l'ID unique de l'objet
 export interface CompactTradePayload {
   v: number; // Version du protocole
   t: number; // Timestamp
   i?: Array<{
+    id?: string;                      // id unique de l'objet
     n: string;                        // name
     q: number;                        // quantity
     w?: number;                       // weight
@@ -17,7 +18,7 @@ export interface CompactTradePayload {
     vc?: string;                      // vehicleCategory
     co?: any;                         // cost
     desc?: string;                    // description
-    ac?: any;                         // armorClass (nombre ou objet détaillé)
+    ac?: any;                         // armorClass
     sd?: boolean;                     // stealthDisadvantage
     dmg?: any;                        // damage
     thd?: any;                        // twoHandedDamage
@@ -31,7 +32,7 @@ export interface CompactTradePayload {
 
 // Encode l'inventaire et/ou la monnaie en une chaîne JSON compacte
 export const encodeTradePayload = (
-  items?: Omit<Item, 'id'>[],
+  items?: Item[], // Accepte les objets complets avec leur id
   currency?: Partial<Currency>
 ): string => {
   const payload: CompactTradePayload = {
@@ -41,6 +42,7 @@ export const encodeTradePayload = (
 
   if (items && items.length > 0) {
     payload.i = items.map((item) => ({
+      ...(item.id ? { id: item.id } : {}),
       n: item.name,
       q: item.quantity,
       ...(item.weight !== undefined ? { w: item.weight } : {}),
@@ -71,16 +73,17 @@ export const encodeTradePayload = (
   return JSON.stringify(payload);
 };
 
-// Décode le QR Code scanné et reconstitue les objets complets
+// Décode le QR Code scanné et reconstitue les objets avec leur ID
 export const decodeTradePayload = (
   rawJson: string
-): { items?: Omit<Item, 'id'>[]; currency?: Partial<Currency> } | null => {
+): { items?: Item[]; currency?: Partial<Currency> } | null => {
   try {
     const data: CompactTradePayload = JSON.parse(rawJson);
     if (!data.v || (!data.i && !data.c)) return null;
 
     return {
       items: data.i?.map((item) => ({
+        id: item.id || `item_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
         name: item.n,
         quantity: item.q,
         weight: item.w,

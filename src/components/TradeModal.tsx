@@ -45,11 +45,12 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
 
   // Génération du QR Code d'échange et déduction immédiate des éléments de l'inventaire/bourse
   const handleGenerateQR = () => {
-    let itemsToTrade: Omit<Item, 'id'>[] | undefined;
+    let itemsToTrade: Item[] | undefined;
     let currencyToTrade: Partial<Currency> | undefined;
 
     if (selectedItemId && selectedItem && sendQty > 0) {
       itemsToTrade = [{
+        id: selectedItem.id,
         name: selectedItem.name,
         quantity: sendQty,
         weight: selectedItem.weight,
@@ -82,7 +83,7 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
     if (itemsToTrade || currencyToTrade) {
       const encoded = encodeTradePayload(itemsToTrade, currencyToTrade);
       // 📦 Log de contrôle pour l'envoi
-      console.log("📤 Payload QR Code généré avec succès :", encoded);
+      //console.log("📤 Payload QR Code généré avec succès :", encoded);
       setTradePayload(encoded);
     }
   };
@@ -103,10 +104,10 @@ export const TradeModal: React.FC<TradeModalProps> = ({ onClose }) => {
             { fps: 10, qrbox: { width: 220, height: 220 } },
             (decodedText) => {
               // 📷 LOGS DE DÉBOGAGE POUR LA RÉCEPTION
-              console.log("📷 Texte brut scanné depuis le QR Code :", decodedText);
+              //console.log("📷 Texte brut scanné depuis le QR Code :", decodedText);
 
               const tradeData = decodeTradePayload(decodedText);
-              console.log("🔍 Données décodées du trade :", tradeData);
+              //console.log("🔍 Données décodées du trade :", tradeData);
 
               if (tradeData) {
                 setTimeout(() => {

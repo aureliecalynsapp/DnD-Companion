@@ -87,16 +87,18 @@ interface CharacterStoreState {
   setSpellSlotMax: (level: number, max: number) => void;
 
   // --- ACTIONS INVENTAIRE ---
-  addItem: (item: Omit<Item, 'id'>) => void;
+  addItem: (item: Item) => void;
   removeItem: (itemId: string) => void;
-  updateItemQuantity: (itemId: string, delta: number) => void;
+  updateItem: (itemId: string, updatedFields: Partial<Item>) => void;
+  updateItemQuantity: (itemId: string, newQuantity: number) => void;
+  incrementItemQuantity: (itemId: string, delta: number) => void;
 
   // --- ACTIONS DEVISES / MONNAIE ---
   updateCurrency: (deltaCurrency: Partial<Currency>) => void;
 
   // --- ACTIONS SESSION & REPOS ---
   longRest: () => void;
-  receiveTrade: (payload: { items?: Omit<Item, 'id'>[]; currency?: Partial<Currency> }) => void;
+  receiveTrade: (payload: { items?: Item[]; currency?: Partial<Currency> }) => void;
   updateCharacterData: (data: Partial<Character>) => void;
 }
 
@@ -349,7 +351,7 @@ export const useCharacterStore = create<CharacterStoreState>()(
               ...newItem, 
               id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
               // On conserve l'id du catalogue s'il est présent dans newItem, sinon undefined
-              catalogId: newItem.catalogId || (newItem as any).id 
+              catalogId: newItem.catalogId || undefined 
             };
             return { inventory: [...char.inventory, itemWithId] };
           });
@@ -360,18 +362,48 @@ export const useCharacterStore = create<CharacterStoreState>()(
             inventory: char.inventory.filter((i) => i.id !== itemId),
           }));
         },
+        // Extrait de useCharacterStore.ts
+        updateItem: (itemId: string, updatedFields: Partial<Item>) => {
+          updateActive((char) => {
+            const updatedInventory = char.inventory.map((item) =>
+              item.id === itemId ? { ...item, ...updatedFields } : item
+            );
+            return { inventory: updatedInventory };
+          });
+        },
 
+        // Fixe une quantité absolue (ex: saisie directe dans un input)
         updateItemQuantity: (itemId: string, newQuantity: number) => {
           updateActive((char) => {
             const updatedInventory = char.inventory.reduce((acc, item) => {
               if (item.id === itemId) {
-                // Règle 1 : Si c'est un objet du catalogue et que la quantité atteint 0, on le supprime de l'inventaire
                 if (item.catalogId && newQuantity <= 0) {
-                  return acc; // L'objet n'est pas réintégré dans le tableau (suppression)
+                  return acc; // Suppression si objet du catalogue et qté à 0
                 }
-                
-                // Règle 2 : Pour les objets personnalisés ou qté > 0, on met à jour (0 est autorisé et conservé)
                 acc.push({ ...item, quantity: Math.max(0, newQuantity) });
+              } else {
+                acc.push(item);
+              }
+              return acc;
+            }, [] as Item[]);
+
+            return { inventory: updatedInventory };
+          });
+        },
+
+        // Incrémente ou décrémente la quantité (ex: boutons + / -, achat catalogue)
+        incrementItemQuantity: (itemId: string, delta: number) => {
+          updateActive((char) => {
+            const updatedInventory = char.inventory.reduce((acc, item) => {
+              if (item.id === itemId) {
+                const newTotal = item.quantity + delta;
+
+                // Si c'est un objet du catalogue et que le total atteint 0 ou moins, on le supprime
+                if (item.catalogId && newTotal <= 0) {
+                  return acc; 
+                }
+
+                acc.push({ ...item, quantity: Math.max(0, newTotal) });
               } else {
                 acc.push(item);
               }
@@ -408,43 +440,59 @@ export const useCharacterStore = create<CharacterStoreState>()(
           }));
         },
 
-receiveTrade: ({ items, currency }) => {
-          updateActive((char) => {
-            let updatedInventory = [...char.inventory];
+// --- RECEVOIR UN ÉCHANGE P2P (QR CODE) ---
+      receiveTrade: ({ items, currency }) => {
+        updateActive((char) => {
+          let updatedInventory = [...char.inventory];
 
-            if (items) {
-              items.forEach((tradeItem) => {
-                // Log de débogage pour inspecter l'objet reçu et ses propriétés
-                console.log("📦 Objet reçu via QR Code :", tradeItem);
+          if (items) {
+            items.forEach((tradeItem) => {
+              //console.log("📦 [DEBUG TRADE] Objet reçu :", tradeItem);
 
-                // Les objets du catalogue se cumulent via leur catalogId.
-                // Les objets personnalisés (sans catalogId) sont ajoutés comme uniques.
-                const existingIndex = tradeItem.catalogId
-                  ? updatedInventory.findIndex((i) => i.catalogId === tradeItem.catalogId)
-                  : -1;
-
-                if (existingIndex >= 0) {
-                  updatedInventory[existingIndex].quantity += tradeItem.quantity;
+              // RÈGLE DE MATCHING :
+              // - Si l'objet possède un catalogId (objet du catalogue) -> match sur catalogId
+              // - Sinon (objet personnalisé) -> match sur l'id unique
+              const existingIndex = updatedInventory.findIndex((i) => {
+                if (tradeItem.catalogId) {
+                  return i.catalogId === tradeItem.catalogId;
                 } else {
-                  updatedInventory.push({
-                    ...tradeItem,
-                    id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
-                  });
+                  return i.id === tradeItem.id;
                 }
               });
-            }
 
-            const updatedCurrency = { ...char.currency };
-            if (currency) {
-              Object.keys(currency).forEach((k) => {
-                const key = k as keyof Currency;
-                updatedCurrency[key] = (updatedCurrency[key] || 0) + (currency[key] || 0);
-              });
-            }
+              if (existingIndex >= 0) {
+                // Si l'objet existe déjà, on cumule les quantités sur l'élément existant
+                updatedInventory[existingIndex] = {
+                  ...updatedInventory[existingIndex],
+                  quantity: updatedInventory[existingIndex].quantity + tradeItem.quantity,
+                };
+              } else {
+                // Sinon, on ajoute le nouvel objet à l'inventaire
+                updatedInventory.push({
+                  ...tradeItem,
+                  id: tradeItem.id || `item_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
+                });
+              }
+            });
+          }
 
-            return { inventory: updatedInventory, currency: updatedCurrency };
-          });
-        },
+          const updatedCurrency = { ...char.currency };
+          if (currency) {
+            Object.keys(currency).forEach((k) => {
+              const key = k as keyof Currency;
+              updatedCurrency[key] = (updatedCurrency[key] || 0) + (currency[key] || 0);
+            });
+          }
+
+          return { inventory: updatedInventory, currency: updatedCurrency };
+        });
+      },
+
+
+
+
+
+
 // Dans le corps du store (retour de create) :
 toggleEquipItem: (itemId) => {
   updateActive((char) => {

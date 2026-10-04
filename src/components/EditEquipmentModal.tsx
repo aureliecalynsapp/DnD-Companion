@@ -1,6 +1,6 @@
 // src/components/EditEquipmentModal.tsx
 import React, { useState } from 'react';
-import { X, Save, Shield, Swords, Backpack, Compass, Road, Pickaxe } from 'lucide-react';
+import { X, Save, Shield, Swords, Backpack, Compass, Road, Pickaxe, Trash2 } from 'lucide-react';
 import { useCharacterStore } from '../store/useCharacterStore';
 import { NumberInput } from './common/NumberInput';
 import type { CatalogItem } from '../types/catalogEquipment';
@@ -11,10 +11,17 @@ interface EditEquipmentModalProps {
 }
 
 export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: initialItem, onClose }) => {
+  // --- ÉTATS GLOBAUX (Zustand) ---
   const addItem = useCharacterStore((state) => state.addItem);
+  const updateItem = useCharacterStore((state) => state.updateItem);
+  const removeItem = useCharacterStore((state) => state.removeItem);
+  const character = useCharacterStore((state) => state.getActiveCharacter());
 
   // État local de l'objet en cours d'édition
   const [formData, setFormData] = useState<CatalogItem>({ ...initialItem });
+
+  // Vérifie si l'objet existe déjà dans l'inventaire pour déterminer le mode édition
+  const itemExists = character.inventory?.some((i) => i.id === formData.id);
 
   const handleChange = (field: keyof CatalogItem, value: any) => {
     setFormData((prev) => ({
@@ -104,7 +111,6 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
       equipmentCategory: formData.equipmentCategory,
       cost: formData.cost || { quantity: 0, unit: 'po' },
       weight: Number(formData.weight) || 0,
-      quantity: 1,
     };
 
     // Champs conditionnels selon equipmentCategory
@@ -128,17 +134,35 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
       cleanedItem.gearCategory = formData.gearCategory || null;
     }
 
-    addItem(cleanedItem);
+    if (itemExists) {
+      // Si l'objet existe, on récupère sa quantité et son état actuel pour ne pas les écraser
+      const currentItem = character.inventory?.find((i) => i.id === formData.id);
+      cleanedItem.quantity = currentItem ? currentItem.quantity : 1;
+      cleanedItem.isEquipped = currentItem ? currentItem.isEquipped : false;
+
+      updateItem(formData.id, cleanedItem);
+    } else {
+      // Sinon, c'est une création : on initialise la quantité à 1 et isEquipped à false
+      cleanedItem.quantity = 1;
+      cleanedItem.isEquipped = false;
+      addItem(cleanedItem);
+    }
+
     onClose();
+  };
+  
+  const handleDelete = (id: string, name: string) => {
+    if (confirm(`Supprimer définitivement "${name}" ?`)) {
+      removeItem(id);
+      onClose();
+    }
   };
 
   return (
-    // Overlay absolu épousant les contours du conteneur de l'application
     <div className="absolute inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-3 animate-fadeIn">
       
       <div className="absolute inset-0" onClick={onClose} />
 
-      {/* Boîte modale contenue, responsive et structurée */}
       <div className="relative z-10 bg-slate-900 border border-slate-800 w-full max-w-lg max-h-[98%] rounded-2xl flex flex-col shadow-2xl overflow-hidden">
         
         {/* HEADER FIXE */}
@@ -177,11 +201,19 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
               </div>
 
               <div>
-                <label className="text-[11px] font-semibold text-slate-400 block mb-1">Catégorie d'équipement</label>
+                <label className="text-[11px] font-semibold text-slate-400 block mb-1 flex items-center justify-between">
+                  <span>Catégorie d'équipement</span>
+                  {itemExists && <span className="text-[10px] text-amber-500/80 font-normal">Verrouillé en édition</span>}
+                </label>
                 <select
                   value={formData.equipmentCategory || "Équipement d'aventurier"}
                   onChange={(e) => handleChange('equipmentCategory', e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-white focus:outline-none focus:border-amber-500 text-xs font-semibold cursor-pointer"
+                  disabled={Boolean(itemExists)}
+                  className={`w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-white text-xs font-semibold ${
+                    itemExists 
+                      ? 'opacity-60 cursor-not-allowed bg-slate-900/50 border-slate-800/50' 
+                      : 'cursor-pointer focus:outline-none focus:border-amber-500'
+                  }`}
                 >
                   <option value="Équipement d'aventurier">Équipement d'aventurier</option>
                   <option value="Arme">Arme</option>
@@ -260,7 +292,6 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
                   </div>
                 </div>
 
-                {/* Bloc Dégâts Principaux */}
                 <div className="grid grid-cols-2 gap-2 bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/80">
                   <div>
                     <label className="text-[11px] font-semibold text-amber-400/90 block mb-1">Dés de dégâts</label>
@@ -284,7 +315,6 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
                   </div>
                 </div>
 
-                {/* Bloc Dégâts Versatile / Deux mains */}
                 <div className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/80">
                   <label className="text-[11px] font-semibold text-slate-400 block mb-1">Dégâts à deux mains / Versatile (Optionnel)</label>
                   <input
@@ -326,7 +356,6 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
                   </div>
                 </div>
 
-                {/* Bloc Classe d'Armure (Base, Checkbox Dex et Max Bonus dynamique à droite) */}
                 <div className="grid grid-cols-3 gap-2 items-end">
                   <div>
                     <NumberInput
@@ -338,31 +367,31 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
                     />
                   </div>
 
-                    <div className="flex items-center gap-2 ">
-                      <input
-                        type="checkbox"
-                        id="dexBonus"
-                        checked={Boolean(formData.armorClass?.dex_bonus)}
-                        onChange={(e) => handleArmorClassChange('dex_bonus', e.target.checked)}
-                        className="rounded border-slate-700 bg-slate-950 text-amber-500 focus:ring-0 w-4 h-4 cursor-pointer"
-                      />
-                      <label htmlFor="dexBonus" className="text-[11px] text-slate-300 cursor-pointer whitespace-nowrap">
-                        Bonus DEX
-                      </label>
-                    </div>
-
-                    {formData.armorClass?.dex_bonus && (
-                      <div >
-                        <NumberInput
-                          label="Max Bonus"
-                          value={formData.armorClass?.max_bonus || 0}
-                          min={0}
-                          max={10}
-                          onChange={(val) => handleArmorClassChange('max_bonus', val)}
-                        />
-                      </div>
-                    )}
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="dexBonus"
+                      checked={Boolean(formData.armorClass?.dex_bonus)}
+                      onChange={(e) => handleArmorClassChange('dex_bonus', e.target.checked)}
+                      className="rounded border-slate-700 bg-slate-950 text-amber-500 focus:ring-0 w-4 h-4 cursor-pointer"
+                    />
+                    <label htmlFor="dexBonus" className="text-[11px] text-slate-300 cursor-pointer whitespace-nowrap">
+                      Bonus DEX
+                    </label>
                   </div>
+
+                  {formData.armorClass?.dex_bonus && (
+                    <div>
+                      <NumberInput
+                        label="Max Bonus"
+                        value={formData.armorClass?.max_bonus || 0}
+                        min={0}
+                        max={10}
+                        onChange={(val) => handleArmorClassChange('max_bonus', val)}
+                      />
+                    </div>
+                  )}
+                </div>
 
                 <div className="flex items-center gap-2 pt-1">
                   <input
@@ -396,7 +425,6 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
                   />
                 </div>
                 
-                {/* Champs Vitesse (Quantité + Unité) */}
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <NumberInput
@@ -419,7 +447,6 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
                   </div>
                 </div>
 
-                {/* Champ Capacité */}
                 <div>
                   <label className="text-[11px] font-semibold text-slate-400 block mb-1">Capacité</label>
                   <input
@@ -501,7 +528,15 @@ export const EditEquipmentModal: React.FC<EditEquipmentModalProps> = ({ item: in
             form="edit-equipment-form"
             className="flex-1 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 font-bold py-2 rounded-xl flex items-center justify-center gap-1.5 transition shadow-lg text-xs"
           >
-            <Save className="w-4 h-4" /> Sauvegarder & Ajouter
+            <Save className="w-4 h-4" /> Sauvegarder
+          </button>
+          <button
+            type="button"
+            onClick={() => handleDelete(formData.id, formData.name)}
+            className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-xl transition flex items-center justify-center shrink-0 border border-red-500/20"
+            title="Supprimer l'objet"
+          >
+            <Trash2 className="w-4 h-4" />
           </button>
         </div>
 
